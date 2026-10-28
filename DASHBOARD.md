@@ -1,6 +1,6 @@
 # 📊 ELOCKMAN GAME STUDIO — Yönetici Kontrol Paneli (Live Dashboard)
 
-*Son Güncelleme: 27 Ekim 2026 22:05 (Europe/Istanbul)*
+*Son Güncelleme: 29 Ekim 2026 01:42 (Europe/Istanbul)*
 *Sanal Ofis Durumu: 🟢 AKTİF VE SENKRONİZE*
 
 ---
@@ -13,7 +13,19 @@
 | **Yönetim Merkezi** | 🏛️ Elockman Game Studio | `C:/Projeler/elockman-game-studio` |
 | **Departman Kadrosu** | 5 Çekirdek Departman | Genel Müdür, Teknik Lider, Oyun Tasarımcısı, QA Şefi, Sanat Direktörü |
 | **Otomasyon Döngüsü** | Günde 2 Kez | ⏰ 09:00 Sabah Açılış / ⏰ 20:00 Akşam Kapanış |
-| **Son Rapor Durumu** | ✅ Tamamlandı (591/591 Test Yeşil) | Stüdyo kimliği, Fight Night afişleri ve Hipodrom key art entegre edildi |
+| **Son Rapor Durumu** | ✅ Tamamlandı (591/591 Test Yeşil) | [`RAPORLAR/2026-10-28_GUN_SONU_YONETICI_RAPORU.md`](file:///c:/Projeler/elockman-game-studio/RAPORLAR/2026-10-28_GUN_SONU_YONETICI_RAPORU.md) |
+| **Google Play Yayını**| ⏳ v1.7 İncelemede (Kapalı Test) | `HipodromAhiri-v1.7-vc5-signed.aab` yüklendi, onay bekleniyor |
+| **AR-GE İncelemesi** | 🚀 4 MIT/Açık Kaynak Repo İndirildi | `AR-GE/repolar/` (break_infinity, isocity, easystarjs, jsfxr) |
+
+---
+
+## 🔬 Açık Kaynak AR-GE ve Teknoloji Cephanesi
+Stüdyomuzun oyunlarına hız ve güç katmak için indirilen ve incelenen repolar:
+1. 📈 **[break_infinity.js](file:///c:/Projeler/elockman-game-studio/AR-GE/repolar/break_infinity.js)** (MIT): Devasa Idle/Tycoon sayı matematiği ve taşma koruması.
+2. 🏛️ **[isocity](file:///c:/Projeler/elockman-game-studio/AR-GE/repolar/isocity)** (MIT): İzometrik Canvas bina/salon inşaat motoru.
+3. 🧭 **[easystarjs](file:///c:/Projeler/elockman-game-studio/AR-GE/repolar/easystarjs)** (MIT): A* harita yol bulma ve at pisti navigasyonu.
+4. 🔊 **[jsfxr](file:///c:/Projeler/elockman-game-studio/AR-GE/repolar/jsfxr)** (Unlicense): Sıfır boyutlu Web Audio dövüş/yarış prosedürel ses sentezleyici.
+*Detaylı kılavuz:* [`AR-GE/ACIK_KAYNAK_KATALOGU.md`](file:///c:/Projeler/elockman-game-studio/AR-GE/ACIK_KAYNAK_KATALOGU.md)
 
 ---
 
@@ -39,8 +51,8 @@
 - **Konum**: `c:/Projeler/hipodrom-ahiri`
 - **Ana Şube**: `main`
 - **Hedef**: Google Play Kapalı Test & Mağaza Yayını
-- **Teknoloji**: Web / Mobil Oyun Motoru
-- **Son Durum**: At yetiştirme, jokey stratejileri, yarış simülasyonu ve app-ads.txt / gizlilik politikası entegrasyonu.
+- **Teknoloji**: Web / Mobil Oyun Motoru (Capacitor)
+- **Son Durum**: `v1.7 (VC: 5)` imzalı sürüm Google Play Console'a yüklendi. İnceleme sürüyor. Elockman Game Studio introlu, optimize sürüm.
 - **Detaylı Raporlar**: [`RAPORLAR/HIPODROM_AHIRI.md`](file:///c:/Projeler/elockman-game-studio/RAPORLAR/HIPODROM_AHIRI.md)
 
 ---

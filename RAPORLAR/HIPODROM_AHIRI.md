@@ -9,4 +9,5 @@
 ### 📋 Son Durum Özeti
 - At yetiştirme, jokey stratejileri, yarış simülasyonu stabil.
 - Gizlilik politikası, app-ads.txt ve mağaza gereksinimleri tamamlandı.
-- Sabah 09:00 otomasyonu ile düzenli görev ve commit takibi yapılmaktadır.
+- **28 Ekim 2026**: `v1.7 (VersionCode: 5)` sürümü derlendi (`dist_release/HipodromAhiri-v1.7-vc5.aab`).
+- Google Play Kapalı Test kanalına yeni sürüm olarak yüklenmeye hazır. Sürüm Elockman Game Studio introlu, oturum ve performans optimize edilmiş haldedir.
