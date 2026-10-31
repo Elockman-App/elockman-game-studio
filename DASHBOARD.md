@@ -19,7 +19,7 @@
 | **GitHub & Render.com** | 🟢 **CANLI YAYINDA (LIVE)** | 🥊 [ring-tycoon.onrender.com](https://ring-tycoon.onrender.com) başarıyla yayında |
 | **AR-GE Entegrasyonu** | 🔊 Prosedürel Ses (`jsfxr`) | `playPunchImpact` devrede; 4 MIT repo stüdyo kütüphanesinde hazır |
 | **Son Test Durumu** | ✅ Tamamlandı (591/591 Yeşil) | Sıfır regresyon, Vitest süresi: ~4.5s |
-| **Google Play Yayını**| ⏳ v1.7 İncelemede (Kapalı Test) | `HipodromAhiri-v1.7-vc5-signed.aab` yüklendi, onay bekleniyor |
+| **Google Play Yayını**| ⏳ v1.7 İncelemede (Kapalı Test) | `HipodromAhiri-v1.7-vc5-signed.aab` yüklendi / 🥊 `RingTycoon-v1.0-release.aab` hazır |
 
 ---
 
@@ -69,3 +69,8 @@
     - **Hipodrom Ahırı**: Masaüstünde (`min-height: 560px`) panellerin dikeyde 1080p'ye kadar uzayıp dev boşluk bırakması engellendi (`align-self: flex-start; max-height: calc(100dvh - 110px)`). Kutulardaki `justify-content: space-between` kaldırılarak `gap: 10px` ve alt butonlar için `margin-top: auto` ile sıkı, dengeli düzen sağlandı. Mobilde `100dvh` tam ekran arcade kilidi korundu.
     - **Ring Tycoon**: Android için `AndroidManifest.xml` içine `android:screenOrientation="sensorLandscape"` kilidi eklendi. Yatay modda `html, body` ve `.app` için `overflow: hidden; height: 100dvh` kuralı getirilerek telefon ve tablette dış sayfa kayması (scroll) tamamen sıfırlandı.
     - Her iki proje için de Gradle `assembleDebug` derlemeleri sıfır hata ile tamamlandı (`BUILD SUCCESSFUL`), güncel APK'lar üretildi.
+12. 📦 **Ring Tycoon Google Play Kapalı Test Release Paketi Üretildi (31 Ekim 2026)**:
+    - CEO talimatıyla `bundleRelease` çalıştırıldı (`185 actionable tasks executed`, `BUILD SUCCESSFUL`).
+    - Release App Bundle paketi üretilerek doğrudan erişim klasörüne kopyalandı:
+      `c:\Projeler\ring-tycoon\dist_release\RingTycoon-v1.0-release.aab` (29.6 MB).
+    - Android Studio üzerinden imzalama adımları ve Google Play Console kapalı test yönergeleri CEO'ya sunuldu.
