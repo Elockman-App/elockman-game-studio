@@ -65,3 +65,7 @@
       - **Boks Arenası Arka Planı**: 136 KB yüksek çözünürlüklü projektörlü stadyum görseli (`bg_arena.webp`) maç motoruna bağlandı.
       - **Kod Refaktörü**: `index.html` Akademi sekmesi boks temasına uygun olarak `🎓` yapıldı; `src/main.js` içindeki mükerrer `savecopy`/`saveload` ve `hypeboxer`/`wrap` aksiyonları sadeleştirildi.
     - Tüm 591 Vitest testi sıfır hata ile geçti; Vite prod derlemesi `www/` dizinine hatasız aktarıldı.
+11. 📱 **Çift Oyun Mobil No-Scroll Arcade ve Masaüstü Kutu Dengeleme Standartlaştırması (31 Ekim 2026)**:
+    - **Hipodrom Ahırı**: Masaüstünde (`min-height: 560px`) panellerin dikeyde 1080p'ye kadar uzayıp dev boşluk bırakması engellendi (`align-self: flex-start; max-height: calc(100dvh - 110px)`). Kutulardaki `justify-content: space-between` kaldırılarak `gap: 10px` ve alt butonlar için `margin-top: auto` ile sıkı, dengeli düzen sağlandı. Mobilde `100dvh` tam ekran arcade kilidi korundu.
+    - **Ring Tycoon**: Android için `AndroidManifest.xml` içine `android:screenOrientation="sensorLandscape"` kilidi eklendi. Yatay modda `html, body` ve `.app` için `overflow: hidden; height: 100dvh` kuralı getirilerek telefon ve tablette dış sayfa kayması (scroll) tamamen sıfırlandı.
+    - Her iki proje için de Gradle `assembleDebug` derlemeleri sıfır hata ile tamamlandı (`BUILD SUCCESSFUL`), güncel APK'lar üretildi.
