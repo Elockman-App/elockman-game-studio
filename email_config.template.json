@@ -1,0 +1,8 @@
+{
+  "smtp_server": "smtp.gmail.com",
+  "port": 587,
+  "use_ssl": true,
+  "username": "erdemlokman@gmail.com",
+  "password": "BURAYA_GMAIL_UYGULAMA_SIFRESI_GIRILEBILIR",
+  "from_address": "erdemlokman@gmail.com"
+}
