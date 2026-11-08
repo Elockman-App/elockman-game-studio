@@ -1,7 +1,7 @@
 # 📊 ELOCKMAN GAME STUDIO — Yönetici Kontrol Paneli (Live Dashboard)
 
-*Son Güncelleme: 30 Ekim 2026 08:35 (Europe/Istanbul)*  
-*Sanal Ofis Durumu: 🟢 TAM OPERASYONEL — COO & ALT AJANLAR DEVREDE*
+*Son Güncelleme: 7 Kasım 2026 11:52 (Europe/Istanbul)*  
+*Sanal Ofis Durumu: 🟢 TAM OPERASYONEL — 3 OYUN + GOOGLE GRUBU (`elockman-testers`) TAM ENTEGRE*
 
 ---
 
@@ -9,68 +9,34 @@
 
 | Metrik | Durum | Notlar |
 | :--- | :--- | :--- |
-| **Üst Yönetim** | 👑 CEO Erdem Lokman & ⚡ AI COO | Operasyonlar COO yönetiminde, CEO stratejik onay makamında |
-| **Bağlı Projeler** | 2 Aktif Oyun | 🥊 [Ring Efsanesi](file:///c:/Projeler/ring-tycoon) & 🏇 [Hipodrom Ahırı](file:///c:/Projeler/hipodrom-ahiri) |
+| **Üst Yönetim** | 👑 CEO Erdem Lokman & ⚡ AI COO | Tam Otonom COO Modu ile tüm 3 oyun ve Google Test Grubu yapılandırıldı |
+| **Geliştirici Hesabı** | 🆔 `6034929488947548242` | `erdemlokman@gmail.com` |
+| **Bağlı Projeler** | 🎮 **3 Aktif Oyun** | 🏇 [Hipodrom Ahırı](file:///c:/Projeler/hipodrom-ahiri) · 🥊 [Ring Efsanesi](file:///c:/Projeler/ring-tycoon) · 🚀 [Orbit Escape](file:///c:/Projeler/Elockman-Orbit-Escape) |
 | **Yönetim Merkezi** | 🏛️ Elockman Game Studio | `C:/Projeler/elockman-game-studio` |
-| **Alt Ajan Kadrosu**| 🤖 4 Uzman Alt Ajan Tanımlı | `elockman-tech-lead`, `elockman-game-designer`, `elockman-qa-lead`, `elockman-art-director` |
-| **Otomasyon Döngüsü** | 🟢 2 Daemon Aktif | ⏰ 09:00 Sabah Açılış / ⏰ 20:00 Akşam Kapanış + E-posta Gönderimi |
-| **E-Posta Dağıtımı** | 📧 `erdemlokman@gmail.com` | `send_daily_report.ps1` entegre; gün sonu raporları otomatik sevk edilir |
-| **Resmi İntro** | 🎬 **YENİ SİNEMATİK VİDEO DEVREDE** | `elockman_intro.mp4` her iki oyuna da uygulandı; sessiz, saf siyah & skip korumalı |
-| **GitHub & Render.com** | 🟢 **CANLI YAYINDA (LIVE)** | 🥊 [ring-tycoon.onrender.com](https://ring-tycoon.onrender.com) başarıyla yayında |
-| **AR-GE Entegrasyonu** | 🔊 Prosedürel Ses (`jsfxr`) | `playPunchImpact` devrede; 4 MIT repo stüdyo kütüphanesinde hazır |
-| **Son Test Durumu** | ✅ Tamamlandı (591/591 Yeşil) | Sıfır regresyon, Vitest süresi: ~4.5s |
-| **Google Play Yayını**| ⏳ v1.7 İncelemede (Kapalı Test) | `HipodromAhiri-v1.7-vc5-signed.aab` yüklendi / 🥊 `RingTycoon-v1.0-release.aab` hazır |
+| **Yükleme Merkezi** | 📁 Tek Klasör Paketleri | [`c:\Projeler\PLAY_CONSOLE_YUKLEME_MERKEZI`](file:///c:/Projeler/PLAY_CONSOLE_YUKLEME_MERKEZI) |
+| **Google Test Grubu** | 👥 `elockman-testers@googlegroups.com` | `https://groups.google.com/g/elockman-testers` (Ring Efsanesi & Orbit Escape'e bağlandı) |
+| **Kapalı Test Merkezi**| 🌐 [Elockman Test Hub](file:///c:/Projeler/elockman-game-studio/TEST_HUB/index.html) | Canlı URL: `https://ring-tycoon.onrender.com/test-hub.html` |
 
 ---
 
-## 📋 Tamamlanan Kritik İyileştirmeler (29 Ekim 2026)
+## 🎮 3 Oyun Portföyü — Google Play Yayın Karnesi
 
-1. ⚡ **COO Yönetim Yapısı ve Alt Ajan Entegrasyonu**:
-   - Stüdyo operasyonlarının tek elden yürütülmesi için COO yapısı kuruldu.
-   - Teknik Lider, QA Şefi, Oyun Tasarımcısı ve Sanat Yönetmeni için özel alt ajanlar tanımlandı.
-2. 📧 **Düşük Token Tüketimli E-Posta Dağıtım Servisi**:
-   - `send_daily_report.ps1` PowerShell dağıtım betiği yazıldı ve test edildi (çıkış kodu: 0).
-   - Akşam 20:00 otomasyonuna (`elockman-ring-tycoon-daily-report`) `erdemlokman@gmail.com` hedefiyle eklendi.
-3. 🎬 **Hipodrom Ahırı İntro Temizliği (Flicker & Buton Çözümü)**:
-   - Siyah zeminle pürüzsüz açılış, ekrandaki buton temizliği, dokunarak geçme UX'i uygulandı.
-   - `build.js` ve `npx cap sync android` ile tam senkronizasyon sağlandı.
-4. 🚀 **Ring Tycoon GitHub & Render.com Dağıtım Başarısı**:
-   - Render.com üzerinde `https://ring-tycoon.onrender.com` adresiyle canlı yayına geçildi.
-5. 🔬 **AR-GE — Prosedürel Darbe Ses Motoru (`jsfxr`)**:
-   - Sıfır dosya boyutlu prosedürel Web Audio vuruş sentezleyicisi (`playPunchImpact`) entegre edildi. 591/591 test yeşil.
-6. 🎬 **Ring Tycoon Resmi Sinematik Video İntro (`elockman_intro.mp4`) Entegrasyonu**:
-   - Eski statik logo animasyonu yerine Hipodrom Ahırı'ndaki gibi resmi 3.82 MB'lık sinematik altın roket intro videosu entegre edildi.
-   - Dokunarak anında geçiş (skip), saf siyah zemin ve otomatik kararma sağlandı. 591/591 test yeşil geçti.
-7. 🧹 **Açılış Ekranı (Splash) Logo Bandı Temizliği**:
-   - Oyun açılış ekranındaki (splash) fazlalık altın 'ELOCKMAN GAME STUDIO' ikon ve metin şeridi kaldırıldı.
-   - Doğrudan oyun başlığı ve şık retro atmosfer öne çıkarıldı.
-8. 🎨 **Hipodrom Ahırı Görsel Paketi & Dengeli Kokpit Tasarımı**:
-   - Gönderilen `hipodrom_ahiri_gorsel_paketi.zip` eksiksiz entegre edildi:
-     - **Seyis Rıza**: Yüksek çözünürlüklü dairesel altın çerçeveli karakter portresi (`seyis_riza.webp`).
-     - **Tesisler**: Emoji yerine 4 modern izometrik tesis ikonu (`fac_stable`, `fac_track`, `fac_vet`, `fac_feed`).
-     - **Kupa Odası**: 6 adet 3B kupa/madalya görseli (`trophy_cay`, `mdn`, `s3`, `h15`, `g3`, `g1`).
-     - **Gece Tribünü**: Projektörlü gece stadyum arka planı (`bg_tribun_night.webp`) dinamik yarış motoruna bağlandı.
-     - **Ölü Alan Çözümü**: Ahır sağ panelindeki boşluk, "Seyis Rıza Pist İstihbaratı" kartıyla dolduruldu; ekran dengesi Ring Tycoon kalitesine ulaştırıldı.
-   - `build.js` ve `npx cap sync android` ile derleme ve mobil varlıklar senkronize edildi.
-9. 🧹 **Ring Tycoon Temizlik, Arşivleme & Doğrudan `index.html` Başlatıcı**:
-   - `oyunu-baslat.bat` ve `uretim-onizle.bat` betikleri ana dizinden kaldırılarak `ARSIV/bat_dosyalari/` altına taşındı.
-   - 10 MB'lık eski kopya videolar ve eski dokümanlar `ARSIV/` dizinine güvenle arşivlendi; `.gitignore` güncellendi.
-   - `index.html` dosyası, yerelde çift tıklandığında doğrudan en güncel Render canlı sürümüne (`https://ring-tycoon.onrender.com/`) bağlanan akıllı yönlendirici ile donatıldı.
-   - 591/591 test yeşil, Vite derlemesi temiz.
-10. 🥊 **Ring Tycoon Görsel Paketi & Kod Temizliği Entegrasyonu (30 Ekim 2026)**:
-    - CEO tarafından hazırlanan `ring_efsanesi_gorsel_paketi.zip` paketi incelendi ve tüm maddeler eksiksiz uygulandı:
-      - **Baş Antrenör Portresi**: SVG yerine `img/coach_riza.webp` portresi HUD ve diyaloglara bağlandı.
-      - **İzometrik Salon Tesisleri**: Emojiler yerine `fac_gym.webp`, `fac_ring.webp`, `fac_clinic.webp`, `fac_kitchen.webp` görselleri ve `.fac-icon` CSS kartları entegre edildi.
-      - **3B Şampiyonluk Kemerleri Vitrini**: Kupa sekmesinde 6 aşamalı unvan kemerleri (`belt_1.webp` ... `belt_6.webp`), kazanılmamış kemerlerde gri gölgeleme ve şampiyonluklarda altın ışıma efektleriyle donatıldı.
-      - **Boks Arenası Arka Planı**: 136 KB yüksek çözünürlüklü projektörlü stadyum görseli (`bg_arena.webp`) maç motoruna bağlandı.
-      - **Kod Refaktörü**: `index.html` Akademi sekmesi boks temasına uygun olarak `🎓` yapıldı; `src/main.js` içindeki mükerrer `savecopy`/`saveload` ve `hypeboxer`/`wrap` aksiyonları sadeleştirildi.
-    - Tüm 591 Vitest testi sıfır hata ile geçti; Vite prod derlemesi `www/` dizinine hatasız aktarıldı.
-11. 📱 **Çift Oyun Mobil No-Scroll Arcade ve Masaüstü Kutu Dengeleme Standartlaştırması (31 Ekim 2026)**:
-    - **Hipodrom Ahırı**: Masaüstünde (`min-height: 560px`) panellerin dikeyde 1080p'ye kadar uzayıp dev boşluk bırakması engellendi (`align-self: flex-start; max-height: calc(100dvh - 110px)`). Kutulardaki `justify-content: space-between` kaldırılarak `gap: 10px` ve alt butonlar için `margin-top: auto` ile sıkı, dengeli düzen sağlandı. Mobilde `100dvh` tam ekran arcade kilidi korundu.
-    - **Ring Tycoon**: Android için `AndroidManifest.xml` içine `android:screenOrientation="sensorLandscape"` kilidi eklendi. Yatay modda `html, body` ve `.app` için `overflow: hidden; height: 100dvh` kuralı getirilerek telefon ve tablette dış sayfa kayması (scroll) tamamen sıfırlandı.
-    - Her iki proje için de Gradle `assembleDebug` derlemeleri sıfır hata ile tamamlandı (`BUILD SUCCESSFUL`), güncel APK'lar üretildi.
-12. 📦 **Ring Tycoon Google Play Kapalı Test Release Paketi Üretildi (31 Ekim 2026)**:
-    - CEO talimatıyla `bundleRelease` çalıştırıldı (`185 actionable tasks executed`, `BUILD SUCCESSFUL`).
-    - Release App Bundle paketi üretilerek doğrudan erişim klasörüne kopyalandı:
-      `c:\Projeler\ring-tycoon\dist_release\RingTycoon-v1.0-release.aab` (29.6 MB).
-    - Android Studio üzerinden imzalama adımları ve Google Play Console kapalı test yönergeleri CEO'ya sunuldu.
+| Oyun | Paket Adı & App ID | İmza Anahtarı (`Keystore`) | SDK / Sürüm | İmzalı AAB / Mağaza Görselleri | Play Console & Test Grubu Durumu |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **🏇 Hipodrom Ahırı: At Yarışı** | `com.hipodrom.ahiri`<br>App ID: `4973603745836642565`<br>Track ID: `4700717051841485126` | `Documents\HipodromAnahtar\hipodrom.jks` | `minSdk 26` / `targetSdk 36` (`v1.7 - vc5`) | ✅ Yayında (Kapalı Test) | 🟢 **10. Gün / 14 Gün** (28 Ekim'den beri 12 testçi kesintisiz kayıtlı — **11 Kasım 2026**'da **Üretime Başvur** açılıyor)<br>🔗 Opt-in: `https://play.google.com/apps/testing/com.hipodrom.ahiri` |
+| **🥊 Ring Efsanesi: Boks Menajeri** | `com.elockman.ringtycoon`<br>App ID: `4975592605531942396`<br>Track ID: `4697980663424927285` | `Documents\RingAnahtar\ring.jks` *(Parola: Yerel Kasada)* | `minSdk 24` / `targetSdk 36` (`v1.0.2 - vc3`) | ✅ [`RingTycoon-v1.0.2-API36-signed.aab`](file:///c:/Projeler/PLAY_CONSOLE_YUKLEME_MERKEZI/2_Ring_Efsanesi/RingTycoon-v1.0.2-API36-signed.aab) + İkon + Afiş + 8 Ekran Görüntüsü | 🟢 **%100 Tamamlandı & İncelemede (`İncelenmekte olan değişiklikler`)**<br>10/10 Beyan + Mağaza Girişi + 178 Ülke + **Google Grubu (`elockman-testers@googlegroups.com`)** + `3 (1.0.2)` API 36 AAB (`0 hata`) incelemeye gönderildi!<br>🔗 Opt-in: `https://play.google.com/apps/testing/com.elockman.ringtycoon` |
+| **🚀 Elockman: Orbit Escape** | `com.elockman.orbitescape`<br>App ID: `4974229437664483745`<br>Track ID: `4699879035814806601` | `Documents\OrbitAnahtar\orbit.jks` *(Parola: Yerel Kasada)* | `minSdk 24` / `targetSdk 36` (`v1.0.0 - vc1`) | ✅ [`OrbitEscape-v1.0.0-API36-signed.aab`](file:///c:/Projeler/PLAY_CONSOLE_YUKLEME_MERKEZI/3_Orbit_Escape/OrbitEscape-v1.0.0-API36-signed.aab) + İkon + Afiş + 6 Ekran Görüntüsü | 🟢 **%100 Tamamlandı & İncelemede (`İncelenmekte olan değişiklikler`)**<br>Uygulama oluşturuldu + 10/10 Beyan + Mağaza Girişi + 178 Ülke + **Google Grubu (`elockman-testers@googlegroups.com`)** + `1 (1.0.0)` API 36 AAB (`0 hata`) incelemeye gönderildi!<br>🔗 Opt-in: `https://play.google.com/apps/testing/com.elockman.orbitescape` |
+
+---
+
+## 📋 Tamamlanan Son İcraatlar (7 Kasım 2026)
+
+1. ✅ **Google Grubu (`elockman-testers@googlegroups.com`) Oluşturuldu ve Play Console'a Bağlandı**:
+   - `https://groups.google.com/g/elockman-testers` grubu oluşturuldu.
+   - **Ring Efsanesi** ve **Elockman: Orbit Escape** Kapalı Test (Alpha) kanallarında testçi yöntemi **Google Gruplar (`elockman-testers@googlegroups.com`)** olarak kaydedildi ve **Yayın Özeti (`/publishing`)** üzerinden incelemeye gönderildi (`1 değişiklik incelemeye gönderildi`).
+2. ✅ **Ring Efsanesi (`4975592605531942396`) — Sıfır Hata ile Google Play İncelemesine Gönderildi**:
+   - Eski `2 (1.0.1)` (API 35) taslak paketi kaldırıldı, `AD_ID` ve e-posta beyanları düzeltildi, `3 (1.0.2)` (API 36) paketi ve mağaza görselleri incelemeye gönderildi.
+3. ✅ **Elockman: Orbit Escape (`4974229437664483745`) — Sıfırdan Oluşturuldu ve Google Play İncelemesine Gönderildi**:
+   - Uygulama oluşturuldu, 10/10 beyan, mağaza görselleri ve `1 (1.0.0)` (API 36) paketi **0 hata** ile incelemeye gönderildi.
+4. ✅ **Hipodrom Ahırı (`4973603745836642565`) — Kapalı Test Takibi**:
+   - Mevcut 12 test kullanıcısıyla kesintisiz **10/14 gün** korundu. **11 Kasım 2026**'da **Üretime başvur (Canlıya geçiş)** kilidi açılıyor.

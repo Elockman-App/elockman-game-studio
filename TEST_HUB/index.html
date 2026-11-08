@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elockman Game Studio — Closed Testing Hub (Google Play)</title>
+  <style>
+    :root {
+      --bg-dark: #07090e;
+      --bg-card: #111520;
+      --bg-card-hover: #171d2c;
+      --gold: #d4af37;
+      --gold-light: #f3e5ab;
+      --gold-glow: rgba(212, 175, 55, 0.25);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent-green: #10b981;
+      --border: rgba(212, 175, 55, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 0%, #161b29 0%, var(--bg-dark) 70%);
+      color: var(--text-main);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      line-height: 1.6;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      padding: 2rem 1.5rem;
+      background: linear-gradient(180deg, rgba(212, 175, 55, 0.08) 0%, rgba(17, 21, 32, 0.9) 100%);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 24px var(--gold-glow);
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold-light);
+      border: 1px solid var(--gold);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: 0.9rem;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      color: var(--gold-light);
+      letter-spacing: 0.03em;
+      margin-bottom: 0.6rem;
+    }
+
+    header p {
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto;
+      font-size: 1rem;
+    }
+
+    .lang-switch {
+      margin-top: 1.2rem;
+      display: inline-flex;
+      gap: 0.5rem;
+      background: #0b0e17;
+      padding: 0.3rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .lang-btn {
+      background: transparent;
+      color: var(--text-muted);
+      border: none;
+      padding: 0.4rem 0.9rem;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .lang-btn.active {
+      background: var(--gold);
+      color: #07090e;
+    }
+
+    .step-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), #aa7c11);
+      color: #07090e;
+      font-weight: 800;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-size: 1.3rem;
+      color: var(--gold-light);
+    }
+
+    .step-desc {
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+      font-size: 0.95rem;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      background: linear-gradient(135deg, var(--gold) 0%, #b38728 100%);
+      color: #07090e;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 0.85rem 1.6rem;
+      border-radius: 10px;
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 16px var(--gold-glow);
+      font-size: 0.98rem;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(212, 175, 55, 0.45);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-weight: 600;
+      text-decoration: none;
+      padding: 0.75rem 1.2rem;
+      border-radius: 10px;
+      transition: background 0.2s, border-color 0.2s;
+      font-size: 0.9rem;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(212, 175, 55, 0.12);
+      border-color: var(--gold);
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+
+    .game-card {
+      background: #0c1018;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 14px;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .game-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--gold);
+      background: var(--bg-card-hover);
+    }
+
+    .game-icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .game-title {
+      font-size: 1.2rem;
+      color: var(--gold-light);
+      margin-bottom: 0.25rem;
+    }
+
+    .game-pkg {
+      font-family: Consolas, monospace;
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-bottom: 0.75rem;
+    }
+
+    .game-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+      flex-grow: 1;
+    }
+
+    .game-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .pledge-box {
+      border-left: 4px solid var(--accent-green);
+      background: rgba(16, 185, 129, 0.08);
+      padding: 1.2rem 1.4rem;
+      border-radius: 0 12px 12px 0;
+      margin-top: 1rem;
+      font-size: 0.92rem;
+      color: #d1fae5;
+    }
+
+    footer {
+      text-align: center;
+      color: #64748b;
+      font-size: 0.85rem;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <span class="badge">Elockman Game Studio • Closed Testing Hub</span>
+      <h1 data-en="Join Our 14-Day Google Play Closed Test" data-tr="14 Günlük Google Play Kapalı Test Merkezi">Join Our 14-Day Google Play Closed Test</h1>
+      <p data-en="Help us test our indie games for 14 days! In return, we test your app back daily with screenshots and detailed feedback."
+         data-tr="Bağımsız oyunlarımızı 14 gün boyunca test etmemize destek olun! Karşılığında sizin uygulamanızı her gün ekran görüntüsü ve geri bildirimle test ediyoruz.">
+        Help us test our indie games for 14 days! In return, we test your app back daily with screenshots and detailed feedback.
+      </p>
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('en')">🇬🇧 English</button>
+        <button class="lang-btn" onclick="setLang('tr')">🇹🇷 Türkçe</button>
+      </div>
+    </header>
+
+    <!-- STEP 1: GOOGLE GROUP -->
+    <section class="step-section">
+      <div class="step-header">
+        <div class="step-number">1</div>
+        <h2 class="step-title" data-en="Join the Tester Google Group First" data-tr="Önce Google Test Grubuna Katılın">Join the Tester Google Group First</h2>
+      </div>
+      <p class="step-desc"
+         data-en="Google Play requires you to be a member of our Google Group with the same Google account you use on the Play Store so the download links unlock."
+         data-tr="İndirme bağlantılarının açılması için Google Play Store'da kullandığınız Gmail hesabıyla önce Google Grubumuza katılmanız gerekmektedir.">
+        Google Play requires you to be a member of our Google Group with the same Google account you use on the Play Store so the download links unlock.
+      </p>
+      <!-- Replace group slug below if using a different Google Group URL -->
+      <a class="btn-primary" href="https://groups.google.com/g/elockman-testers" target="_blank" rel="noopener">
+        👥 <span data-en="Join Google Group (elockman-testers)" data-tr="Google Grubuna Katıl (elockman-testers)">Join Google Group (elockman-testers)</span>
+      </a>
+    </section>
+
+    <!-- STEP 2: OPT-IN & INSTALL GAMES -->
+    <section class="step-section">
+      <div class="step-header">
+        <div class="step-number">2</div>
+        <h2 class="step-title" data-en="Opt-In & Download on Google Play" data-tr="Test Kullanıcısı Olun ve Google Play'den İndirin">Opt-In & Download on Google Play</h2>
+      </div>
+      <p class="step-desc"
+         data-en="After joining the Google Group, click 'Become a Tester (Web)' or open directly on the Google Play Store app and keep the game installed for 14 days."
+         data-tr="Gruba katıldıktan sonra 'Web'den Katıl' veya 'Google Play'de İndir' butonuna tıklayın ve oyunu 14 gün boyunca cihazınızda tutun.">
+        After joining the Google Group, click 'Become a Tester (Web)' or open directly on the Google Play Store app and keep the game installed for 14 days.
+      </p>
+
+      <div class="games-grid">
+        <!-- GAME 1: HIPODROM AHIRI -->
+        <div class="game-card">
+          <div>
+            <div class="game-icon">🏇</div>
+            <h3 class="game-title">Hipodrom Ahırı</h3>
+            <div class="game-pkg">com.hipodrom.ahiri</div>
+            <p class="game-desc"
+               data-en="Horse racing stable tycoon & turf management sim. Train thoroughbreds, upgrade stable facilities, and win the G1 Cup."
+               data-tr="At yarışı ve ahır yönetim simülasyonu. Safkan tayları yetiştirin, tesisleri geliştirin ve G1 kupalarını kazanın.">
+              Horse racing stable tycoon & turf management sim. Train thoroughbreds, upgrade stable facilities, and win the G1 Cup.
+            </p>
+          </div>
+          <div class="game-actions">
+            <a class="btn-primary" href="https://play.google.com/apps/testing/com.hipodrom.ahiri" target="_blank" rel="noopener">
+              ✅ <span data-en="1. Become a Tester (Web)" data-tr="1. Test Kullanıcısı Ol (Web)">1. Become a Tester (Web)</span>
+            </a>
+            <a class="btn-secondary" href="https://play.google.com/store/apps/details?id=com.hipodrom.ahiri" target="_blank" rel="noopener">
+              📲 <span data-en="2. Download on Google Play" data-tr="2. Google Play'den İndir">2. Download on Google Play</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- GAME 2: RING EFSANESI -->
+        <div class="game-card">
+          <div>
+            <div class="game-icon">🥊</div>
+            <h3 class="game-title">Ring Efsanesi (Ring Tycoon)</h3>
+            <div class="game-pkg">com.elockman.ringtycoon</div>
+            <p class="game-desc"
+               data-en="Retro arcade boxing gym manager & tactical corner sim. Train fighters, upgrade your gym, and conquer all 6 championship belts."
+               data-tr="Retro arcade boks salonu menajerlik oyunu. Boksörlerinizi eğitin, salonunuzu büyütün ve 6 şampiyonluk kemerini toplayın.">
+              Retro arcade boxing gym manager & tactical corner sim. Train fighters, upgrade your gym, and conquer all 6 championship belts.
+            </p>
+          </div>
+          <div class="game-actions">
+            <a class="btn-primary" href="https://play.google.com/apps/testing/com.elockman.ringtycoon" target="_blank" rel="noopener">
+              ✅ <span data-en="1. Become a Tester (Web)" data-tr="1. Test Kullanıcısı Ol (Web)">1. Become a Tester (Web)</span>
+            </a>
+            <a class="btn-secondary" href="https://play.google.com/store/apps/details?id=com.elockman.ringtycoon" target="_blank" rel="noopener">
+              📲 <span data-en="2. Download on Google Play" data-tr="2. Google Play'den İndir">2. Download on Google Play</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- GAME 3: ORBIT ESCAPE -->
+        <div class="game-card">
+          <div>
+            <div class="game-icon">🚀</div>
+            <h3 class="game-title">Elockman: Orbit Escape</h3>
+            <div class="game-pkg">com.elockman.orbitescape</div>
+            <p class="game-desc"
+               data-en="Fast-paced 45-second 3-lane space survival arcade across 5 sectors and 20 boss & hazard missions."
+               data-tr="5 sektör ve 20 görev boyunca süren yüksek tempolu 45 saniyelik 3 şeritli uzay kaçış arcade deneyimi.">
+              Fast-paced 45-second 3-lane space survival arcade across 5 sectors and 20 boss & hazard missions.
+            </p>
+          </div>
+          <div class="game-actions">
+            <a class="btn-primary" href="https://play.google.com/apps/testing/com.elockman.orbitescape" target="_blank" rel="noopener">
+              ✅ <span data-en="1. Become a Tester (Web)" data-tr="1. Test Kullanıcısı Ol (Web)">1. Become a Tester (Web)</span>
+            </a>
+            <a class="btn-secondary" href="https://play.google.com/store/apps/details?id=com.elockman.orbitescape" target="_blank" rel="noopener">
+              📲 <span data-en="2. Download on Google Play" data-tr="2. Google Play'den İndir">2. Download on Google Play</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pledge-box"
+           data-en="🤝 Mutual Testing Pledge: Reply to our Reddit thread with a screenshot of our game and your Google Group + Play Store links. We will install and open your app every single day for 14+ days!"
+           data-tr="🤝 Karşılıklı Test Sözü: Reddit paylaşımımıza oyunumuzun ekran görüntüsüyle birlikte kendi grup ve Play Store linklerinizi yorum olarak bırakın. Uygulamanızı 14+ gün boyunca her gün açıp test edeceğiz!">
+        🤝 Mutual Testing Pledge: Reply to our Reddit thread with a screenshot of our game and your Google Group + Play Store links. We will install and open your app every single day for 14+ days!
+      </div>
+    </section>
+
+    <footer>
+      © 2026 Elockman Game Studio • Ankara, Türkiye
+    </footer>
+  </div>
+
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.toLowerCase().includes(lang === 'en' ? 'english' : 'türkçe'));
+      });
+      document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+        el.textContent = el.getAttribute('data-' + lang);
+      });
+      document.documentElement.lang = lang;
+    }
+  </script>
+</body>
+</html>
