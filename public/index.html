@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elockman Game Studio | Resmi Web Sitesi & Oyun Portföyü</title>
+  <meta name="description" content="Elockman Game Studio - Geleceğin mobil oyun deneyimleri. Garaj Efsanesi, Kulüp Efsanesi, Orbit Escape, Ring Tycoon ve Hipodrom Ahırı ile mobil oyun dünyasını keşfedin.">
+  <meta name="keywords" content="Elockman, Elockman Games, Mobil Oyun, Google Play, Garaj Efsanesi, Kulüp Efsanesi, Orbit Escape, Ring Tycoon, Hipodrom Ahırı">
+  <meta property="og:title" content="Elockman Game Studio | Resmi Web Sitesi">
+  <meta property="og:description" content="Sürükleyici simülasyon, strateji ve arcade mobil oyunları. Google Play'de hemen keşfedin.">
+  <meta property="og:image" content="assets/logo/logo.png">
+  <meta property="og:url" content="https://elockmangames.com">
+  <link rel="icon" type="image/webp" href="assets/logo/logo.webp">
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              gold: '#F59E0B',
+              blue: '#0EA5E9',
+              dark: '#0B0F19',
+              card: '#111827',
+              border: '#1F2937',
+              accent: '#3B82F6'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #07090E;
+      color: #E2E8F0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .neon-glow-blue {
+      box-shadow: 0 0 40px -10px rgba(14, 165, 233, 0.35);
+    }
+    .neon-glow-gold {
+      box-shadow: 0 0 40px -10px rgba(245, 158, 11, 0.35);
+    }
+    .gradient-border {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .gradient-border:hover {
+      border-color: rgba(14, 165, 233, 0.4);
+    }
+  </style>
+</head>
+<body class="selection:bg-sky-500 selection:text-white">
+
+  <!-- NAVBAR -->
+  <header class="fixed top-0 left-0 w-full z-50 bg-[#07090E]/80 backdrop-blur-md border-b border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3 group">
+        <img src="assets/logo/logo.webp" alt="Elockman Logo" class="h-10 w-auto rounded-lg transition-transform group-hover:scale-105">
+        <span class="text-xl font-extrabold tracking-wider bg-gradient-to-r from-white via-slate-200 to-sky-400 bg-clip-text text-transparent">ELOCKMAN GAMES</span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+        <a href="#oyunlar" class="hover:text-sky-400 transition-colors">Oyunlarımız</a>
+        <a href="#studyo" class="hover:text-sky-400 transition-colors">Stüdyo</a>
+        <a href="privacy.html" class="hover:text-sky-400 transition-colors">Gizlilik Politikası</a>
+        <a href="terms.html" class="hover:text-sky-400 transition-colors">Kullanım Şartları</a>
+        <a href="#iletisim" class="hover:text-sky-400 transition-colors">İletişim</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a href="https://play.google.com/store/apps/dev?id=6034929488947548242" target="_blank" rel="noopener noreferrer" 
+           class="inline-flex items-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M3.609 1.814L13.793 12 3.61 22.186c-.347-.306-.554-.766-.554-1.282V3.096c0-.516.207-.976.553-1.282zm11.238 11.24l2.096-2.096-11.836-6.83 9.74 8.926zm0 1.892l-9.74 8.926 11.836-6.83-2.096-2.096zm1.054-1.053l2.825-1.631c.883-.51 1.424-1.272 1.424-2.263 0-.99-.541-1.753-1.424-2.263L15.9 6.069l-1.996 1.996 1.997 1.997z"/></svg>
+          Google Play
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="relative pt-36 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+    <div class="absolute inset-0 -z-10 flex items-center justify-center">
+      <div class="w-[600px] h-[600px] bg-sky-500/10 rounded-full blur-3xl"></div>
+      <div class="w-[450px] h-[450px] bg-amber-500/10 rounded-full blur-3xl -ml-40 mt-32"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-sky-400 mb-6 backdrop-blur-sm">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        Google Play Resmi Geliştirici Stüdyosu
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight leading-tight max-w-5xl mx-auto">
+        Geleceğin <span class="bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-400 bg-clip-text text-transparent">Mobil Oyun</span> Deneyimlerini Üretiyoruz
+      </h1>
+
+      <p class="mt-6 text-base sm:text-lg md:text-xl text-slate-400 max-w-3xl mx-auto font-normal leading-relaxed">
+        Elockman Game Studio; milyonlarca oyuncu için sürükleyici simülasyon, derin strateji ve dinamik arcade dünyalar geliştirir. Yüksek grafik standartları, yerli vizyon ve global eğlence.
+      </p>
+
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+        <a href="#oyunlar" class="bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-bold px-8 py-4 rounded-2xl shadow-xl neon-glow-blue transition-all transform hover:-translate-y-1">
+          Oyunlarımızı İnceleyin
+        </a>
+        <a href="https://play.google.com/store/apps/dev?id=6034929488947548242" target="_blank" rel="noopener noreferrer" 
+           class="bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold px-8 py-4 rounded-2xl backdrop-blur-sm transition-all transform hover:-translate-y-1">
+          Geliştirici Profilimiz
+        </a>
+      </div>
+
+      <!-- Quick Metrics -->
+      <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto pt-8 border-t border-white/5">
+        <div>
+          <div class="text-3xl font-black text-white">5+</div>
+          <div class="text-xs uppercase tracking-wider font-semibold text-slate-400 mt-1">Aktif Oyun Projesi</div>
+        </div>
+        <div>
+          <div class="text-3xl font-black text-sky-400">minSdk 24</div>
+          <div class="text-xs uppercase tracking-wider font-semibold text-slate-400 mt-1">Geniş Cihaz Uyumu</div>
+        </div>
+        <div>
+          <div class="text-3xl font-black text-amber-400">targetSdk 36</div>
+          <div class="text-xs uppercase tracking-wider font-semibold text-slate-400 mt-1">Android 16 Hazır</div>
+        </div>
+        <div>
+          <div class="text-3xl font-black text-emerald-400">100%</div>
+          <div class="text-xs uppercase tracking-wider font-semibold text-slate-400 mt-1">Google Uyumlu Politika</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAMES SHOWCASE SECTION -->
+  <section id="oyunlar" class="py-24 bg-[#0A0D14]/70 border-y border-white/5 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-sky-400">Portföyümüz</h2>
+        <h3 class="text-3xl sm:text-5xl font-extrabold text-white mt-2">Öne Çıkan Başlıklar</h3>
+        <p class="text-slate-400 mt-4 text-sm sm:text-base">Masaüstü ve mobil tarayıcıda hemen deneyebileceğiniz veya Google Play üzerinden indirebileceğiniz stüdyo yapımlarımız.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <!-- GAME 1: GARAJ EFSANESİ -->
+        <div class="gradient-border rounded-3xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl">
+          <div class="relative aspect-[16/9] overflow-hidden bg-slate-900">
+            <img src="assets/games/garaj/banner.jpg" alt="Garaj Efsanesi" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+            <div class="absolute top-4 left-4 bg-sky-500/90 backdrop-blur-md text-white text-xs font-extrabold px-3 py-1 rounded-full">Simülasyon / Tycoon</div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h4 class="text-2xl font-bold text-white">Garaj Efsanesi</h4>
+              <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+                Hurda otomobilleri bulun, tamir edin, motorlarını yenileyin ve açık artırmada kârla satarak otomotiv imparatorluğunuzu kurun!
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between gap-3">
+              <a href="https://garaj-efsanesi.onrender.com/" target="_blank" rel="noopener noreferrer" 
+                 class="flex-1 text-center bg-white/5 hover:bg-white/10 text-sky-400 border border-sky-500/30 font-bold py-2.5 px-3 rounded-xl text-xs transition-colors">
+                🎮 Web'de Oyna
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=com.elockman.garajefsanesi" target="_blank" rel="noopener noreferrer" 
+                 class="flex-1 text-center bg-sky-500 hover:bg-sky-400 text-white font-bold py-2.5 px-3 rounded-xl text-xs shadow-md transition-colors">
+                Google Play
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- GAME 2: KULÜP EFSANESİ -->
+        <div class="gradient-border rounded-3xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl">
+          <div class="relative aspect-[16/9] overflow-hidden bg-slate-900">
+            <img src="assets/games/kulup/banner.png" alt="Kulüp Efsanesi" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+            <div class="absolute top-4 left-4 bg-emerald-500/90 backdrop-blur-md text-white text-xs font-extrabold px-3 py-1 rounded-full">Spor / Menajerlik</div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h4 class="text-2xl font-bold text-white">Kulüp Efsanesi</h4>
+              <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+                Kendi futbol kulübünüzü sıfırdan kurun. Stadyumunuzu büyütün, dünya çapında yıldız transferler yapın ve Avrupa şampiyonu olun!
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between gap-3">
+              <a href="https://kulup-efsanesi.onrender.com/" target="_blank" rel="noopener noreferrer" 
+                 class="flex-1 text-center bg-white/5 hover:bg-white/10 text-emerald-400 border border-emerald-500/30 font-bold py-2.5 px-3 rounded-xl text-xs transition-colors">
+                🎮 Web'de Oyna
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=com.elockman.kulupefsanesi" target="_blank" rel="noopener noreferrer" 
+                 class="flex-1 text-center bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-2.5 px-3 rounded-xl text-xs shadow-md transition-colors">
+                Google Play
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- GAME 3: ORBIT ESCAPE -->
+        <div class="gradient-border rounded-3xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl">
+          <div class="relative aspect-[16/9] overflow-hidden bg-slate-900">
+            <img src="assets/games/orbit/banner.png" alt="Orbit Escape" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+            <div class="absolute top-4 left-4 bg-purple-500/90 backdrop-blur-md text-white text-xs font-extrabold px-3 py-1 rounded-full">Arcade / Fizik</div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h4 class="text-2xl font-bold text-white">Orbit Escape</h4>
+              <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+                Yerçekimi mekanikleriyle donatılmış uzay geminizle asteroit yağmurlarından kaçın, kara deliklerden kurtulun ve yeni galaksileri fethedin.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between gap-3">
+              <a href="https://orbit-escape-cprs.onrender.com/" target="_blank" rel="noopener noreferrer" 
+                 class="flex-1 text-center bg-white/5 hover:bg-white/10 text-purple-400 border border-purple-500/30 font-bold py-2.5 px-3 rounded-xl text-xs transition-colors">
+                🎮 Web'de Oyna
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=com.elockman.orbitescape" target="_blank" rel="noopener noreferrer" 
+                 class="flex-1 text-center bg-purple-500 hover:bg-purple-400 text-white font-bold py-2.5 px-3 rounded-xl text-xs shadow-md transition-colors">
+                Google Play
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- GAME 4: RING TYCOON -->
+        <div class="gradient-border rounded-3xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl">
+          <div class="relative aspect-[16/9] overflow-hidden bg-slate-900">
+            <img src="assets/games/ring/banner.png" alt="Ring Tycoon" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+            <div class="absolute top-4 left-4 bg-red-500/90 backdrop-blur-md text-white text-xs font-extrabold px-3 py-1 rounded-full">Dövüş / Tycoon</div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h4 class="text-2xl font-bold text-white">Ring Tycoon</h4>
+              <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+                Yeraltı ringlerinden profesyonel boks arenalarına! Boksörlerinizi antrene edin, menajerlik yapın ve dünya kemerini kazanın.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between gap-3">
+              <a href="https://ring-tycoon.onrender.com/" target="_blank" rel="noopener noreferrer" 
+                 class="flex-1 text-center bg-white/5 hover:bg-white/10 text-red-400 border border-red-500/30 font-bold py-2.5 px-3 rounded-xl text-xs transition-colors">
+                🎮 Web'de Oyna
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=com.elockman.ringtycoon" target="_blank" rel="noopener noreferrer" 
+                 class="flex-1 text-center bg-red-500 hover:bg-red-400 text-white font-bold py-2.5 px-3 rounded-xl text-xs shadow-md transition-colors">
+                Google Play
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- GAME 5: HIPODROM AHIRI -->
+        <div class="gradient-border rounded-3xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl">
+          <div class="relative aspect-[16/9] overflow-hidden bg-slate-900">
+            <img src="assets/games/hipodrom/banner.png" alt="Hipodrom Ahırı" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+            <div class="absolute top-4 left-4 bg-amber-500/90 backdrop-blur-md text-white text-xs font-extrabold px-3 py-1 rounded-full">Simülasyon / Yarış</div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h4 class="text-2xl font-bold text-white">Hipodrom Ahırı</h4>
+              <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+                Safkan yarış atı yetiştiriciliği, jokey antrenmanları ve nefes kesen derbi mücadeleleri. Şampiyon atlar sizin haranızda yetişsin!
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between gap-3">
+              <a href="https://hipodrom-ahiri.onrender.com/" target="_blank" rel="noopener noreferrer" 
+                 class="flex-1 text-center bg-white/5 hover:bg-white/10 text-amber-400 border border-amber-500/30 font-bold py-2.5 px-3 rounded-xl text-xs transition-colors">
+                🎮 Web'de Oyna
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=com.elockman.hipodromahiri" target="_blank" rel="noopener noreferrer" 
+                 class="flex-1 text-center bg-amber-500 hover:bg-amber-400 text-white font-bold py-2.5 px-3 rounded-xl text-xs shadow-md transition-colors">
+                Google Play
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STUDIO SECTION -->
+  <section id="studyo" class="py-24 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-sky-400">Vizyonumuz & Standartlarımız</span>
+          <h3 class="text-3xl sm:text-5xl font-extrabold text-white mt-2 leading-tight">Teknoloji ve Eğlencenin Kesiştiği Nokta</h3>
+          <p class="text-slate-400 mt-6 leading-relaxed">
+            Elockman Game Studio; mobil oyun geliştirme süreçlerinde en yeni Android standartlarını (minSdk 24, targetSdk 36) ve modern web teknolojilerini harmanlayarak oyunculara akıcı, sıfır gecikmeli ve yüksek görsel kalitede deneyimler sunar.
+          </p>
+
+          <div class="mt-8 space-y-4">
+            <div class="flex items-start gap-4">
+              <div class="p-2 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              </div>
+              <div>
+                <h5 class="text-white font-bold">Google Play Güvenlik ve Gizlilik Garantisi</h5>
+                <p class="text-slate-400 text-sm mt-1">Tüm oyunlarımız Google Play Geliştirici Program Politikaları ve kullanıcı veri güvenliği standartlarına %100 tam uyumludur.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="p-2 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              </div>
+              <div>
+                <h5 class="text-white font-bold">Ultra Akıcı Performans & Pil Dostu Mimari</h5>
+                <p class="text-slate-400 text-sm mt-1">Oyun motorlarımız bellek tüketimini optimize eder ve cihazınızı aşırı ısıtmadan 60+ FPS kare hızı sağlar.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div class="gradient-border rounded-3xl p-8 backdrop-blur-xl relative">
+            <h4 class="text-xl font-bold text-white mb-4">Geliştirici Bilgileri</h4>
+            <dl class="space-y-4 text-sm">
+              <div class="flex justify-between py-2 border-b border-white/5">
+                <dt class="text-slate-400">Stüdyo Adı:</dt>
+                <dd class="font-bold text-white">Elockman Game Studio</dd>
+              </div>
+              <div class="flex justify-between py-2 border-b border-white/5">
+                <dt class="text-slate-400">Google Play ID:</dt>
+                <dd class="font-mono text-sky-400 text-xs sm:text-sm">6034929488947548242</dd>
+              </div>
+              <div class="flex justify-between py-2 border-b border-white/5">
+                <dt class="text-slate-400">Resmi Web:</dt>
+                <dd class="text-white font-semibold">elockmangames.com</dd>
+              </div>
+              <div class="flex justify-between py-2 border-b border-white/5">
+                <dt class="text-slate-400">Destek & İletişim:</dt>
+                <dd class="text-sky-400">contact@elockmangames.com</dd>
+              </div>
+              <div class="flex justify-between py-2">
+                <dt class="text-slate-400">Yasal Durum:</dt>
+                <dd class="text-emerald-400 font-semibold">Aktif & Bağımsız Yayıncı</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT & FOOTER -->
+  <footer id="iletisim" class="bg-[#05070A] border-t border-white/10 pt-16 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-white/5">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3">
+            <img src="assets/logo/logo.webp" alt="Elockman Logo" class="h-9 w-auto rounded-lg">
+            <span class="text-lg font-black tracking-wider text-white">ELOCKMAN GAMES</span>
+          </div>
+          <p class="text-slate-400 text-sm mt-4 max-w-sm leading-relaxed">
+            Google Play ekosisteminde milyonlarca oyuncuya yenilikçi mobil eğlence ve yüksek kaliteli simülasyon deneyimleri sunan bağımsız oyun stüdyosu.
+          </p>
+          <div class="mt-4 text-sm text-slate-300">
+            ✉️ E-Posta: <a href="mailto:contact@elockmangames.com" class="text-sky-400 hover:underline">contact@elockmangames.com</a>
+          </div>
+        </div>
+
+        <div>
+          <h6 class="text-white font-bold text-sm tracking-wider uppercase mb-4">Hızlı Bağlantılar</h6>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li><a href="#oyunlar" class="hover:text-white transition-colors">Tüm Oyunlar</a></li>
+            <li><a href="#studyo" class="hover:text-white transition-colors">Hakkımızda</a></li>
+            <li><a href="https://play.google.com/store/apps/dev?id=6034929488947548242" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Google Play Mağazası</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h6 class="text-white font-bold text-sm tracking-wider uppercase mb-4">Yasal & Uyumluluk</h6>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li><a href="privacy.html" class="hover:text-sky-400 transition-colors">Gizlilik Politikası (Privacy Policy)</a></li>
+            <li><a href="terms.html" class="hover:text-sky-400 transition-colors">Kullanım Koşulları (Terms of Service)</a></li>
+            <li><a href="privacy.html#child-privacy" class="hover:text-sky-400 transition-colors">Çocuk Güvenliği (COPPA)</a></li>
+            <li><a href="privacy.html#data-safety" class="hover:text-sky-400 transition-colors">Veri Güvenliği Beyanı</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+        <p>© 2026 Elockman Game Studio. Tüm Hakları Saklıdır.</p>
+        <p class="flex items-center gap-1">
+          Designed for Google Play & Global Gamers
+        </p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
