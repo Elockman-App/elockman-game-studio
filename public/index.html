@@ -162,62 +162,77 @@
     </div>
   </header>
 
-  <!-- HERO SECTION -->
+  <!-- HERO SECTION (Dark Cinematic Layout) -->
   <section class="hero-section">
     <div class="ambient-glow-1"></div>
     <div class="container">
-      
-      <!-- Top Badge -->
-      <div class="hero-badge">
-        <span class="live-dot"></span>
-        <span data-i18n="hero_badge">Bağımsız Mobil Oyun Stüdyosu</span>
+      <div class="hero-grid">
+
+        <!-- Left Column: Content -->
+        <div class="hero-content">
+          <!-- Top Badge -->
+          <div class="hero-badge">
+            <span class="live-dot"></span>
+            <span data-i18n="hero_badge">Bağımsız Mobil Oyun Stüdyosu</span>
+          </div>
+
+          <!-- Headline -->
+          <h1 class="hero-headline">
+            <span data-i18n="hero_title_1">Sıradanın Ötesinde.</span><br>
+            <span class="text-gradient-cyan" data-i18n="hero_title_accent">Mobil Oyun Deneyimleri.</span>
+          </h1>
+
+          <!-- Description -->
+          <p class="hero-description" data-i18n="hero_desc">
+            Bağımsız oyunlar. Özgün dünyalar. Sonsuz olasılıklar. Mobil oyuncular için özenle geliştirilmiş sürükleyici simülasyon, derin strateji ve dinamik arcade maceraları.
+          </p>
+
+          <!-- CTA Buttons -->
+          <div class="hero-cta-group">
+            <a href="#oyunlar" class="btn-primary" data-i18n="btn_explore">
+              🎮 Oyunlarımızı Keşfedin
+            </a>
+            <a href="test-hub.html" class="btn-testhub" data-i18n="btn_testhub">
+              ⚡ Kapalı Teste Katılın
+            </a>
+            <a href="https://play.google.com/store/apps/dev?id=6034929488947548242" target="_blank" rel="noopener noreferrer" class="btn-secondary" data-i18n="btn_store">
+              Google Play Mağazası ↗
+            </a>
+          </div>
+
+          <!-- Quick Metrics Strip -->
+          <div class="metrics-strip">
+            <div class="metric-card">
+              <div class="metric-val">5</div>
+              <div class="metric-label" data-i18n="metric_games">Aktif Oyun Başlığı</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val blue">minSdk 24</div>
+              <div class="metric-label" data-i18n="metric_compat">Geniş Cihaz Uyumu</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val gold">targetSdk 36</div>
+              <div class="metric-label" data-i18n="metric_android16">Android 16 Hazır</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val emerald">Şeffaf</div>
+              <div class="metric-label" data-i18n="metric_compliance">Veri & Gizlilik Politikası</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Cinematic Key Art Artwork -->
+        <div class="hero-art-wrapper">
+          <div class="hero-art-box">
+            <img src="assets/studio-hero.jpg" alt="Elockman Games Cinematic Universe" width="1200" height="400">
+            <div class="hero-art-badge">
+              <span>🌌</span>
+              <span data-i18n="hero_art_tag">5 Özgün Evren · Tek Stüdyo</span>
+            </div>
+          </div>
+        </div>
+
       </div>
-
-      <!-- Headline -->
-      <h1 class="hero-headline">
-        <span data-i18n="hero_title_1">Geleceğin</span> 
-        <span class="text-gradient-cyan" data-i18n="hero_title_accent">Mobil Oyun</span> 
-        <span data-i18n="hero_title_2">Deneyimlerini Üretiyoruz</span>
-      </h1>
-
-      <!-- Description -->
-      <p class="hero-description" data-i18n="hero_desc">
-        Elockman Game Studio; mobil oyuncular için sürükleyici simülasyon, derin strateji ve dinamik arcade dünyalar geliştirir. Yüksek görsel standartlar, yerli vizyon ve küresel eğlence.
-      </p>
-
-      <!-- CTA Buttons -->
-      <div class="hero-cta-group">
-        <a href="#oyunlar" class="btn-primary" data-i18n="btn_explore">
-          🎮 Oyunlarımızı İnceleyin
-        </a>
-        <a href="test-hub.html" class="btn-testhub" data-i18n="btn_testhub">
-          ⚡ Kapalı Teste Katılın
-        </a>
-        <a href="https://play.google.com/store/apps/dev?id=6034929488947548242" target="_blank" rel="noopener noreferrer" class="btn-secondary" data-i18n="btn_store">
-          Google Play Mağazası
-        </a>
-      </div>
-
-      <!-- Quick Metrics Strip -->
-      <div class="metrics-strip">
-        <div class="metric-card">
-          <div class="metric-val">5</div>
-          <div class="metric-label" data-i18n="metric_games">Aktif Oyun Başlığı</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-val blue">minSdk 24</div>
-          <div class="metric-label" data-i18n="metric_compat">Geniş Cihaz Uyumu</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-val gold">targetSdk 36</div>
-          <div class="metric-label" data-i18n="metric_android16">Android 16 Hazır</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-val emerald">Şeffaf</div>
-          <div class="metric-label" data-i18n="metric_compliance">Veri & Gizlilik Politikası</div>
-        </div>
-      </div>
-
     </div>
   </section>
 
@@ -242,7 +257,7 @@
     </div>
   </section>
 
-  <!-- GAMES SHOWCASE SECTION -->
+  <!-- EDITORIAL GAMES SHOWCASE SECTION (ChatGPT Brief p.3) -->
   <section id="oyunlar" class="showcase-section">
     <div class="container">
       
@@ -250,43 +265,48 @@
         <div class="section-eyebrow" data-i18n="showcase_eyebrow">Portföyümüz</div>
         <h3 class="section-title" data-i18n="showcase_title">Öne Çıkan Başlıklar</h3>
         <p class="section-desc" data-i18n="showcase_desc">
-          Masaüstü ve mobil tarayıcıda hemen deneyebileceğiniz veya Google Play üzerinden doğrudan indirebileceğiniz resmi stüdyo yapımlarımız.
+          Masaüstü ve mobil tarayıcıda hemen deneyebileceğiniz veya Google Play üzerinden doğrudan indirebileceğiniz stüdyo yapımlarımız.
         </p>
       </div>
 
-      <!-- Grid of 5 Games + 1 Test Hub Callout -->
-      <div class="games-grid">
-
-        <!-- GAME 1: GARAJ EFSANESİ -->
-        <div class="game-card">
-          <div class="card-banner">
-            <img src="assets/games/garaj/banner.jpg" alt="Garaj Efsanesi">
-            <span class="badge-tag">Simülasyon / Drag Yarışı</span>
-            <button class="gallery-trigger-btn" data-gallery="garaj">📷 4 Ekran</button>
+      <!-- 1. Flagship Featured Game Card (Garaj Efsanesi) -->
+      <div class="featured-game-card">
+        <div class="featured-banner">
+          <img src="assets/games/garaj/banner.jpg" alt="Garaj Efsanesi">
+          <span class="featured-badge-tag" data-i18n="featured_badge">🏆 Öne Çıkan Başlık</span>
+          <button class="gallery-trigger-btn" data-gallery="garaj">📷 4 Ekran</button>
+        </div>
+        <div class="featured-content">
+          <div>
+            <div class="featured-tags-row">
+              <span class="genre-tag">🏎️ Drag Yarışı</span>
+              <span class="genre-tag">🔧 Modifiye & Dyno</span>
+              <span class="genre-tag">🔨 Sanayi Simülasyonu</span>
+            </div>
+            <div class="card-title-row">
+              <h4 class="game-title" style="font-size: 1.75rem;">Garaj Efsanesi</h4>
+              <span class="version-pill">v1.0.0</span>
+            </div>
+            <p class="game-desc" style="font-size: 0.9375rem; margin-top: 1rem; line-height: 1.6;" data-i18n="game_garaj_desc">
+              Hurda otomobilleri bulun, Şükrü Usta ile motorlarını yenileyin, drag pistinde 400 metre yarışlarına katılın ve kârla açık artırmada satın!
+            </p>
           </div>
-          <div class="card-content">
-            <div>
-              <div class="card-title-row">
-                <h4 class="game-title">Garaj Efsanesi</h4>
-                <span class="version-pill">v1.0.0</span>
-              </div>
-              <p class="game-desc" data-i18n="game_garaj_desc">
-                Hurda otomobilleri bulun, Şükrü Usta ile motorlarını yenileyin, drag pistinde 400 metre yarışlarına katılın ve kârla açık artırmada satın!
-              </p>
-            </div>
-            <div class="card-actions">
-              <a href="https://garaj-efsanesi.onrender.com/" target="_blank" rel="noopener noreferrer" class="btn-play-web">
-                🎮 Web'de Oyna
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.elockman.garajefsanesi" target="_blank" rel="noopener noreferrer" class="btn-play-store">
-                Google Play
-              </a>
-            </div>
+          <div class="card-actions" style="margin-top: 2rem;">
+            <a href="https://garaj-efsanesi.onrender.com/" target="_blank" rel="noopener noreferrer" class="btn-play-web" style="padding: 12px 18px; font-size: 0.875rem;">
+              🎮 Web'de Oyna
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.elockman.garajefsanesi" target="_blank" rel="noopener noreferrer" class="btn-play-store" style="padding: 12px 18px; font-size: 0.875rem;">
+              Google Play ↗
+            </a>
           </div>
         </div>
+      </div>
+
+      <!-- 2. Supporting 4 Games Grid (2x2) -->
+      <div class="supporting-games-grid">
 
         <!-- GAME 2: KULÜP EFSANESİ -->
-        <div class="game-card">
+        <div class="game-card accent-kulup">
           <div class="card-banner">
             <img src="assets/games/kulup/banner.png" alt="Kulüp Efsanesi">
             <span class="badge-tag emerald">Spor / Menajerlik</span>
@@ -307,14 +327,14 @@
                 🎮 Web'de Oyna
               </a>
               <a href="https://play.google.com/store/apps/details?id=com.elockman.kulupefsanesi" target="_blank" rel="noopener noreferrer" class="btn-play-store" style="background: #10b981;">
-                Google Play
+                Google Play ↗
               </a>
             </div>
           </div>
         </div>
 
         <!-- GAME 3: ORBIT ESCAPE -->
-        <div class="game-card">
+        <div class="game-card accent-orbit">
           <div class="card-banner">
             <img src="assets/games/orbit/banner.png" alt="Orbit Escape">
             <span class="badge-tag purple">Arcade / Fizik</span>
@@ -335,14 +355,14 @@
                 🎮 Web'de Oyna
               </a>
               <a href="https://play.google.com/store/apps/details?id=com.elockman.orbitescape" target="_blank" rel="noopener noreferrer" class="btn-play-store" style="background: #a855f7;">
-                Google Play
+                Google Play ↗
               </a>
             </div>
           </div>
         </div>
 
         <!-- GAME 4: RING TYCOON -->
-        <div class="game-card">
+        <div class="game-card accent-ring">
           <div class="card-banner">
             <img src="assets/games/ring/banner.png" alt="Ring Tycoon">
             <span class="badge-tag red">Dövüş / Menajerlik</span>
@@ -363,14 +383,14 @@
                 🎮 Web'de Oyna
               </a>
               <a href="https://play.google.com/store/apps/details?id=com.elockman.ringtycoon" target="_blank" rel="noopener noreferrer" class="btn-play-store" style="background: #ef4444;">
-                Google Play
+                Google Play ↗
               </a>
             </div>
           </div>
         </div>
 
         <!-- GAME 5: HIPODROM AHIRI -->
-        <div class="game-card">
+        <div class="game-card accent-hipodrom">
           <div class="card-banner">
             <img src="assets/games/hipodrom/banner.png" alt="Hipodrom Ahırı">
             <span class="badge-tag gold">Simülasyon / At Yarışı</span>
@@ -391,28 +411,33 @@
                 🎮 Web'de Oyna
               </a>
               <a href="https://play.google.com/store/apps/details?id=com.elockman.hipodromahiri" target="_blank" rel="noopener noreferrer" class="btn-play-store" style="background: #f59e0b;">
-                Google Play
+                Google Play ↗
               </a>
             </div>
           </div>
         </div>
 
-        <!-- SPECIAL CARD: TEST HUB CALLOUT -->
-        <div class="game-card testhub-card">
-          <div class="card-content">
-            <div>
-              <div class="hero-badge" style="color: var(--neon-gold); border-color: rgba(245, 158, 11, 0.3);">
-                <span class="ping-dot"></span>
-                <span>KAPALI TEST PROGRAMI</span>
-              </div>
-              <h4 class="game-title" style="font-size: 1.5rem;" data-i18n="testhub_card_title">Elockman Test Hub'a Katılın</h4>
-              <p class="game-desc" style="margin-top: 1rem;" data-i18n="testhub_card_desc">
-                Google Play 14 günlük kapalı test aşamasındaki oyunlarımızı ilk siz test edin! Hataları bildirin, geri bildirim verin, oyun içi VIP ödüller ve geliştirici kredisi kazanın.
-              </p>
-            </div>
-            <div style="margin-top: 2rem;">
-              <a href="test-hub.html" class="btn-testhub" style="width: 100%; box-sizing: border-box;">
-                ⚡ Test Hub'a Git & Başla
+      </div>
+
+      <!-- 3. Editorial Test Hub Callout Banner -->
+      <div class="testhub-editorial-banner">
+        <div class="testhub-banner-content">
+          <div class="testhub-badge">
+            <span class="ping-dot"></span>
+            <span>GOOGLE PLAY 14 GÜNLÜK KAPALI TEST PROGRAMI</span>
+          </div>
+          <h4 class="testhub-banner-title" data-i18n="testhub_card_title">Elockman Test Hub'a Katılın</h4>
+          <p class="testhub-banner-desc" data-i18n="testhub_card_desc">
+            Google Play 14 günlük kapalı test aşamasındaki oyunlarımızı ilk siz test edin! Hataları bildirin, geri bildirim verin, oyun içi VIP ödüller ve geliştirici kredisi kazanın.
+          </p>
+        </div>
+        <a href="test-hub.html" class="btn-testhub-banner" data-i18n="btn_testhub_banner">
+          ⚡ Test Hub'a Katıl ➔
+        </a>
+      </div>
+
+    </div>
+  </section>
               </a>
             </div>
           </div>
