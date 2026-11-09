@@ -1,21 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>Elockman Game Studio | Resmi Stüdyo & Oyun Portföyü</title>
-  <meta name="description" content="Elockman Game Studio - Geleceğin mobil oyun deneyimleri. Garaj Efsanesi, Kulüp Efsanesi, Orbit Escape, Ring Tycoon ve Hipodrom Ahırı ile mobil oyun dünyasını keşfedin.">
-  <meta name="keywords" content="Elockman, Elockman Games, Mobil Oyun, Google Play, Garaj Efsanesi, Kulüp Efsanesi, Orbit Escape, Ring Tycoon, Hipodrom Ahırı">
-  <meta property="og:title" content="Elockman Game Studio | Resmi Stüdyo Portalı">
-  <meta property="og:description" content="Sürükleyici simülasyon, derin strateji ve dinamik arcade mobil oyunları. Google Play'de hemen keşfedin.">
-  <meta property="og:image" content="assets/logo/logo.webp">
-  <meta property="og:url" content="https://elockmangames.com">
-  <meta name="theme-color" content="#07090E">
-  <link rel="icon" type="image/webp" href="assets/logo/logo.webp">
-
-  <!-- 100% Self-Contained Standalone CSS (Fully CSP 'self' Compliant) -->
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080b12">
+  <title>Elockman Game Studio — Bağımsız Mobil Oyun Stüdyosu</title>
+  <meta name="description" content="Elockman Game Studio resmi web sitesi ve oyun portföyü: Garaj Efsanesi, Kulüp Efsanesi, Orbit Escape, Ring Tycoon ve Hipodrom Ahırı. Mobil simülasyon, menajerlik ve arcade deneyimleri.">
+  <meta name="keywords" content="Elockman, Elockman Games, Mobil Oyun, Google Play, Garaj Efsanesi, Kulüp Efsanesi, Orbit Escape, Ring Tycoon, Hipodrom Ahırı, Bağımsız Oyun Stüdyosu">
   <link rel="canonical" href="https://elockmangames.com/">
+  <link rel="icon" type="image/webp" href="/assets/logo/logo.webp?v=20261109_v3">
+  <link rel="preload" as="image" href="/assets/studio-hero.jpg?v=20261109_v3" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/site.css?v=20261109_v3">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:site_name" content="Elockman Game Studio">
+  <meta property="og:title" content="Elockman Game Studio — Bağımsız Mobil Oyun Stüdyosu">
+  <meta property="og:description" content="Beş farklı oyun dünyası. Her biri kendine özgü bir yolculuk. Google Play'de hemen keşfedin.">
+  <meta property="og:url" content="https://elockmangames.com/">
+  <meta property="og:image" content="https://elockmangames.com/assets/studio-hero.jpg">
+  <meta name="twitter:card" content="summary_large_image">
 
   <!-- JSON-LD Structured Data for Studio & Game Catalog -->
   <script type="application/ld+json">
@@ -29,6 +32,10 @@
         "url": "https://elockmangames.com",
         "logo": "https://elockmangames.com/assets/logo/logo.webp",
         "email": "contact@elockmangames.com",
+        "founder": {
+          "@type": "Person",
+          "name": "Erdem Lokman"
+        },
         "sameAs": [
           "https://play.google.com/store/apps/dev?id=6034929488947548242"
         ]
@@ -104,426 +111,239 @@
   </script>
 </head>
 <body>
-
-  <!-- NAVBAR -->
-  <header class="studio-header">
-    <div class="container header-inner">
-      <!-- Brand Logo -->
-      <a href="#" class="brand-link">
-        <img src="assets/logo/logo.webp" alt="Elockman Logo" class="brand-logo">
-        <div>
-          <div class="brand-title">ELOCKMAN GAMES</div>
-          <div class="brand-subtitle">Game Studio</div>
-        </div>
+  <a class="skip-link" href="#main">İçeriğe geç</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/" aria-label="Elockman Game Studio ana sayfa">
+        <img src="/assets/logo/logo.webp?v=20261109_v3" width="44" height="44" alt="Elockman Game Studio">
+        <span class="brand-copy"><strong>ELOCKMAN</strong><span>GAME STUDIO</span></span>
       </a>
-
-      <!-- Desktop Nav Links -->
-      <nav class="nav-links">
-        <a href="#oyunlar" class="nav-link" data-i18n="nav_games">Oyunlarımız</a>
-        <a href="#video-teaser" class="nav-link" data-i18n="nav_teaser">Tanıtım</a>
-        <a href="#studyo" class="nav-link" data-i18n="nav_studio">Stüdyo</a>
-        <a href="test-hub.html" class="nav-link testhub-link">
-          <span class="ping-dot"></span>
-          <span data-i18n="nav_testhub">Test Hub</span>
-        </a>
-        <a href="privacy.html" class="nav-link" data-i18n="nav_privacy">Gizlilik</a>
-        <a href="#iletisim" class="nav-link" data-i18n="nav_contact">İletişim</a>
+      <nav class="desktop-nav" aria-label="Ana menü">
+        <a href="#oyunlar">Oyunlar</a>
+        <a href="#stüdyo">Stüdyo</a>
+        <a href="/test-hub.html">Test Merkezi</a>
+        <a href="https://play.google.com/store/apps/dev?id=6034929488947548242" target="_blank" rel="noopener noreferrer">Google Play ↗</a>
+        <a href="/privacy.html">Gizlilik</a>
       </nav>
-
-      <!-- Action Buttons -->
-      <div class="header-actions">
-        <!-- Lang Toggle -->
-        <button id="langToggleBtn" class="lang-btn" title="Dili Değiştir / Change Language">
-          <span id="langCurrent">TR</span> | <span id="langOther">EN</span>
-        </button>
-
-        <!-- Google Play -->
-        <a href="https://play.google.com/store/apps/dev?id=6034929488947548242" target="_blank" rel="noopener noreferrer" class="play-store-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.793 12 3.61 22.186c-.347-.306-.554-.766-.554-1.282V3.096c0-.516.207-.976.553-1.282zm11.238 11.24l2.096-2.096-11.836-6.83 9.74 8.926zm0 1.892l-9.74 8.926 11.836-6.83-2.096-2.096zm1.054-1.053l2.825-1.631c.883-.51 1.424-1.272 1.424-2.263 0-.99-.541-1.753-1.424-2.263L15.9 6.069l-1.996 1.996 1.997 1.997z"/></svg>
-          Google Play
-        </a>
-
-        <!-- Mobile Menu Toggle -->
-        <button id="mobileMenuBtn" class="mobile-menu-toggle" aria-label="Menü">
-          <svg aria-hidden="true" width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- Mobile Drawer -->
-    <div id="mobileDrawer" class="mobile-drawer">
-      <a href="#oyunlar" data-i18n="nav_games">Oyunlarımız</a>
-      <a href="#video-teaser" data-i18n="nav_teaser">Tanıtım</a>
-      <a href="#studyo" data-i18n="nav_studio">Stüdyo & Vizyon</a>
-      <a href="test-hub.html" style="color: var(--neon-gold); font-weight: 800;" data-i18n="nav_testhub">🔥 Test Hub (Ödüllü Kapalı Test)</a>
-      <a href="privacy.html" data-i18n="nav_privacy">Gizlilik Politikası</a>
-      <a href="terms.html" data-i18n="nav_terms">Kullanım Şartları</a>
-      <a href="#iletisim" data-i18n="nav_contact">İletişim</a>
+      <a class="button button--gold button--small header-cta" href="/test-hub.html">Test Merkezine Katıl</a>
+      <details class="mobile-menu">
+        <summary aria-label="Menüyü aç">Menü</summary>
+        <nav class="mobile-menu__links" aria-label="Mobil menü">
+          <a href="#oyunlar">Oyunlar</a>
+          <a href="#stüdyo">Stüdyo</a>
+          <a href="/test-hub.html">Test Merkezi</a>
+          <a href="https://play.google.com/store/apps/dev?id=6034929488947548242" target="_blank" rel="noopener noreferrer">Google Play Mağazası ↗</a>
+          <a href="/privacy.html">Gizlilik Politikası</a>
+          <a href="/terms.html">Kullanım Koşulları</a>
+        </nav>
+      </details>
     </div>
   </header>
 
-  <!-- HERO SECTION -->
-  <section class="hero-section">
-    <div class="ambient-glow-1"></div>
-    <div class="container">
-      
-      <!-- Top Badge -->
-      <div class="hero-badge">
-        <span class="live-dot"></span>
-        <span data-i18n="hero_badge">Bağımsız Mobil Oyun Stüdyosu</span>
-      </div>
-
-      <!-- Headline -->
-      <h1 class="hero-headline">
-        <span data-i18n="hero_title_1">Geleceğin</span> 
-        <span class="text-gradient-cyan" data-i18n="hero_title_accent">Mobil Oyun</span> 
-        <span data-i18n="hero_title_2">Deneyimlerini Üretiyoruz</span>
-      </h1>
-
-      <!-- Description -->
-      <p class="hero-description" data-i18n="hero_desc">
-        Elockman Game Studio; mobil oyuncular için sürükleyici simülasyon, derin strateji ve dinamik arcade dünyalar geliştirir. Yüksek görsel standartlar, yerli vizyon ve küresel eğlence.
-      </p>
-
-      <!-- CTA Buttons -->
-      <div class="hero-cta-group">
-        <a href="#oyunlar" class="btn-primary" data-i18n="btn_explore">
-          🎮 Oyunlarımızı İnceleyin
-        </a>
-        <a href="test-hub.html" class="btn-testhub" data-i18n="btn_testhub">
-          ⚡ Kapalı Teste Katılın
-        </a>
-        <a href="https://play.google.com/store/apps/dev?id=6034929488947548242" target="_blank" rel="noopener noreferrer" class="btn-secondary" data-i18n="btn_store">
-          Google Play Mağazası
-        </a>
-      </div>
-
-      <!-- Quick Metrics Strip -->
-      <div class="metrics-strip">
-        <div class="metric-card">
-          <div class="metric-val">5</div>
-          <div class="metric-label" data-i18n="metric_games">Aktif Oyun Başlığı</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-val blue">minSdk 24</div>
-          <div class="metric-label" data-i18n="metric_compat">Geniş Cihaz Uyumu</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-val gold">targetSdk 36</div>
-          <div class="metric-label" data-i18n="metric_android16">Android 16 Hazır</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-val emerald">Şeffaf</div>
-          <div class="metric-label" data-i18n="metric_compliance">Veri & Gizlilik Politikası</div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- VIDEO TEASER SECTION -->
-  <section id="video-teaser" class="teaser-section">
-    <div class="container">
-      <div class="hero-badge" style="margin-bottom: 0.75rem;">
-        <span>🎬</span>
-        <span data-i18n="teaser_badge">Resmi Stüdyo Tanıtımı</span>
-      </div>
-      <h2 class="section-title" data-i18n="teaser_title">Elockman Universe: Sinematik Giriş</h2>
-      <p class="section-desc" data-i18n="teaser_desc">
-        Mobil dünyada kurduğumuz evrenlere ilk bakış. Garajlardan galaksilere, ringlerden hipodromlara uzanan macera.
-      </p>
-
-      <div class="video-frame-box">
-        <video controls playsinline preload="metadata" poster="assets/games/garaj/banner.jpg">
-          <source src="assets/video/elockman_intro.mp4" type="video/mp4">
-          Tarayıcınız video etiketini desteklemiyor.
-        </video>
-      </div>
-    </div>
-  </section>
-
-  <!-- GAMES SHOWCASE SECTION -->
-  <section id="oyunlar" class="showcase-section">
-    <div class="container">
-      
-      <div class="section-head">
-        <div class="section-eyebrow" data-i18n="showcase_eyebrow">Portföyümüz</div>
-        <h3 class="section-title" data-i18n="showcase_title">Öne Çıkan Başlıklar</h3>
-        <p class="section-desc" data-i18n="showcase_desc">
-          Masaüstü ve mobil tarayıcıda hemen deneyebileceğiniz veya Google Play üzerinden doğrudan indirebileceğiniz resmi stüdyo yapımlarımız.
-        </p>
-      </div>
-
-      <!-- Grid of 5 Games + 1 Test Hub Callout -->
-      <div class="games-grid">
-
-        <!-- GAME 1: GARAJ EFSANESİ -->
-        <div class="game-card">
-          <div class="card-banner">
-            <img src="assets/games/garaj/banner.jpg" alt="Garaj Efsanesi">
-            <span class="badge-tag">Simülasyon / Drag Yarışı</span>
-            <button class="gallery-trigger-btn" data-gallery="garaj">📷 4 Ekran</button>
+  <main id="main">
+    <!-- HERO SECTION -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap">
+        <div class="hero-content">
+          <span class="hero-kicker">Bağımsız Mobil Oyun Stüdyosu</span>
+          <h1 id="hero-title">Her oyunda <span>yeni bir dünya.</span></h1>
+          <p class="hero-copy">Garajdan hipodroma, futbol sahasından derin uzaya uzanan özgün oyunlar tasarlıyoruz. Kendi takımını kur, yarışa hazırlan, ringe çık ya da yıldızların arasından kaç.</p>
+          <div class="button-row">
+            <a class="button button--gold" href="#oyunlar">Oyunları keşfet <span aria-hidden="true">↓</span></a>
+            <a class="button button--quiet" href="/test-hub.html">Oyunları test et</a>
           </div>
-          <div class="card-content">
-            <div>
-              <div class="card-title-row">
-                <h4 class="game-title">Garaj Efsanesi</h4>
-                <span class="version-pill">v1.0.0</span>
+          <div class="hero-note" aria-label="Stüdyo portföyü">
+            <span><strong>05</strong> farklı oyun evreni</span>
+            <span aria-hidden="true">•</span>
+            <span>Android ve web deneyimleri</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GAMES SECTION -->
+    <section class="section games-section" id="oyunlar" aria-labelledby="games-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <span class="eyebrow">Oyun Portföyü</span>
+          <h2 id="games-title">Sıradaki maceranı seç.</h2>
+          <p>Her oyunun kendi ritmi, hedefi ve dünyası var. Ayrıntılara göz at; kapalı test bağlantıları ve doğrudan web sürümleri için hemen başla.</p>
+        </div>
+
+        <div class="games-grid">
+          <!-- Game 1: Garaj Efsanesi -->
+          <article class="game-card" aria-labelledby="game-garaj">
+            <div class="game-cover">
+              <img src="/assets/games/garaj/banner.jpg?v=20261109_v3" width="1200" height="675" loading="lazy" decoding="async" alt="Garaj Efsanesi modifiyeli otomobil ve yarış dünyası">
+              <span class="game-genre">Otomobil · Simülasyon</span>
+            </div>
+            <div class="game-body">
+              <h3 id="game-garaj">Garaj Efsanesi</h3>
+              <p>Türk oto sanayi kültürü, parça modifiyesi, dyno ayarları ve gece drag yarışları aynı garajda buluşuyor.</p>
+              <div class="game-action">
+                <a class="button button--gold button--small" href="/test-hub.html#garaj-efsanesi">Test & İndir <span aria-hidden="true">↗</span></a>
+                <a class="button button--quiet button--small" href="https://garaj-efsanesi.onrender.com/" target="_blank" rel="noopener noreferrer">Web Oyna <span aria-hidden="true">🎮</span></a>
               </div>
-              <p class="game-desc" data-i18n="game_garaj_desc">
-                Hurda otomobilleri bulun, Şükrü Usta ile motorlarını yenileyin, drag pistinde 400 metre yarışlarına katılın ve kârla açık artırmada satın!
-              </p>
             </div>
-            <div class="card-actions">
-              <a href="https://garaj-efsanesi.onrender.com/" target="_blank" rel="noopener noreferrer" class="btn-play-web">
-                🎮 Web'de Oyna
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.elockman.garajefsanesi" target="_blank" rel="noopener noreferrer" class="btn-play-store">
-                Google Play
-              </a>
-            </div>
-          </div>
-        </div>
+          </article>
 
-        <!-- GAME 2: KULÜP EFSANESİ -->
-        <div class="game-card">
-          <div class="card-banner">
-            <img src="assets/games/kulup/banner.png" alt="Kulüp Efsanesi">
-            <span class="badge-tag emerald">Spor / Menajerlik</span>
-            <button class="gallery-trigger-btn" data-gallery="kulup">📷 6 Ekran</button>
-          </div>
-          <div class="card-content">
-            <div>
-              <div class="card-title-row">
-                <h4 class="game-title">Kulüp Efsanesi</h4>
-                <span class="version-pill">v1.0.0</span>
+          <!-- Game 2: Kulüp Efsanesi -->
+          <article class="game-card" aria-labelledby="game-kulup">
+            <div class="game-cover">
+              <img src="/assets/games/kulup/banner.png?v=20261109_v3" width="1200" height="675" loading="lazy" decoding="async" alt="Kulüp Efsanesi futbol stadyumu ve takım menajerliği">
+              <span class="game-genre">Futbol · Menajerlik</span>
+            </div>
+            <div class="game-body">
+              <h3 id="game-kulup">Kulüp Efsanesi</h3>
+              <p>Kadro kur, taktiğini seç, transfer kararları ver ve kulübünü maç günlerine en iyi stratejiyle hazırla.</p>
+              <div class="game-action">
+                <a class="button button--gold button--small" href="/test-hub.html#kulup-efsanesi">Test & İndir <span aria-hidden="true">↗</span></a>
+                <a class="button button--quiet button--small" href="https://kulup-efsanesi.onrender.com/" target="_blank" rel="noopener noreferrer">Web Oyna <span aria-hidden="true">🎮</span></a>
               </div>
-              <p class="game-desc" data-i18n="game_kulup_desc">
-                Kendi futbol kulübünüzü sıfırdan kurun. Stadyumunuzu büyütün, dünya çapında yıldız transferler yapın ve Avrupa şampiyonu olun!
-              </p>
             </div>
-            <div class="card-actions">
-              <a href="https://kulup-efsanesi.onrender.com/" target="_blank" rel="noopener noreferrer" class="btn-play-web">
-                🎮 Web'de Oyna
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.elockman.kulupefsanesi" target="_blank" rel="noopener noreferrer" class="btn-play-store" style="background: #10b981;">
-                Google Play
-              </a>
-            </div>
-          </div>
-        </div>
+          </article>
 
-        <!-- GAME 3: ORBIT ESCAPE -->
-        <div class="game-card">
-          <div class="card-banner">
-            <img src="assets/games/orbit/banner.png" alt="Orbit Escape">
-            <span class="badge-tag purple">Arcade / Fizik</span>
-            <button class="gallery-trigger-btn" data-gallery="orbit">📷 6 Ekran</button>
-          </div>
-          <div class="card-content">
-            <div>
-              <div class="card-title-row">
-                <h4 class="game-title">Orbit Escape</h4>
-                <span class="version-pill">v1.0.0</span>
+          <!-- Game 3: Orbit Escape -->
+          <article class="game-card" aria-labelledby="game-orbit">
+            <div class="game-cover">
+              <img src="/assets/games/orbit/banner.png?v=20261109_v3" width="1200" height="675" loading="lazy" decoding="async" alt="Orbit Escape uzay gemisi ve derin uzay rotası">
+              <span class="game-genre">Uzay · Arcade</span>
+            </div>
+            <div class="game-body">
+              <h3 id="game-orbit">Orbit Escape</h3>
+              <p>Üç şeritli enerji koridorunda asteroitlerden ve dev kruvazörlerden kaçış için reflekslerini en üst seviyede kullan.</p>
+              <div class="game-action">
+                <a class="button button--gold button--small" href="/test-hub.html#orbit-escape">Test & İndir <span aria-hidden="true">↗</span></a>
+                <a class="button button--quiet button--small" href="https://orbit-escape-cprs.onrender.com/" target="_blank" rel="noopener noreferrer">Web Oyna <span aria-hidden="true">🎮</span></a>
               </div>
-              <p class="game-desc" data-i18n="game_orbit_desc">
-                Yerçekimi mekanikleriyle donatılmış uzay geminizle asteroit yağmurlarından kaçın, kara deliklerden kurtulun ve yeni galaksileri fethedin.
-              </p>
             </div>
-            <div class="card-actions">
-              <a href="https://orbit-escape-cprs.onrender.com/" target="_blank" rel="noopener noreferrer" class="btn-play-web">
-                🎮 Web'de Oyna
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.elockman.orbitescape" target="_blank" rel="noopener noreferrer" class="btn-play-store" style="background: #a855f7;">
-                Google Play
-              </a>
-            </div>
-          </div>
-        </div>
+          </article>
 
-        <!-- GAME 4: RING TYCOON -->
-        <div class="game-card">
-          <div class="card-banner">
-            <img src="assets/games/ring/banner.png" alt="Ring Tycoon">
-            <span class="badge-tag red">Dövüş / Menajerlik</span>
-            <button class="gallery-trigger-btn" data-gallery="ring">📷 6 Ekran</button>
-          </div>
-          <div class="card-content">
-            <div>
-              <div class="card-title-row">
-                <h4 class="game-title">Ring Tycoon</h4>
-                <span class="version-pill">v1.0.0</span>
+          <!-- Game 4: Ring Tycoon -->
+          <article class="game-card" aria-labelledby="game-ring">
+            <div class="game-cover">
+              <img src="/assets/games/ring/banner.png?v=20261109_v3" width="1200" height="675" loading="lazy" decoding="async" alt="Ring Tycoon boks salonu ve unvan maçları">
+              <span class="game-genre">Boks · Menajerlik & Strateji</span>
+            </div>
+            <div class="game-body">
+              <h3 id="game-ring">Ring Tycoon</h3>
+              <p>Boksörlerini yetiştir, antrenman salonunu büyüt, maç köşeni yönet ve şampiyonluk kemerlerini kazan.</p>
+              <div class="game-action">
+                <a class="button button--gold button--small" href="/test-hub.html#ring-tycoon">Test & İndir <span aria-hidden="true">↗</span></a>
+                <a class="button button--quiet button--small" href="https://ring-tycoon.onrender.com/" target="_blank" rel="noopener noreferrer">Web Oyna <span aria-hidden="true">🎮</span></a>
               </div>
-              <p class="game-desc" data-i18n="game_ring_desc">
-                Yeraltı ringlerinden profesyonel boks arenalarına! Boksörlerinizi antrene edin, menajerlik yapın ve dünya kemerini kazanın.
-              </p>
             </div>
-            <div class="card-actions">
-              <a href="https://ring-tycoon.onrender.com/" target="_blank" rel="noopener noreferrer" class="btn-play-web">
-                🎮 Web'de Oyna
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.elockman.ringtycoon" target="_blank" rel="noopener noreferrer" class="btn-play-store" style="background: #ef4444;">
-                Google Play
-              </a>
-            </div>
-          </div>
-        </div>
+          </article>
 
-        <!-- GAME 5: HIPODROM AHIRI -->
-        <div class="game-card">
-          <div class="card-banner">
-            <img src="assets/games/hipodrom/banner.png" alt="Hipodrom Ahırı">
-            <span class="badge-tag gold">Simülasyon / At Yarışı</span>
-            <button class="gallery-trigger-btn" data-gallery="hipodrom">📷 6 Ekran</button>
-          </div>
-          <div class="card-content">
-            <div>
-              <div class="card-title-row">
-                <h4 class="game-title">Hipodrom Ahırı</h4>
-                <span class="version-pill">v1.0.0</span>
+          <!-- Game 5: Hipodrom Ahırı -->
+          <article class="game-card" aria-labelledby="game-hipodrom">
+            <div class="game-cover">
+              <img src="/assets/games/hipodrom/banner.png?v=20261109_v3" width="1200" height="675" loading="lazy" decoding="async" alt="Hipodrom Ahırı yarış atları, jokeyler ve pist heyecanı">
+              <span class="game-genre">At Yarışı · Simülasyon</span>
+            </div>
+            <div class="game-body">
+              <h3 id="game-hipodrom">Hipodrom Ahırı</h3>
+              <p>Safkan yetiştiriciliği, jokey taktikleri ve pist analizleriyle yarış gününe hazırlanıp kupaları topla.</p>
+              <div class="game-action">
+                <a class="button button--gold button--small" href="/test-hub.html#hipodrom-ahiri">Test & İndir <span aria-hidden="true">↗</span></a>
+                <a class="button button--quiet button--small" href="https://hipodrom-ahiri.onrender.com/" target="_blank" rel="noopener noreferrer">Web Oyna <span aria-hidden="true">🎮</span></a>
               </div>
-              <p class="game-desc" data-i18n="game_hipodrom_desc">
-                Safkan yarış atı yetiştiriciliği, jokey antrenmanları ve nefes kesen derbi mücadeleleri. Şampiyon atlar sizin haranızda yetişsin!
-              </p>
             </div>
-            <div class="card-actions">
-              <a href="https://hipodrom-ahiri.onrender.com/" target="_blank" rel="noopener noreferrer" class="btn-play-web">
-                🎮 Web'de Oyna
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.elockman.hipodromahiri" target="_blank" rel="noopener noreferrer" class="btn-play-store" style="background: #f59e0b;">
-                Google Play
-              </a>
-            </div>
-          </div>
+          </article>
         </div>
-
-        <!-- SPECIAL CARD: TEST HUB CALLOUT -->
-        <div class="game-card testhub-card">
-          <div class="card-content">
-            <div>
-              <div class="hero-badge" style="color: var(--neon-gold); border-color: rgba(245, 158, 11, 0.3);">
-                <span class="ping-dot"></span>
-                <span>KAPALI TEST PROGRAMI</span>
-              </div>
-              <h4 class="game-title" style="font-size: 1.5rem;" data-i18n="testhub_card_title">Elockman Test Hub'a Katılın</h4>
-              <p class="game-desc" style="margin-top: 1rem;" data-i18n="testhub_card_desc">
-                Google Play 14 günlük kapalı test aşamasındaki oyunlarımızı ilk siz test edin! Hataları bildirin, geri bildirim verin, oyun içi VIP ödüller ve geliştirici kredisi kazanın.
-              </p>
-            </div>
-            <div style="margin-top: 2rem;">
-              <a href="test-hub.html" class="btn-testhub" style="width: 100%; box-sizing: border-box;">
-                ⚡ Test Hub'a Git & Başla
-              </a>
-            </div>
-          </div>
-        </div>
-
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- STUDIO INFO & STANDARDS -->
-  <section id="studyo" class="studio-section">
-    <div class="container" style="max-width: 900px; text-align: center;">
-      <div class="section-eyebrow" data-i18n="studio_eyebrow">Vizyonumuz & Standartlarımız</div>
-      <h3 class="section-title" data-i18n="studio_title">Teknoloji ve Eğlencenin Kesiştiği Nokta</h3>
-      <p class="section-desc" style="margin-top: 1.25rem; max-width: 760px; margin-left: auto; margin-right: auto;" data-i18n="studio_desc">
-        Elockman Game Studio; mobil oyun geliştirme süreçlerinde en yeni Android standartlarını (minSdk 24, targetSdk 36) ve modern web teknolojilerini harmanlayarak oyunculara akıcı, optimize edilmiş ve yüksek görsel kalitede deneyimler sunar.
-      </p>
+    <!-- STUDIO & ABOUT SECTION -->
+    <section class="section" id="stüdyo" aria-labelledby="studio-title">
+      <div class="wrap studio-band">
+        <article class="studio-panel">
+          <span class="eyebrow">Elockman Game Studio</span>
+          <h2 id="studio-title">Küçük ekip. Kendi oyun dünyalarımız.</h2>
+          <p>Bağımsız bir mobil oyun geliştirme stüdyosu olarak farklı türlerde özgün deneyimler üretiyoruz. Fikirden oynanışa, her projeyi oyuncularımızın doğrudan geri bildirimleriyle geliştiriyoruz.</p>
+          <ul class="principles">
+            <li><span class="principle-number">01</span><span><b>Oynanış önce gelir</b><span>Her oyunun temel döngüsünü anlaşılır, akıcı ve tatmin edici hâle getirmeye odaklanıyoruz.</span></span></li>
+            <li><span class="principle-number">02</span><span><b>Geri bildirimle gelişir</b><span>Kapalı test sürecinde oyuncuların deneyimini dinleyip haftalık optimizasyonlar planlıyoruz.</span></span></li>
+            <li><span class="principle-number">03</span><span><b>Her projeye ayrı kimlik</b><span>Garaj, saha, ring, hipodrom ve derin uzay için özgün görsel dil ve yüksek tempo kuruyoruz.</span></span></li>
+          </ul>
+        </article>
 
-      <div style="margin-top: 2.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; text-align: left;">
-        <div style="padding: 1.5rem; border-radius: 1.25rem; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); display: flex; gap: 14px; align-items: flex-start;">
-          <div style="padding: 10px; border-radius: 12px; background: rgba(14, 165, 233, 0.12); border: 1px solid rgba(14, 165, 233, 0.25); color: var(--neon-blue); font-size: 1.25rem;">
-            🛡️
+        <aside class="contact-panel" id="iletisim" aria-labelledby="contact-title">
+          <span class="eyebrow">İletişim & Geliştirici</span>
+          <h2 id="contact-title">Bizimle İletişime Geçin</h2>
+          <p>Oyuncu geri bildirimi, kapalı test katılımı, hata bildirimleri veya yayıncılık iş birlikleri için bize doğrudan ulaşabilirsiniz.</p>
+          <div class="contact-card">
+            <div>
+              <span>Stüdyo E-Postası</span>
+              <a href="mailto:contact@elockmangames.com">contact@elockmangames.com</a>
+            </div>
+            <span aria-hidden="true">✉️</span>
           </div>
-          <div>
-            <div style="font-weight: 800; color: #ffffff; font-size: 1rem;" data-i18n="studio_feat1_title">Google Play Uyumluluk ve Veri Güvenliği</div>
-            <div style="font-size: 0.8125rem; color: var(--text-muted); margin-top: 6px; line-height: 1.5;" data-i18n="studio_feat1_desc">Tüm oyunlarımız Google Play Geliştirici Program Politikaları, COPPA ilkeleri ve kullanıcı veri güvenliği standartları gözetilerek geliştirilir.</div>
+          <div class="contact-card">
+            <div>
+              <span>Google Play Geliştirici Profili</span>
+              <a href="https://play.google.com/store/apps/dev?id=6034929488947548242" target="_blank" rel="noopener noreferrer">Geliştirici Sayfasını Aç ↗</a>
+            </div>
+            <span aria-hidden="true">📱</span>
           </div>
-        </div>
+          <div class="contact-card">
+            <div>
+              <span>Google Play Kapalı Test Grubu</span>
+              <a href="https://groups.google.com/g/elockman-testers" target="_blank" rel="noopener noreferrer">Test Grubuna Katıl ↗</a>
+            </div>
+            <span aria-hidden="true">👥</span>
+          </div>
+        </aside>
+      </div>
+    </section>
 
-        <div style="padding: 1.5rem; border-radius: 1.25rem; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); display: flex; gap: 14px; align-items: flex-start;">
-          <div style="padding: 10px; border-radius: 12px; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.25); color: var(--neon-gold); font-size: 1.25rem;">
-            ⚡
-          </div>
-          <div>
-            <div style="font-weight: 800; color: #ffffff; font-size: 1rem;" data-i18n="studio_feat2_title">Dengeli Performans & Pil Dostu Mimari</div>
-            <div style="font-size: 0.8125rem; color: var(--text-muted); margin-top: 6px; line-height: 1.5;" data-i18n="studio_feat2_desc">Hafif mimarimiz bellek tüketimini optimize eder ve cihazınızı aşırı zorlamadan akıcı ve kararlı bir deneyim sağlar.</div>
+    <!-- TEST CTA SECTION -->
+    <section class="section" aria-labelledby="test-title">
+      <div class="wrap">
+        <div class="test-cta">
+          <span class="eyebrow">Kapalı Test Programı</span>
+          <h2 id="test-title">Yeni oyunları birlikte şekillendirelim.</h2>
+          <p>Google Play kapalı testlerine katıl, oyunlarımızı herkesten önce dene ve doğrudan geri bildirimlerinle geliştirme sürecine yön ver. Katılım adımları ve tüm oyun bağlantıları test merkezinde.</p>
+          <div class="button-row">
+            <a class="button button--gold" href="/test-hub.html">Test Merkezini Aç <span aria-hidden="true">→</span></a>
+            <a class="button button--quiet" href="https://play.google.com/store/apps/dev?id=6034929488947548242" target="_blank" rel="noopener noreferrer">Google Play Mağazası <span aria-hidden="true">↗</span></a>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- SCREENSHOT LIGHTBOX MODAL -->
-  <div id="galleryModal" class="lightbox-modal">
-    <div class="lightbox-content">
-      <div class="lightbox-header">
-        <h5 id="galleryTitle" style="font-weight: 800; color: #ffffff;">Oyun Ekran Görüntüleri</h5>
-        <button id="galleryCloseBtn" style="background: rgba(255, 255, 255, 0.08); border: none; color: #ffffff; padding: 6px 12px; border-radius: 8px; cursor: pointer;">✕ Kapat</button>
-      </div>
-
-      <div class="lightbox-img-wrap">
-        <img id="galleryMainImg" src="" alt="Screenshot">
-        <button id="galleryPrevBtn" class="lightbox-nav-btn prev" aria-label="Önceki">❮</button>
-        <button id="galleryNextBtn" class="lightbox-nav-btn next" aria-label="Sonraki">❯</button>
-      </div>
-
-      <div style="display: flex; justify-content: space-between; margin-top: 0.75rem; font-size: 0.75rem; color: var(--text-muted);">
-        <span id="galleryCounter">Görsel 1 / 4</span>
-        <span>Klavyeden sol/sağ ok tuşlarını kullanabilirsiniz</span>
-      </div>
-    </div>
-  </div>
+    </section>
+  </main>
 
   <!-- FOOTER -->
-  <footer id="iletisim" class="studio-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <div class="brand-link">
-            <img src="assets/logo/logo.webp" alt="Elockman Logo" class="brand-logo" style="height: 36px; width: 36px;">
-            <div class="brand-title" style="font-size: 1.125rem;">ELOCKMAN GAMES</div>
-          </div>
-          <p class="game-desc" style="max-width: 380px; margin-top: 1rem;" data-i18n="footer_bio">
-            Google Play ekosisteminde oyunculara yenilikçi mobil eğlence ve yüksek kaliteli simülasyon deneyimleri sunan bağımsız oyun stüdyosu.
-          </p>
-          <div style="margin-top: 1rem; color: #e2e8f0;">
-            ✉️ E-Posta: <a href="mailto:contact@elockmangames.com" style="color: var(--neon-blue);">contact@elockmangames.com</a>
-          </div>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="/assets/logo/logo.webp?v=20261109_v3" width="36" height="36" alt="Elockman Logo">
+          <span>© 2026 Elockman Game Studio. Tüm hakları saklıdır.</span>
         </div>
-
-        <div>
-          <div class="footer-col-title" data-i18n="footer_col_links">Hızlı Bağlantılar</div>
-          <ul class="footer-links-list">
-            <li><a href="#oyunlar" data-i18n="nav_games">Tüm Oyunlar</a></li>
-            <li><a href="test-hub.html" style="color: var(--neon-gold); font-weight: 700;">🔥 Test Hub</a></li>
-            <li><a href="#video-teaser" data-i18n="nav_teaser">Stüdyo Tanıtımı</a></li>
-            <li><a href="#studyo" data-i18n="nav_studio">Hakkımızda</a></li>
-            <li><a href="https://play.google.com/store/apps/dev?id=6034929488947548242" target="_blank" rel="noopener noreferrer">Google Play Mağazası</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="footer-col-title" data-i18n="footer_col_legal">Yasal & Uyumluluk</div>
-          <ul class="footer-links-list">
-            <li><a href="privacy.html" data-i18n="nav_privacy">Gizlilik Politikası (Privacy Policy)</a></li>
-            <li><a href="terms.html" data-i18n="nav_terms">Kullanım Koşulları (Terms of Service)</a></li>
-            <li><a href="privacy.html#child-privacy" data-i18n="footer_coppa">Çocuk Güvenliği (COPPA)</a></li>
-            <li><a href="privacy.html#data-safety" data-i18n="footer_datasafety">Veri Güvenliği Beyanı</a></li>
-            <li><a href="/.well-known/security.txt">Güvenlik (security.txt)</a></li>
-          </ul>
-        </div>
+        <nav class="footer-links" aria-label="Yasal ve bağlantılar">
+          <a href="#oyunlar">Oyunlar</a>
+          <a href="/test-hub.html">Test Merkezi</a>
+          <a href="https://play.google.com/store/apps/dev?id=6034929488947548242" target="_blank" rel="noopener noreferrer">Google Play</a>
+          <a href="/privacy.html">Gizlilik Politikası</a>
+          <a href="/terms.html">Kullanım Koşulları</a>
+          <a href="mailto:contact@elockmangames.com">İletişim</a>
+        </nav>
       </div>
-
-      <div class="footer-bottom">
-        <div>© 2026 Elockman Game Studio. Tüm Hakları Saklıdır.</div>
-        <div>Designed for Google Play & Global Gamers</div>
-      </div>
+      <p class="footer-note">Elockman Game Studio, Erdem Lokman tarafından yönetilen bağımsız bir mobil oyun geliştirme stüdyosudur.</p>
     </div>
   </footer>
 
-  <!-- Pure Standalone Client Script (100% CSP 'self') -->
-  <script src="app.js"></script>
+  <script>
+    // Smoothly close mobile menu when a navigation item is tapped
+    document.querySelectorAll('.mobile-menu__links a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        var menu = document.querySelector('.mobile-menu');
+        if (menu && menu.open) {
+          menu.removeAttribute('open');
+        }
+      });
+    });
+  </script>
 </body>
 </html>

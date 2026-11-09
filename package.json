@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Elockman Game Studio Official Web Portal",
   "scripts": {
-    "build": "echo 'Static portal ready in public/'"
+    "build": "echo 'Static portal ready in public/'",
+    "test": "node test_verification.js"
   }
 }

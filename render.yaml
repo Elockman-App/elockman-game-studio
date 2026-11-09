@@ -30,4 +30,10 @@ services:
         value: camera=(), microphone=(), geolocation=(), payment=(), usb=()
       - path: /*
         name: Cache-Control
+        value: "no-cache, no-store, must-revalidate"
+      - path: /*
+        name: Pragma
         value: no-cache
+      - path: /*
+        name: Expires
+        value: "0"
