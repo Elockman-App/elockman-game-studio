@@ -55,6 +55,15 @@ if (!jsonLdMatch) {
   }
 }
 
+// Check for forbidden inline executable script (CSP strict compliance)
+const rawScripts = indexHtml.match(/<script\b[^>]*>([\s\S]*?)<\/script>/gi) || [];
+for (const s of rawScripts) {
+  if (s.includes('application/ld+json')) continue;
+  if (!s.includes('src=')) {
+    errors.push('Found inline executable script violating strict CSP: ' + s.slice(0, 50));
+  }
+}
+
 // Check all referenced assets exist on disk
 const assetMatches = indexHtml.match(/["'](\/?assets\/[^"'#?]+)/g) || [];
 for (const m of assetMatches) {
@@ -86,10 +95,21 @@ if (!renderYaml.includes('no-cache, no-store, must-revalidate')) {
   if (c.includes('\u00C3') || c.includes('\u00C5') || c.includes('â€”')) {
     errors.push(f + ' contains mojibake');
   }
-  if (!c.includes('/assets/site.css?v=20261109_v3')) {
+  if (!c.includes('/assets/site.css?v=20261109_v4')) {
     errors.push(f + ' missing cache-busted site.css');
   }
 });
+
+// 5. Check fallback files
+if (!fs.existsSync('public/style.css') || !fs.readFileSync('public/style.css', 'utf8').includes('site.css')) {
+  errors.push('Missing or invalid public/style.css fallback');
+}
+if (!fs.existsSync('public/app.js')) {
+  errors.push('Missing public/app.js fallback');
+}
+if (!fs.existsSync('public/assets/site.js')) {
+  errors.push('Missing public/assets/site.js');
+}
 
 if (errors.length > 0) {
   console.error('TEST FAILURES:');
