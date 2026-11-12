@@ -35,6 +35,24 @@ for (const g of requiredGames) {
   }
 }
 
+// Security & Architectural Hygiene: Raw PaaS onrender.com URLs must NEVER be exposed in public HTML
+if (indexHtml.includes('onrender.com')) {
+  errors.push('public/index.html exposes raw onrender.com infrastructure URLs! Use first-party /play/* routes.');
+}
+
+const requiredPlayRoutes = [
+  '/play/garaj-efsanesi',
+  '/play/kulup-efsanesi',
+  '/play/orbit-escape',
+  '/play/ring-tycoon',
+  '/play/hipodrom-ahiri'
+];
+for (const route of requiredPlayRoutes) {
+  if (!indexHtml.includes(route)) {
+    errors.push('Missing first-party play route in index.html: ' + route);
+  }
+}
+
 // Badge check
 if (!indexHtml.includes('Bağımsız Mobil Oyun Stüdyosu')) {
   errors.push('Missing badge: Bağımsız Mobil Oyun Stüdyosu');
@@ -87,6 +105,11 @@ if (!siteCss.includes('studio-hero.jpg')) {
 const renderYaml = fs.readFileSync('render.yaml', 'utf8');
 if (!renderYaml.includes('no-cache, no-store, must-revalidate')) {
   errors.push('render.yaml missing strong cache-control headers');
+}
+for (const route of requiredPlayRoutes) {
+  if (!renderYaml.includes(route)) {
+    errors.push('render.yaml missing server-side redirect route: ' + route);
+  }
 }
 
 // 4. Check test-hub, privacy, terms

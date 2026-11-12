@@ -9,6 +9,91 @@ services:
     autoDeployTrigger: commit
     domains:
       - elockmangames.com
+    routes:
+      # Game 1: Garaj Efsanesi
+      - type: redirect
+        source: /play/garaj-efsanesi
+        destination: https://garaj-efsanesi.onrender.com/
+      - type: redirect
+        source: /play/garaj-efsanesi/*
+        destination: https://garaj-efsanesi.onrender.com/
+      - type: redirect
+        source: /play/garaj
+        destination: https://garaj-efsanesi.onrender.com/
+      - type: redirect
+        source: /play/garaj/*
+        destination: https://garaj-efsanesi.onrender.com/
+      - type: redirect
+        source: /oyna/garaj
+        destination: https://garaj-efsanesi.onrender.com/
+
+      # Game 2: Kulüp Efsanesi
+      - type: redirect
+        source: /play/kulup-efsanesi
+        destination: https://kulup-efsanesi.onrender.com/
+      - type: redirect
+        source: /play/kulup-efsanesi/*
+        destination: https://kulup-efsanesi.onrender.com/
+      - type: redirect
+        source: /play/kulup
+        destination: https://kulup-efsanesi.onrender.com/
+      - type: redirect
+        source: /play/kulup/*
+        destination: https://kulup-efsanesi.onrender.com/
+      - type: redirect
+        source: /oyna/kulup
+        destination: https://kulup-efsanesi.onrender.com/
+
+      # Game 3: Orbit Escape
+      - type: redirect
+        source: /play/orbit-escape
+        destination: https://orbit-escape-cprs.onrender.com/
+      - type: redirect
+        source: /play/orbit-escape/*
+        destination: https://orbit-escape-cprs.onrender.com/
+      - type: redirect
+        source: /play/orbit
+        destination: https://orbit-escape-cprs.onrender.com/
+      - type: redirect
+        source: /play/orbit/*
+        destination: https://orbit-escape-cprs.onrender.com/
+      - type: redirect
+        source: /oyna/orbit
+        destination: https://orbit-escape-cprs.onrender.com/
+
+      # Game 4: Ring Tycoon
+      - type: redirect
+        source: /play/ring-tycoon
+        destination: https://ring-tycoon.onrender.com/
+      - type: redirect
+        source: /play/ring-tycoon/*
+        destination: https://ring-tycoon.onrender.com/
+      - type: redirect
+        source: /play/ring
+        destination: https://ring-tycoon.onrender.com/
+      - type: redirect
+        source: /play/ring/*
+        destination: https://ring-tycoon.onrender.com/
+      - type: redirect
+        source: /oyna/ring
+        destination: https://ring-tycoon.onrender.com/
+
+      # Game 5: Hipodrom Ahırı
+      - type: redirect
+        source: /play/hipodrom-ahiri
+        destination: https://hipodrom-ahiri.onrender.com/
+      - type: redirect
+        source: /play/hipodrom-ahiri/*
+        destination: https://hipodrom-ahiri.onrender.com/
+      - type: redirect
+        source: /play/hipodrom
+        destination: https://hipodrom-ahiri.onrender.com/
+      - type: redirect
+        source: /play/hipodrom/*
+        destination: https://hipodrom-ahiri.onrender.com/
+      - type: redirect
+        source: /oyna/hipodrom
+        destination: https://hipodrom-ahiri.onrender.com/
     headers:
       - path: /*
         name: Strict-Transport-Security

@@ -14,4 +14,12 @@ document.addEventListener('DOMContentLoaded', function() {
       mobileMenu.removeAttribute('open');
     }
   });
+
+  // Protect game banners, logos, and hero media from right-click context scraping
+  var protectedMedia = document.querySelectorAll('.game-cover, .hero, .site-header img, .footer-brand img');
+  protectedMedia.forEach(function(el) {
+    el.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+    });
+  });
 });
