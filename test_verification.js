@@ -137,6 +137,75 @@ if (!fs.existsSync('public/assets/site.js')) {
   errors.push('Missing public/assets/site.js');
 }
 
+// 6. Faz 4: CEO Mobil PWA Paneli checks
+const requiredPwaFiles = [
+  'public/ceo-panel.html',
+  'public/manifest.json',
+  'public/sw.js',
+  'public/assets/ceo-panel.css',
+  'public/assets/ceo-panel.js',
+  'public/assets/ceo-snapshot.json',
+  'public/assets/emulator-latest.png',
+  'server-ceo.mjs'
+];
+for (const pwaFile of requiredPwaFiles) {
+  if (!fs.existsSync(pwaFile)) {
+    errors.push('Missing Faz 4 PWA file: ' + pwaFile);
+  }
+}
+
+if (fs.existsSync('public/ceo-panel.html')) {
+  const ceoHtml = fs.readFileSync('public/ceo-panel.html', 'utf8');
+  if (ceoHtml.includes('\u00C3') || ceoHtml.includes('\u00C5') || ceoHtml.includes('\u00C4') || ceoHtml.includes('â€”')) {
+    errors.push('public/ceo-panel.html contains mojibake characters');
+  }
+  if (!ceoHtml.includes('<link rel="manifest" href="/manifest.json">')) {
+    errors.push('public/ceo-panel.html missing manifest link');
+  }
+  if (!ceoHtml.includes('/assets/ceo-panel.css') || !ceoHtml.includes('/assets/ceo-panel.js')) {
+    errors.push('public/ceo-panel.html missing external css/js references');
+  }
+  const ceoScripts = ceoHtml.match(/<script\b[^>]*>([\s\S]*?)<\/script>/gi) || [];
+  for (const s of ceoScripts) {
+    if (!s.includes('src=')) {
+      errors.push('public/ceo-panel.html contains inline executable script violating strict CSP');
+    }
+  }
+  if (/\son[a-z]+\s*=/i.test(ceoHtml)) {
+    errors.push('public/ceo-panel.html contains inline event handler attribute');
+  }
+  for (const btnId of ['btn-cmd-scan', 'btn-cmd-report', 'btn-cmd-emulator']) {
+    if (!ceoHtml.includes(`id="${btnId}"`)) {
+      errors.push('public/ceo-panel.html missing COO command button: ' + btnId);
+    }
+  }
+}
+
+if (fs.existsSync('public/manifest.json')) {
+  try {
+    const manifest = JSON.parse(fs.readFileSync('public/manifest.json', 'utf8'));
+    if (manifest.start_url !== '/ceo-panel.html' || manifest.display !== 'standalone') {
+      errors.push('public/manifest.json has invalid start_url or display mode');
+    }
+  } catch (e) {
+    errors.push('Invalid JSON in public/manifest.json: ' + e.message);
+  }
+}
+
+if (fs.existsSync('public/assets/ceo-snapshot.json')) {
+  try {
+    const snap = JSON.parse(fs.readFileSync('public/assets/ceo-snapshot.json', 'utf8'));
+    if (!Array.isArray(snap.games) || snap.games.length !== 5) {
+      errors.push('public/assets/ceo-snapshot.json must list all 5 studio games');
+    }
+    if (snap.studio?.googleGroupEmail !== 'elockman-testers@googlegroups.com') {
+      errors.push('public/assets/ceo-snapshot.json missing studio Google Group email');
+    }
+  } catch (e) {
+    errors.push('Invalid JSON in public/assets/ceo-snapshot.json: ' + e.message);
+  }
+}
+
 if (errors.length > 0) {
   console.error('TEST FAILURES:');
   errors.forEach(e => console.error('  - ' + e));

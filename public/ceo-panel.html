@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f59e0b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Elockman CEO">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Elockman CEO Kontrol Merkezi — Mobil PWA</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/webp" href="/assets/logo/logo.webp?v=20261115_v1">
+  <link rel="apple-touch-icon" href="/assets/logo/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/ceo-panel.css?v=20261115_v1">
+  <script src="/assets/ceo-panel.js?v=20261115_v1" defer></script>
+</head>
+<body>
+  <!-- Bölüm 1: PIN Güvenlik Kilidi Ekranı -->
+  <section id="pin-lock-screen" class="pin-overlay" aria-labelledby="pin-title">
+    <div class="pin-card">
+      <div class="pin-brand">
+        <img src="/assets/logo/logo.webp" width="56" height="56" alt="Elockman Game Studio">
+        <div>
+          <span class="eyebrow">ELOCKMAN GAME STUDIO</span>
+          <h1 id="pin-title">CEO Kontrol Merkezi</h1>
+        </div>
+      </div>
+      <p class="pin-subtitle">Devam etmek için 4 haneli stüdyo güvenlik PIN kodunu girin.</p>
+
+      <div id="pin-dots" class="pin-dots" aria-label="PIN giriş göstergesi">
+        <span class="pin-dot" data-slot="0"></span>
+        <span class="pin-dot" data-slot="1"></span>
+        <span class="pin-dot" data-slot="2"></span>
+        <span class="pin-dot" data-slot="3"></span>
+      </div>
+
+      <p id="pin-error" class="pin-error" role="alert" aria-live="polite"></p>
+
+      <div class="numpad" role="group" aria-label="PIN tuş takımı">
+        <button type="button" class="numpad-btn" data-digit="1">1</button>
+        <button type="button" class="numpad-btn" data-digit="2">2</button>
+        <button type="button" class="numpad-btn" data-digit="3">3</button>
+        <button type="button" class="numpad-btn" data-digit="4">4</button>
+        <button type="button" class="numpad-btn" data-digit="5">5</button>
+        <button type="button" class="numpad-btn" data-digit="6">6</button>
+        <button type="button" class="numpad-btn" data-digit="7">7</button>
+        <button type="button" class="numpad-btn" data-digit="8">8</button>
+        <button type="button" class="numpad-btn" data-digit="9">9</button>
+        <button type="button" id="btn-pin-clear" class="numpad-btn numpad-btn--action">Temizle</button>
+        <button type="button" class="numpad-btn" data-digit="0">0</button>
+        <button type="button" id="btn-pin-backspace" class="numpad-btn numpad-btn--action" aria-label="Geri sil">⌫</button>
+      </div>
+
+      <p class="pin-hint">Klavyeden rakam tuşlarıyla da giriş yapabilirsiniz.</p>
+    </div>
+  </section>
+
+  <!-- Ana CEO Kokpit Arayüzü -->
+  <div id="ceo-app" class="ceo-shell is-locked" aria-hidden="true">
+    <!-- Bölüm 2: Üst Durum Çubuğu & PWA Kurulum Butonu -->
+    <header class="ceo-topbar">
+      <div class="topbar-inner">
+        <a class="brand-link" href="/" aria-label="Stüdyo vitrinine dön">
+          <img src="/assets/logo/logo.webp" width="38" height="38" alt="">
+          <div class="brand-text">
+            <strong>ELOCKMAN CEO</strong>
+            <span>Kontrol Merkezi PWA</span>
+          </div>
+        </a>
+
+        <div class="topbar-actions">
+          <span id="connection-badge" class="status-pill status-pill--checking">Bağlantı kontrol ediliyor</span>
+          <button type="button" id="btn-install-pwa" class="btn btn--gold btn--sm">📲 Ana Ekrana Ekle</button>
+          <button type="button" id="btn-open-pin-modal" class="btn btn--ghost btn--sm" aria-label="Ayarlar ve PIN">⚙️ Ayarlar</button>
+          <button type="button" id="btn-lock-panel" class="btn btn--ghost btn--sm">🔒 Kilitle</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="ceo-main">
+      <!-- Canlı Senkron Özeti -->
+      <section class="sync-banner" aria-label="Panel senkron bilgisi">
+        <div>
+          <span class="eyebrow">Canlı Operasyon Özeti</span>
+          <p id="sync-meta-text" class="sync-meta">Veriler yükleniyor...</p>
+        </div>
+        <button type="button" id="btn-refresh-status" class="btn btn--quiet btn--sm">↻ Verileri Güncelle</button>
+      </section>
+
+      <!-- Bölüm 3: Canlı KPI Kartları (Live KPI Cards) -->
+      <section id="kpi-section" class="kpi-grid" aria-label="Canlı KPI göstergeleri">
+        <!-- 14 Günlük Kapalı Test Geri Sayımı -->
+        <article id="kpi-countdown" class="card card--accent">
+          <div class="card-head">
+            <div>
+              <span class="eyebrow">14 Günlük Google Play Sayacı</span>
+              <h2>Hipodrom Ahırı Üretim Eşiğinde</h2>
+            </div>
+            <span id="hipodrom-days-badge" class="metric-badge">10 / 14 Gün</span>
+          </div>
+          <div class="progress-track" aria-hidden="true">
+            <div id="hipodrom-progress-fill" class="progress-fill progress-fill--gold"></div>
+          </div>
+          <div class="kpi-stats-row">
+            <div class="mini-stat">
+              <span class="mini-stat__label">Kalan Süre</span>
+              <strong id="hipodrom-remaining-days" class="mini-stat__val">4 Gün</strong>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-stat__label">İlerleme</span>
+              <strong id="hipodrom-percent" class="mini-stat__val">%71</strong>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-stat__label">Filo Durumu</span>
+              <strong id="fleet-admob-count" class="mini-stat__val">5/5 AdMob + API 36</strong>
+            </div>
+          </div>
+        </article>
+
+        <!-- Testçi Havuzu -->
+        <article id="kpi-testers" class="card">
+          <div class="card-head">
+            <div>
+              <span class="eyebrow">Ortak Stüdyo Testçi Ağı</span>
+              <h2>elockman-testers@googlegroups.com</h2>
+            </div>
+            <span id="tester-count-badge" class="metric-badge metric-badge--emerald">4 / 15</span>
+          </div>
+          <div class="progress-track" aria-hidden="true">
+            <div id="tester-progress-fill" class="progress-fill progress-fill--emerald"></div>
+          </div>
+          <div class="kpi-stats-row">
+            <div class="mini-stat">
+              <span class="mini-stat__label">Google Zorunlu Min.</span>
+              <strong id="tester-min-val" class="mini-stat__val">12 Testçi</strong>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-stat__label">Güvenlikli Hedef</span>
+              <strong id="tester-target-val" class="mini-stat__val">15 Testçi</strong>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-stat__label">Reddit Teklif / Katılım</span>
+              <strong id="tester-deals-val" class="mini-stat__val">277 / 6</strong>
+            </div>
+          </div>
+          <div class="sub-block">
+            <span class="sub-block__label">Emülatörde Kurulu Partner Uygulamaları</span>
+            <div id="partner-apps-list" class="chip-list"></div>
+          </div>
+          <div class="sub-block">
+            <span class="sub-block__label">Aktif Grup Üyeleri</span>
+            <div id="roster-list" class="chip-list"></div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Bölüm 4: Tek Dokunuşla COO Komut Butonları -->
+      <section id="coo-commands" class="card command-center" aria-labelledby="coo-cmd-title">
+        <div class="card-head">
+          <div>
+            <span class="eyebrow">Otonom COO Komut Merkezi</span>
+            <h2 id="coo-cmd-title">Tek Dokunuşla İşlemler</h2>
+          </div>
+          <span id="bridge-mode-note" class="mode-tag">Köprü Durumu Bekleniyor</span>
+        </div>
+
+        <p id="cloud-fallback-hint" class="bridge-notice" hidden>
+          Şu an <strong>Bulut Vitrin Modu</strong> aktif (PC üzerindeki yerel COO köprüsü bağlı değil). Bilgisayarınızdan <code>CEO_PANEL_BASLAT.bat</code> dosyasını çalıştırıp aynı Wi-Fi ağındaki adresi açarak canlı komutları tetikleyebilirsiniz.
+        </p>
+
+        <div class="command-grid">
+          <button type="button" id="btn-cmd-scan" class="cmd-btn cmd-btn--gold">
+            <span class="cmd-btn__icon">🔍</span>
+            <span class="cmd-btn__body">
+              <strong>Testçileri Tara ve Eşitle</strong>
+              <small>Google Group üyelerini &amp; Reddit havuzunu senkronize et</small>
+            </span>
+          </button>
+
+          <button type="button" id="btn-cmd-report" class="cmd-btn cmd-btn--blue">
+            <span class="cmd-btn__icon">📧</span>
+            <span class="cmd-btn__body">
+              <strong>Günlük Rapor Gönder</strong>
+              <small>send_daily_report.ps1 ile güncel yönetici raporunu üret</small>
+            </span>
+          </button>
+
+          <button type="button" id="btn-cmd-emulator" class="cmd-btn cmd-btn--emerald">
+            <span class="cmd-btn__icon">📱</span>
+            <span class="cmd-btn__body">
+              <strong>Emülatörü Kontrol Et</strong>
+              <small>ADB üzerinden canlı ekran görüntüsü yakala ve yansıt</small>
+            </span>
+          </button>
+        </div>
+
+        <div class="ops-split">
+          <!-- Emülatör Önizleme Kartı -->
+          <div id="emulator-preview-card" class="ops-box">
+            <div class="ops-box__head">
+              <h3>Android Emülatör Ekranı</h3>
+              <span id="emulator-device-badge" class="status-chip">emulator-5554</span>
+            </div>
+            <button type="button" id="btn-zoom-emulator" class="emulator-frame" aria-label="Emülatör görüntüsünü büyüt">
+              <img id="emulator-preview-img" src="/assets/emulator-latest.png" alt="Android emülatör son ekran görüntüsü">
+            </button>
+            <p id="emulator-captured-at" class="ops-caption">Son yakalama yükleniyor...</p>
+          </div>
+
+          <!-- Canlı COO Konsol Çıktısı -->
+          <div class="ops-box">
+            <div class="ops-box__head">
+              <h3>COO Komut Günlüğü</h3>
+              <button type="button" id="btn-clear-log" class="btn btn--ghost btn--xs">Temizle</button>
+            </div>
+            <pre id="coo-console-output" class="coo-console" aria-live="polite">[COO] Kontrol merkezi hazır. Komut bekleniyor...</pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5 Oyunun Canlı Web & Mağaza Durumu -->
+      <section class="card" aria-labelledby="games-status-title">
+        <div class="card-head">
+          <div>
+            <span class="eyebrow">Canlı Web Ping &amp; Mağaza Filosu</span>
+            <h2 id="games-status-title">5 Stüdyo Oyununun Anlık Durumu</h2>
+          </div>
+          <button type="button" id="btn-ping-all" class="btn btn--quiet btn--sm">⚡ Tümünü Ping'le</button>
+        </div>
+        <div id="games-list" class="games-grid"></div>
+      </section>
+    </main>
+
+    <!-- Alt Mobil Gezinti (Tek Başparmak Ergonomisi) -->
+    <nav class="mobile-dock" aria-label="Hızlı panel gezintisi">
+      <a href="#kpi-section">📊 KPI</a>
+      <a href="#coo-commands">🎛️ Komutlar</a>
+      <a href="#games-status-title">🎮 5 Oyun</a>
+      <a href="/test-hub.html">🧪 Test Hub</a>
+    </nav>
+  </div>
+
+  <!-- Ayarlar & PIN Değiştirme Modalı -->
+  <dialog id="pin-modal" class="ceo-modal" aria-labelledby="pin-modal-title">
+    <form id="settings-form" class="modal-card" method="dialog">
+      <div class="modal-head">
+        <h2 id="pin-modal-title">CEO Güvenlik ve Köprü Ayarları</h2>
+        <button type="button" id="btn-close-pin-modal" class="btn btn--ghost btn--xs" aria-label="Kapat">✕</button>
+      </div>
+
+      <div class="form-group">
+        <label for="bridge-url-input">Yerel COO Köprü Adresi (İsteğe Bağlı)</label>
+        <input id="bridge-url-input" type="url" placeholder="http://192.168.1.x:19888" autocomplete="off">
+        <small>Bulut sitesinden telefonla erişirken yerel tünel veya LAN adresini tanımlayın. Boş bırakılırsa mevcut adres kullanılır.</small>
+      </div>
+
+      <hr class="modal-sep">
+
+      <div class="form-group">
+        <label for="current-pin-input">Mevcut 4 Haneli PIN</label>
+        <input id="current-pin-input" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="••••">
+      </div>
+      <div class="form-group">
+        <label for="new-pin-input">Yeni 4 Haneli PIN</label>
+        <input id="new-pin-input" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="••••">
+      </div>
+      <div class="form-group">
+        <label for="confirm-pin-input">Yeni PIN (Tekrar)</label>
+        <input id="confirm-pin-input" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="••••">
+      </div>
+
+      <p id="modal-feedback" class="modal-feedback" role="status" aria-live="polite"></p>
+
+      <div class="modal-actions">
+        <button type="button" id="btn-save-bridge" class="btn btn--quiet">Köprüyü Kaydet</button>
+        <button type="button" id="btn-save-pin" class="btn btn--gold">PIN'i Güncelle</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Emülatör Tam Ekran Önizleme Modalı -->
+  <dialog id="emulator-lightbox" class="ceo-modal ceo-modal--media" aria-label="Emülatör tam ekran önizleme">
+    <div class="lightbox-card">
+      <button type="button" id="btn-close-lightbox" class="btn btn--gold btn--sm lightbox-close">✕ Kapat</button>
+      <img id="emulator-lightbox-img" src="/assets/emulator-latest.png" alt="Android emülatör büyütülmüş görünüm">
+    </div>
+  </dialog>
+</body>
+</html>

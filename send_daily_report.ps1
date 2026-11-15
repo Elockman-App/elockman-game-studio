@@ -16,7 +16,7 @@ Write-Host "==========================================================" -Foregro
 
 # 1. En guncel raporu bul
 if (-not $ReportPath -or -not (Test-Path $ReportPath)) {
-    $latestReport = Get-ChildItem -Path "c:\Projeler\elockman-game-studio\RAPORLAR" -Filter "*.md" | 
+    $latestReport = Get-ChildItem -Path "c:\Projeler\studio\elockman-game-studio\RAPORLAR" -Filter "*.md" | 
                     Sort-Object LastWriteTime -Descending | 
                     Select-Object -First 1
     if ($latestReport) {
@@ -33,12 +33,13 @@ $reportTitle = (Get-Item $ReportPath).BaseName
 $reportContent = Get-Content -Path $ReportPath -Raw -Encoding UTF8
 $dateStr = (Get-Date).ToString("yyyy-MM-dd HH:mm")
 
+Write-Host "Rapor Basligi: $reportTitle" -ForegroundColor Green
 Write-Host "Rapor Dosyasi: $ReportPath" -ForegroundColor Green
 Write-Host "Hedef Alici  : $Recipient" -ForegroundColor Green
 Write-Host "Tarih/Saat   : $dateStr" -ForegroundColor Green
 
 # 2. E-posta Yapilandirma Kontrolu
-$configPath = "c:\Projeler\elockman-game-studio\email_config.json"
+$configPath = "c:\Projeler\studio\elockman-game-studio\email_config.json"
 $emailSent = $false
 
 if (Test-Path $configPath) {
@@ -52,7 +53,7 @@ if (Test-Path $configPath) {
             $mailParams = @{
                 From       = $config.from_address
                 To         = $Recipient
-                Subject    = "[$dateStr] Elockman Game Studio - Gun Sonu Yonetici Raporu"
+                Subject    = "[$dateStr] Elockman Game Studio - Gun Sonu Yonetici Raporu ($reportTitle)"
                 Body       = $reportContent
                 SmtpServer = $config.smtp_server
                 Port       = [int]$config.port
@@ -72,7 +73,7 @@ if (Test-Path $configPath) {
 
 if (-not $emailSent) {
     Write-Host "SMTP yapilandirmasi henuz girilmedigi icin yerel Outbox kuyruguna yaziliyor..." -ForegroundColor Yellow
-    $outboxDir = "c:\Projeler\elockman-game-studio\RAPORLAR\OUTBOX"
+    $outboxDir = "c:\Projeler\studio\elockman-game-studio\RAPORLAR\OUTBOX"
     if (-not (Test-Path $outboxDir)) { 
         New-Item -ItemType Directory -Path $outboxDir -Force | Out-Null 
     }
@@ -80,7 +81,7 @@ if (-not $emailSent) {
     $outboxTimestamp = (Get-Date).ToString('yyyyMMdd_HHmmss')
     $outboxFile = Join-Path $outboxDir "${outboxTimestamp}_to_report.txt"
     
-    $mailHeader = "TO: " + $Recipient + "`r`nFROM: coo@elockman-studio.internal`r`nSUBJECT: [" + $dateStr + "] Elockman Game Studio - Gun Sonu Yonetici Raporu`r`nDATE: " + $dateStr + "`r`n`r`n"
+    $mailHeader = "TO: " + $Recipient + "`r`nFROM: coo@elockman-studio.internal`r`nSUBJECT: [" + $dateStr + "] Elockman Game Studio - Gun Sonu Yonetici Raporu (" + $reportTitle + ")`r`nDATE: " + $dateStr + "`r`n`r`n"
     $mailPayload = $mailHeader + $reportContent
     
     [System.IO.File]::WriteAllText($outboxFile, $mailPayload, [System.Text.Encoding]::UTF8)

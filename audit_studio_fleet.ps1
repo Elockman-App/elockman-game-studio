@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Elockman Game Studio - Otonom Stüdyo Filosu Sağlık ve Dağıtım Denetimi (Overnight Fleet Audit)
     5 Oyunun tüm SDK 36, imzalama, AAB boyutu, Terser güvenliği ve mağaza varlıklarını denetler.
@@ -16,9 +16,9 @@ $games = @(
         Id = 1
         Name = "Hipodrom Ahırı: At Yarışı"
         Pkg = "com.hipodrom.ahiri"
-        Dir = "C:\Projeler\hipodrom-ahiri"
-        ReleaseDir = "C:\Projeler\PLAY_CONSOLE_YUKLEME_MERKEZI\1_Hipodrom_Ahiri"
-        Keystore = "C:\Users\erdem\Documents\HipodromAnahtar\hipodrom.jks"
+        Dir = "C:\Projeler\games\hipodrom-ahiri"
+        ReleaseDir = "C:\Projeler\archives\PLAY_CONSOLE_YUKLEME_MERKEZI\1_Hipodrom_Ahiri"
+        Keystore = "C:\Projeler\keys\android-release-keys\HipodromAnahtar\hipodrom.jks"
         Alias = "hipodrom"
         Status = "Kapalı Testte (10/14 Gün Tamamlandı • 11 Kasım Üretim Başvurusu)"
     },
@@ -26,9 +26,9 @@ $games = @(
         Id = 2
         Name = "Ring Efsanesi: Boks Menajeri"
         Pkg = "com.elockman.ringtycoon"
-        Dir = "C:\Projeler\ring-tycoon"
-        ReleaseDir = "C:\Projeler\PLAY_CONSOLE_YUKLEME_MERKEZI\2_Ring_Efsanesi"
-        Keystore = "C:\Users\erdem\Documents\RingAnahtar\ring.jks"
+        Dir = "C:\Projeler\games\ring-tycoon"
+        ReleaseDir = "C:\Projeler\archives\PLAY_CONSOLE_YUKLEME_MERKEZI\2_Ring_Efsanesi"
+        Keystore = "C:\Projeler\keys\android-release-keys\RingAnahtar\ring.jks"
         Alias = "ring"
         Status = "Google Play Store'da Canlı Yayında • Test Hub Sunucusu"
     },
@@ -36,9 +36,9 @@ $games = @(
         Id = 3
         Name = "Orbit Escape 3D: Uzaydan Kaçış"
         Pkg = "com.elockman.orbitescape"
-        Dir = "C:\Projeler\Elockman-Orbit-Escape"
-        ReleaseDir = "C:\Projeler\PLAY_CONSOLE_YUKLEME_MERKEZI\3_Orbit_Escape"
-        Keystore = "C:\Users\erdem\Documents\OrbitAnahtar\orbit.jks"
+        Dir = "C:\Projeler\games\orbit-escape"
+        ReleaseDir = "C:\Projeler\archives\PLAY_CONSOLE_YUKLEME_MERKEZI\3_Orbit_Escape"
+        Keystore = "C:\Projeler\keys\android-release-keys\OrbitAnahtar\orbit.jks"
         Alias = "orbit"
         Status = "v1.1.0 3D Doku Güncellemesi İncelemede (Google Play)"
     },
@@ -46,9 +46,9 @@ $games = @(
         Id = 4
         Name = "Kulüp Efsanesi: Futbol Menajeri"
         Pkg = "com.elockman.kulupefsanesi"
-        Dir = "C:\Projeler\kulup-efsanesi"
-        ReleaseDir = "C:\Projeler\PLAY_CONSOLE_YUKLEME_MERKEZI\4_Kulup_Efsanesi"
-        Keystore = "C:\Users\erdem\Documents\KulupAnahtar\kulup.jks"
+        Dir = "C:\Projeler\games\kulup-efsanesi"
+        ReleaseDir = "C:\Projeler\archives\PLAY_CONSOLE_YUKLEME_MERKEZI\4_Kulup_Efsanesi"
+        Keystore = "C:\Projeler\keys\android-release-keys\KulupAnahtar\kulup.jks"
         Alias = "kulup"
         Status = "Google Play İncelemesinde (Kapalı Test v1.0.0)"
     },
@@ -56,9 +56,9 @@ $games = @(
         Id = 5
         Name = "Garaj Efsanesi: Sokak Yarışı"
         Pkg = "com.elockman.garajefsanesi"
-        Dir = "C:\Projeler\garaj-efsanesi"
-        ReleaseDir = "C:\Projeler\PLAY_CONSOLE_YUKLEME_MERKEZI\5_Garaj_Efsanesi"
-        Keystore = "C:\Users\erdem\Documents\GarajAnahtar\garaj.jks"
+        Dir = "C:\Projeler\games\garaj-efsanesi"
+        ReleaseDir = "C:\Projeler\archives\PLAY_CONSOLE_YUKLEME_MERKEZI\5_Garaj_Efsanesi"
+        Keystore = "C:\Projeler\keys\android-release-keys\GarajAnahtar\garaj.jks"
         Alias = "garaj"
         Status = "Play Console'da Oluşturuldu • AAB, ASO & Şükrü Usta Paketi Hazır"
     }

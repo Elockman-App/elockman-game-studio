@@ -1,0 +1,121 @@
+{
+  "generatedAt": "2026-11-15T09:37:49.404Z",
+  "mode": "cloud-snapshot",
+  "studio": {
+    "name": "Elockman Game Studio",
+    "devId": "6034929488947548242",
+    "googleGroupEmail": "elockman-testers@googlegroups.com",
+    "googleGroupUrl": "https://groups.google.com/g/elockman-testers",
+    "minimumTestersRequired": 12,
+    "targetTesterCount": 15,
+    "requiredDays": 14
+  },
+  "testers": {
+    "memberCount": 4,
+    "members": [
+      "e***@gmail.com (Kurucu)",
+      "r***@gmail.com",
+      "l***@gmail.com",
+      "b***@gmail.com"
+    ],
+    "externalEmailsCount": 1,
+    "totalDeals": 277,
+    "optedInDeals": 6,
+    "reciprocalOfferedDeals": 194,
+    "installedPartnerApps": [
+      {
+        "name": "Private Space",
+        "packageId": "com.privatespace.app",
+        "status": "Emülatörde Kurulu"
+      },
+      {
+        "name": "Doc Gen",
+        "packageId": "com.leondigital.docgen",
+        "status": "Emülatörde Kurulu"
+      }
+    ],
+    "updatedAt": "2026-11-15T09:33:40.055Z"
+  },
+  "games": [
+    {
+      "id": "hipodrom-ahiri",
+      "name": "Hipodrom Ahırı: At Yarışı",
+      "packageId": "com.hipodrom.ahiri",
+      "webUrl": "https://hipodrom-ahiri.onrender.com/",
+      "webOptInUrl": "https://play.google.com/apps/testing/com.hipodrom.ahiri",
+      "aabFile": "HipodromAhiri-v1.7-vc5-signed.aab",
+      "aabSizeMb": 21.79,
+      "continuousDays": 10,
+      "requiredDays": 14,
+      "admob": "Hibrit (Banner + Geçiş + Ödüllü)",
+      "phaseStatus": "Kapalı Testte (10/14 Gün)"
+    },
+    {
+      "id": "ring-tycoon",
+      "name": "Ring Tycoon: Boks Menajeri",
+      "packageId": "com.elockman.ringtycoon",
+      "webUrl": "https://ring-tycoon.onrender.com/",
+      "webOptInUrl": "https://play.google.com/apps/testing/com.elockman.ringtycoon",
+      "aabFile": "RingTycoon-v1.0.2-API36-signed.aab",
+      "aabSizeMb": 28.55,
+      "continuousDays": 0,
+      "requiredDays": 14,
+      "admob": "Hibrit (Banner + Geçiş + Ödüllü)",
+      "phaseStatus": "Google Play'de Yayında & Test Hub"
+    },
+    {
+      "id": "orbit-escape",
+      "name": "Orbit Escape 3D: Uzaydan Kaçış",
+      "packageId": "com.elockman.orbitescape",
+      "webUrl": "https://orbit-escape-cprs.onrender.com/",
+      "webOptInUrl": "https://play.google.com/apps/testing/com.elockman.orbitescape",
+      "aabFile": "OrbitEscape-v1.1.0-API36-signed.aab",
+      "aabSizeMb": 12.27,
+      "continuousDays": 0,
+      "requiredDays": 14,
+      "admob": "Hibrit (Banner + Geçiş + Ödüllü)",
+      "phaseStatus": "v1.1.0 3D Güncellemesi İncelemede"
+    },
+    {
+      "id": "kulup-efsanesi",
+      "name": "Kulüp Efsanesi: Futbol Menajeri",
+      "packageId": "com.elockman.kulupefsanesi",
+      "webUrl": "https://kulup-efsanesi.onrender.com/",
+      "webOptInUrl": "https://play.google.com/apps/testing/com.elockman.kulupefsanesi",
+      "aabFile": "KulupEfsanesi-v1.0.0-API36-signed.aab",
+      "aabSizeMb": 9.1,
+      "continuousDays": 0,
+      "requiredDays": 14,
+      "admob": "Hibrit (Banner + Geçiş + Ödüllü)",
+      "phaseStatus": "Google Play İncelemesinde (Kapalı Test)"
+    },
+    {
+      "id": "garaj-efsanesi",
+      "name": "Garaj Efsanesi: Sokak Yarışı",
+      "packageId": "com.elockman.garajefsanesi",
+      "webUrl": "https://garaj-efsanesi.onrender.com/",
+      "webOptInUrl": "https://play.google.com/apps/testing/com.elockman.garajefsanesi",
+      "aabFile": "GarajEfsanesi-v1.0.0-API36-signed.aab",
+      "aabSizeMb": 8.81,
+      "continuousDays": 0,
+      "requiredDays": 14,
+      "admob": "Hibrit (Banner + Geçiş + Ödüllü)",
+      "phaseStatus": "Play Console Hazır & AdMob Entegre"
+    }
+  ],
+  "emulator": {
+    "connected": true,
+    "deviceId": "emulator-5554",
+    "screenshotUrl": "/assets/emulator-latest.png",
+    "capturedAt": "2026-11-15T09:29:08.060Z",
+    "partnerPackages": {
+      "com.privatespace.app": true,
+      "com.leondigital.docgen": true
+    }
+  },
+  "reports": {
+    "latestReportFile": "2026-10-29_SABAH_GUNE_BASLANGIC_RAPORU.md",
+    "outboxCount": 3,
+    "latestOutboxFile": "20261115_122907_to_report.txt"
+  }
+}

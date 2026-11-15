@@ -1,0 +1,32 @@
+{
+  "name": "Elockman Game Studio — CEO Kontrol Merkezi",
+  "short_name": "Elockman CEO",
+  "description": "Elockman Game Studio mobil PWA CEO kokpiti: 14 günlük kapalı test sayacı, testçi havuzu, 5 oyunun canlı durumları ve tek dokunuşla COO komutları.",
+  "start_url": "/ceo-panel.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#080b12",
+  "theme_color": "#f59e0b",
+  "lang": "tr",
+  "icons": [
+    {
+      "src": "/assets/logo/logo.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/logo/logo.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/logo/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
