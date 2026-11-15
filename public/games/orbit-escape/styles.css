@@ -58,6 +58,11 @@ button { border: 0; }
 .station-sign small { color: #a0b0cb; font-size: 7px; letter-spacing: .15em; font-weight: 700; }
 .toast { position: absolute; z-index: 12; top: 24%; left: 50%; transform: translate(-50%, -8px); opacity: 0; pointer-events: none; padding: 9px 15px; border: 1px solid rgba(108,232,237,.28); border-radius: 99px; background: rgba(7,13,28,.87); color: var(--cyan); font-size: 11px; font-weight: 800; letter-spacing: .07em; transition: opacity .2s, transform .2s; white-space: nowrap; backdrop-filter: blur(10px); }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
+.combo-pill { position: absolute; z-index: 5; top: calc(136px + var(--safe-top)); left: 50%; transform: translateX(-50%) scale(1); padding: 5px 14px; border-radius: 99px; border: 1px solid rgba(255,193,93,.52); background: linear-gradient(120deg, rgba(255,174,65,.22), rgba(114,221,255,.16)); color: var(--gold); font-size: 10px; font-weight: 900; letter-spacing: .16em; backdrop-filter: blur(10px); box-shadow: 0 0 22px rgba(255,193,93,.22); pointer-events: none; transition: transform .16s ease-out; }
+.combo-pill b { color: #fff; margin-left: 4px; font-family: 'Impact', 'Arial Narrow', sans-serif; font-size: 13px; }
+.combo-pill.pop { transform: translateX(-50%) scale(1.16); }
+.game.overdrive .vignette { box-shadow: inset 0 0 90px rgba(114,221,255,.22); }
+.game.impact .vignette { background: radial-gradient(ellipse at 50% 48%, rgba(255,48,72,.14) 25%, rgba(255,36,64,.42) 100%); }
 .overlay { position: absolute; z-index: 6; inset: 0; display: flex; align-items: center; justify-content: center; padding: calc(74px + var(--safe-top)) 22px calc(84px + var(--safe-bottom)); background: linear-gradient(90deg, rgba(5,7,19,.72), rgba(5,7,19,.18) 63%, rgba(5,7,19,.26)); }
 .hidden { display: none !important; }
 .hero-copy { position: relative; width: min(420px, 100%); margin-right: min(31vw, 360px); transform: translateY(-3px); }
