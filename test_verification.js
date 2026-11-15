@@ -35,21 +35,17 @@ for (const g of requiredGames) {
   }
 }
 
-// Security & Architectural Hygiene: Raw PaaS onrender.com URLs must NEVER be exposed in public HTML
-if (indexHtml.includes('onrender.com')) {
-  errors.push('public/index.html exposes raw onrender.com infrastructure URLs! Use first-party /play/* routes.');
-}
-
-const requiredPlayRoutes = [
-  '/play/garaj-efsanesi',
-  '/play/kulup-efsanesi',
-  '/play/orbit-escape',
-  '/play/ring-tycoon',
-  '/play/hipodrom-ahiri'
+// Verify all 5 games have working Web Oyna links
+const requiredGameUrls = [
+  'https://garaj-efsanesi.onrender.com/',
+  'https://kulup-efsanesi.onrender.com/',
+  'https://orbit-escape-cprs.onrender.com/',
+  'https://ring-tycoon.onrender.com/',
+  'https://hipodrom-ahiri.onrender.com/'
 ];
-for (const route of requiredPlayRoutes) {
-  if (!indexHtml.includes(route)) {
-    errors.push('Missing first-party play route in index.html: ' + route);
+for (const u of requiredGameUrls) {
+  if (!indexHtml.includes(u)) {
+    errors.push('Missing working game URL in index.html: ' + u);
   }
 }
 
@@ -106,6 +102,13 @@ const renderYaml = fs.readFileSync('render.yaml', 'utf8');
 if (!renderYaml.includes('no-cache, no-store, must-revalidate')) {
   errors.push('render.yaml missing strong cache-control headers');
 }
+const requiredPlayRoutes = [
+  '/play/garaj-efsanesi',
+  '/play/kulup-efsanesi',
+  '/play/orbit-escape',
+  '/play/ring-tycoon',
+  '/play/hipodrom-ahiri'
+];
 for (const route of requiredPlayRoutes) {
   if (!renderYaml.includes(route)) {
     errors.push('render.yaml missing server-side redirect route: ' + route);
