@@ -1,0 +1,191 @@
+{
+  "id": "/?source=pwa",
+  "name": "Hipodrom Ahırı - At Yarışı & Menajerlik",
+  "short_name": "Hipodrom Ahırı",
+  "description": "Kendi ahırını yönet, şampiyon atlar yetiştir ve efsanevi yarışlarda zafere koş!",
+  "lang": "tr",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "launch_handler": {
+    "client_mode": [
+      "focus-existing",
+      "auto"
+    ]
+  },
+  "handle_links": "preferred",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "window-controls-overlay"
+  ],
+  "orientation": "landscape",
+  "background_color": "#0f1829",
+  "theme_color": "#0f1829",
+  "prefer_related_applications": false,
+  "categories": [
+    "games",
+    "sports",
+    "simulation"
+  ],
+  "icons": [
+    {
+      "src": "img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "img/icon.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "img/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "img/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "img/ss-wide-1.webp",
+      "sizes": "1920x1080",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Yarış öncesi atlar başlangıç kutusuna giriyor"
+    },
+    {
+      "src": "img/ss-wide-2.webp",
+      "sizes": "1920x1080",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Canlı yarış: temponu ve kamçını sen yönet"
+    },
+    {
+      "src": "img/ss-wide-3.webp",
+      "sizes": "1920x1080",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Foto finiş ve yarış sonuçları"
+    },
+    {
+      "src": "img/ss-wide-4.webp",
+      "sizes": "1920x1080",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Ahırını yönet, atlarını çalıştır"
+    },
+    {
+      "src": "img/ss-phone-1.webp",
+      "sizes": "1688x780",
+      "type": "image/webp",
+      "form_factor": "narrow",
+      "label": "Telefonda yatay yarış ekranı"
+    },
+    {
+      "src": "img/ss-phone-2.webp",
+      "sizes": "1688x780",
+      "type": "image/webp",
+      "form_factor": "narrow",
+      "label": "Son düzlükte kıyasıya mücadele"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ahırım",
+      "short_name": "Ahır",
+      "description": "Atlarını incele ve eğit",
+      "url": "./index.html#ahir",
+      "icons": [
+        {
+          "src": "img/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Yarışlar",
+      "short_name": "Yarış",
+      "description": "Günün koşularına katıl",
+      "url": "./index.html#yaris",
+      "icons": [
+        {
+          "src": "img/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Pazar",
+      "short_name": "Pazar",
+      "description": "Yeni at al, at sat",
+      "url": "./index.html#pazar",
+      "icons": [
+        {
+          "src": "img/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.hipodrom.ahiri",
+      "id": "com.hipodrom.ahiri"
+    }
+  ],
+  "edge_side_panel": {
+    "preferred_width": 480
+  },
+  "share_target": {
+    "action": "./index.html",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "file_handlers": [
+    {
+      "action": "./index.html",
+      "accept": {
+        "application/json": [
+          ".hipodrom"
+        ]
+      },
+      "icons": [
+        {
+          "src": "img/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ],
+      "launch_type": "single-client"
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+hipodrom",
+      "url": "./index.html?kayit=%s"
+    }
+  ]
+}

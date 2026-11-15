@@ -1,0 +1,24 @@
+{
+  "name": "Ring Efsanesi - Boks Salonu & Menajerlik",
+  "short_name": "Ring Efsanesi",
+  "description": "Boks salonunu kur, şampiyon dövüşçüler yetiştir, özel şort ve eldivenini tasarla, canlı ring maçlarında taktiğini yönet!",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#0c0a0e",
+  "theme_color": "#140e1a",
+  "icons": [
+    {
+      "src": "img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

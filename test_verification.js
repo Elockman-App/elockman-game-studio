@@ -35,18 +35,26 @@ for (const g of requiredGames) {
   }
 }
 
-// Verify all 5 games have working Web Oyna links
-const requiredGameUrls = [
-  'https://garaj-efsanesi.onrender.com/',
-  'https://kulup-efsanesi.onrender.com/',
-  'https://orbit-escape-cprs.onrender.com/',
-  'https://ring-tycoon.onrender.com/',
-  'https://hipodrom-ahiri.onrender.com/'
+// Verify all 5 games have working Web Oyna links on elockmangames.com (no onrender.com)
+const requiredGameSlugs = [
+  'garaj-efsanesi',
+  'kulup-efsanesi',
+  'orbit-escape',
+  'ring-tycoon',
+  'hipodrom-ahiri'
 ];
-for (const u of requiredGameUrls) {
+for (const slug of requiredGameSlugs) {
+  const u = `https://elockmangames.com/games/${slug}/`;
   if (!indexHtml.includes(u)) {
     errors.push('Missing working game URL in index.html: ' + u);
   }
+  const gameIndexPath = path.join('public', 'games', slug, 'index.html');
+  if (!fs.existsSync(gameIndexPath)) {
+    errors.push('Missing self-hosted game build: ' + gameIndexPath);
+  }
+}
+if (indexHtml.includes('onrender.com')) {
+  errors.push('index.html must not contain onrender.com URLs');
 }
 
 // Badge check

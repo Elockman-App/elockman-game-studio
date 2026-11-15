@@ -1,0 +1,11 @@
+{
+  "name": "Garaj Efsanesi: Modifiye & Sokak Yarisi",
+  "short_name": "Garaj Efsanesi",
+  "description": "Elockman Game Studio sunar: Hurdaliktan al, sanayide modifiye et, 400 metre gece drag yarislariyla sokaklarin krali ol!",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#090b10",
+  "theme_color": "#090b10",
+  "orientation": "landscape"
+}
+

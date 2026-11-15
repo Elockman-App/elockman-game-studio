@@ -1,0 +1,24 @@
+{
+  "name": "Kulüp Efsanesi: Futbol Başkan & Taktik Menajeri",
+  "short_name": "Kulüp Efsanesi",
+  "description": "Soyunma odasında taktiği kur, transferleri yönet, kritik dakikada frikiği köşeye gönder ve kulübünü şampiyonluğa taşı!",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#06110b",
+  "theme_color": "#10b981",
+  "lang": "tr",
+  "icons": [
+    {
+      "src": "img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+

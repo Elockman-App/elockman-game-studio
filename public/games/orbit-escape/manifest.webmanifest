@@ -1,0 +1,16 @@
+{
+  "id": "./",
+  "name": "Orbit Escape",
+  "short_name": "Orbit Escape",
+  "lang": "tr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#080914",
+  "theme_color": "#080914",
+  "description": "Elockman Game Studio imzalı, tek parmakla oynanan kısa bir 3B uzay kaçışı.",
+  "icons": [
+    { "src": "assets/elockman-studio.webp", "sizes": "any", "type": "image/webp", "purpose": "any maskable" }
+  ]
+}

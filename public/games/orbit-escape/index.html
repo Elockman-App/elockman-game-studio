@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080914">
+  <meta name="description" content="Elockman Game Studio sunar: 45 saniyelik, tek parmakla oynanan bir uzay kaçışı.">
+  <title>Orbit Escape</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="studio" class="studio" role="presentation">
+    <video id="studio-video" src="assets/elockman_intro.mp4" autoplay muted playsinline webkit-playsinline preload="auto" disablepictureinpicture disableremoteplayback></video>
+    <div class="studio-fallback">
+      <img src="assets/studio_logo.webp" alt="Elockman Game Studio" class="studio-logo">
+      <div class="studio-text">ELOCKMAN GAME STUDIO</div>
+    </div>
+  </div>
+  <main class="game" id="game">
+    <canvas id="scene" aria-label="Elockman uzay rotasında 3B uçuş alanı"></canvas>
+    <div class="vignette"></div>
+    <div class="scanline"></div>
+
+    <header class="topbar">
+      <a class="brand" href="https://elockmangames.com" aria-label="Elockman Game Studio Ana Sayfası" title="Elockman Game Studio Ana Sayfasına Dön">
+        <img class="brand-logo" src="assets/elockman-studio.webp" alt="">
+        <span class="brand-name">ELOCKMAN<span>GAME STUDIO</span></span>
+      </a>
+      <div class="run-pill"><i></i> ORBITAL FLIGHT <span id="dateLabel">SEKTÖR 01</span></div>
+      <button class="icon-button sound-toggle" id="soundButton" aria-label="Sesi aç veya kapat" title="Ses">♫</button>
+    </header>
+
+    <section class="hud" id="hud" aria-live="polite">
+      <div class="hud-cell">
+        <span class="hud-label">SKOR</span><strong id="score">000000</strong>
+      </div>
+      <div class="hud-cell tickets-cell">
+        <span class="hud-label">ENERJİ ÇEKİRDEĞİ</span><strong><span class="ticket-glyph">✦</span> <b id="tickets">0</b></strong>
+      </div>
+      <div class="hud-cell time-cell">
+        <span class="hud-label">SÜRE</span><strong id="timer">45<span>s</span></strong>
+      </div>
+      <div class="lives" id="lives" aria-label="3 kalkan">
+        <span class="heart on">⬡</span><span class="heart on">⬡</span><span class="heart on">⬡</span>
+      </div>
+    </section>
+
+    <div class="hazard-warning hidden" id="hazardWarning" role="status" aria-live="polite"></div>
+
+    <div class="station-sign" id="stationSign">
+      <span class="sign-line"><i></i> ELOCKMAN FLIGHT OPS <b>SEKTÖR 08</b></span>
+      <strong>ASTEROİT <em>KUŞAĞI</em></strong>
+      <small>KIRMIZI ASTEROİT = ÇARPIŞMA • ALTIN = ENERJİ</small>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <section class="overlay start-screen" id="startScreen">
+      <div class="hero-copy">
+        <div class="eyebrow"><span></span> ELOCKMAN GAME STUDIO SUNAR</div>
+        <h1>ORBIT<br><span>ESCAPE</span></h1>
+        <p>Kızıl asteroitlerden kaç.<br>Altın enerji çekirdeklerini topla.</p>
+        <div class="best-line">EN İYİ UÇUŞ <strong id="bestScore">000000</strong></div>
+        <button class="primary-button" id="startButton">
+          <span>ROTAYA GİR</span><b>↗</b>
+        </button>
+        <div class="control-hint">
+          <span class="swipe-icon"><i>‹</i><i>›</i></span>
+          <span><b>Kaydır veya ok düğmesine dokun</b><small>Asteroit çarpışması 1 kalkan götürür · 3 kalkan biterse uçuş sona erer</small></span>
+        </div>
+      </div>
+      <div class="hero-stamp"><b>45</b><span>SANİYELİK<br>GÖREV</span></div>
+      <div class="bottom-caption"><span>01</span> BİR PARMAK • ÜÇ ROTA • DERİN UZAY</div>
+    </section>
+
+    <section class="overlay pause-screen hidden" id="pauseScreen">
+      <div class="glass-card compact-card">
+        <div class="mini-eyebrow">ELOCKMAN FLIGHT OPS</div>
+        <h2>Uçuşa kısa bir ara.</h2>
+        <p>Yörünge sabit. Hazır olduğunda devam et.</p>
+        <button class="primary-button" id="resumeButton"><span>DEVAM ET</span><b>▶</b></button>
+        <button class="text-button" id="restartButton">UÇUŞU YENİLE</button>
+      </div>
+    </section>
+
+    <section class="overlay result-screen hidden" id="resultScreen">
+      <div class="glass-card result-card">
+        <div class="result-kicker"><span>✦</span> UÇUŞ RAPORU <span>✦</span></div>
+        <h2 id="resultTitle">Sektör güvenle geçildi.</h2>
+        <div class="result-impact" id="lastImpact">TEMİZ UÇUŞ</div>
+        <div class="result-score" id="finalScore">000000</div>
+        <div class="result-stats">
+          <div><span>TOPLANAN ÇEKİRDEK</span><b id="finalTickets">0</b></div>
+          <div><span>EN İYİ SKOR</span><b id="finalBest">000000</b></div>
+        </div>
+        <button class="primary-button hidden" id="reviveAdButton" style="margin-bottom:8px;background:linear-gradient(135deg,#10b981,#059669);"><span>📺 KALKAN YENİLE (+1 HAK)</span><b>🛡️</b></button>
+        <button class="primary-button hidden" id="doubleCoresAdButton" style="margin-bottom:8px;background:linear-gradient(135deg,#f59e0b,#d97706);"><span>📺 2X ENERJİ ÇEKİRDEĞİ</span><b>⚡</b></button>
+        <button class="primary-button" id="againButton"><span>YENİDEN UÇ</span><b>↻</b></button>
+        <button class="text-button" id="homeButton">ANA ÜSSE DÖN</button>
+      </div>
+    </section>
+
+    <div class="bottom-hud" id="bottomHud">
+      <div class="speed-indicator"><span class="pulse"></span><span id="speedText">MOTOR HAZIR</span></div>
+      <button class="lane-button" id="leftButton" aria-label="Sol rotaya geç"><span>‹</span></button>
+      <div class="lane-label"><span>←</span> ROTA <span>→</span></div>
+      <button class="lane-button" id="rightButton" aria-label="Sağ rotaya geç"><span>›</span></button>
+      <button class="pause-button" id="pauseButton" aria-label="Oyunu duraklat">Ⅱ</button>
+    </div>
+
+    <div class="webgl-fallback hidden" id="fallback">
+      <div class="glass-card compact-card">
+        <h2>Bu cihaz 3B görüntüyü başlatamadı.</h2>
+        <p>Tarayıcınızda veya cihazınızda WebGL donanım hızlandırma etkinleştirilmemiş olabilir.</p>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 14px;">
+          <button class="primary-button" id="retryGraphics"><span>YENİDEN DENE</span><b>↻</b></button>
+          <a href="https://elockmangames.com" class="primary-button" style="text-decoration: none; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);"><span>STÜDYOYA DÖN</span><b>←</b></a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="AdMobManager.js"></script>
+  <script src="game.js" defer></script>
+</body>
+</html>

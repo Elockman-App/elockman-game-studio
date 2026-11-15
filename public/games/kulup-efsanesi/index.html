@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#06110b" />
+  <title>Kulüp Efsanesi: Futbol Başkan & Taktik Menajeri</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" href="img/icon-192.png" />
+  <style>
+    :root {
+      --bg: #06110b;
+      --bg2: #0b1e14;
+      --card: rgba(14, 34, 23, 0.94);
+      --border: rgba(52, 211, 153, 0.24);
+      --border-gold: rgba(245, 158, 11, 0.45);
+      --emerald: #10b981;
+      --emerald-bright: #34d399;
+      --gold: #f59e0b;
+      --gold-light: #fde68a;
+      --danger: #ef4444;
+      --cyan: #38bdf8;
+      --text: #f0fdf4;
+      --muted: #86efac;
+      --subtext: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+      background: radial-gradient(circle at 50% 0%, #123824 0%, #06110b 70%);
+      color: var(--text);
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding-bottom: calc(88px + env(safe-area-inset-bottom));
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+      overflow-x: hidden;
+    }
+
+    /* Distinct Keyboard / Gamepad Focus (game-ui-ux) */
+    button:focus-visible, a:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+      outline: 2.5px solid #fbbf24;
+      outline-offset: 2px;
+      box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.28);
+    }
+
+    /* Top Header */
+    .topbar {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(6, 17, 11, 0.95);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: calc(8px + env(safe-area-inset-top)) 10px 8px;
+    }
+    .topbar-inner {
+      max-width: 540px; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .topbar-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      min-width: 0;
+    }
+    .club-brand { display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1; }
+    .club-crest {
+      width: 38px; height: 38px; border-radius: 10px;
+      border: 1.5px solid var(--gold);
+      object-fit: cover; box-shadow: 0 0 14px rgba(245,158,11,0.35);
+      flex-shrink: 0;
+    }
+    .club-title { font-size: 13px; font-weight: 900; letter-spacing: 0.4px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .club-sub { font-size: 10.5px; color: var(--muted); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .hud-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .hud-telemetry {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+    }
+    .pill {
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid var(--border);
+      padding: 5px 8px; border-radius: 999px;
+      font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+      cursor: pointer; transition: transform 0.14s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.15s, background 0.15s;
+      min-height: 28px; white-space: nowrap;
+    }
+    .pill:active { transform: scale(0.94); }
+    .pill.btn-pill { background: rgba(56, 189, 248, 0.16); border-color: rgba(56, 189, 248, 0.5); color: #bae6fd; padding: 4px 7px; font-size: 10.5px; }
+    .pill.guide-pill { background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(16, 185, 129, 0.22)); border-color: var(--gold); color: var(--gold-light); padding: 4px 7px; font-size: 10.5px; }
+    .pill.gold { background: rgba(245, 158, 11, 0.16); border-color: rgba(245, 158, 11, 0.45); color: var(--gold-light); }
+    .pill.cyan { background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.4); color: #bae6fd; }
+    @media (max-width: 390px) {
+      .pill.btn-pill, .pill.guide-pill { padding: 4px 6px; font-size: 10px; }
+      .club-crest { width: 34px; height: 34px; }
+    }
+
+    /* Container & Cards */
+    .container { max-width: 540px; margin: 0 auto; padding: 12px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.42);
+      backdrop-filter: blur(8px);
+    }
+    .card.gold-border { border-color: var(--border-gold); }
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .card-title {
+      font-size: 13.5px; font-weight: 900; text-transform: uppercase;
+      letter-spacing: 0.6px; color: var(--gold-light);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .badge {
+      font-size: 10.5px; font-weight: 800; padding: 3px 8px;
+      border-radius: 99px; background: rgba(16,185,129,0.2);
+      border: 1px solid rgba(52,211,153,0.4); color: var(--emerald-bright);
+    }
+    .badge.gold { background: rgba(245,158,11,0.2); border-color: rgba(245,158,11,0.5); color: var(--gold-light); }
+    .badge.cyan { background: rgba(56,189,248,0.2); border-color: rgba(56,189,248,0.5); color: #bae6fd; }
+    .badge.red { background: rgba(239,68,68,0.2); border-color: rgba(239,68,68,0.5); color: #fca5a5; }
+
+    /* Mentor Banner */
+    .mentor-box {
+      display: flex; align-items: center; gap: 12px;
+      background: linear-gradient(135deg, rgba(16,185,129,0.18), rgba(245,158,11,0.14));
+      border: 1px solid rgba(245,158,11,0.4);
+      border-radius: 14px; padding: 10px 12px; margin-bottom: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    .mentor-avatar {
+      width: 56px; height: 56px; border-radius: 50%;
+      border: 2px solid var(--gold); object-fit: cover; flex-shrink: 0;
+      box-shadow: 0 0 10px rgba(245,158,11,0.3);
+    }
+    .mentor-name { font-size: 11px; font-weight: 900; color: var(--gold); text-transform: uppercase; letter-spacing: 0.5px; }
+    .mentor-quote { font-size: 12.5px; color: #ecfdf5; line-height: 1.35; margin-top: 2px; font-style: italic; }
+
+    /* Buttons */
+    .btn {
+      border: none; cursor: pointer; font-family: inherit;
+      font-weight: 800; border-radius: 11px; padding: 10px 14px;
+      font-size: 12.5px; transition: transform 0.12s, filter 0.15s, background 0.15s;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .btn:active { transform: scale(0.96); }
+    .btn:disabled { opacity: 0.45; filter: grayscale(0.6); cursor: not-allowed; transform: none; }
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #04130c; box-shadow: 0 4px 14px rgba(16,185,129,0.35);
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, #fbbf24, #d97706);
+      color: #1a0f00; box-shadow: 0 4px 16px rgba(245,158,11,0.4);
+    }
+    .btn-cyan {
+      background: linear-gradient(135deg, #38bdf8, #0284c7);
+      color: #04131f; box-shadow: 0 4px 14px rgba(56,189,248,0.35);
+    }
+    .btn-outline {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border); color: var(--text);
+    }
+    .btn-outline.active {
+      background: rgba(16,185,129,0.25);
+      border-color: var(--emerald-bright); color: #fff;
+      box-shadow: 0 0 12px rgba(16,185,129,0.35);
+    }
+    .btn-block { width: 100%; padding: 13px; font-size: 14px; }
+    .btn-sm { padding: 6px 12px; font-size: 11.5px; }
+    .btn.danger { border-color: rgba(239,68,68,0.5); color: #fca5a5; }
+    .btn small { font-size: 10px; opacity: 0.85; font-weight: 700; }
+
+    /* Grid layouts */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+
+    /* Player Cards */
+    .player-card {
+      background: rgba(8, 22, 15, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 13px; padding: 10px;
+      display: flex; align-items: center; gap: 10px;
+      transition: border-color 0.15s;
+    }
+    .player-portrait {
+      width: 58px; height: 58px; border-radius: 12px;
+      object-fit: cover; border: 1.5px solid var(--emerald); flex-shrink: 0;
+    }
+    .player-info { flex: 1; min-width: 0; }
+    .player-top { display: flex; align-items: center; justify-content: space-between; gap: 4px; }
+    .player-name { font-size: 13px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .player-ovr {
+      background: linear-gradient(135deg, #fbbf24, #d97706);
+      color: #1c1000; font-weight: 900; font-size: 11px;
+      padding: 2px 7px; border-radius: 6px;
+    }
+    .player-role { font-size: 11px; color: var(--muted); margin: 2px 0 4px; }
+    .bar-wrap { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 99px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 99px; transition: width 0.25s; }
+    .trait-badge {
+      display: inline-block; font-size: 9.5px; font-weight: 800; padding: 1.5px 6px;
+      border-radius: 5px; background: rgba(245,158,11,0.18); border: 1px solid rgba(245,158,11,0.4);
+      color: var(--gold-light); margin-top: 3px;
+    }
+
+    /* Tactical Pitch SVG */
+    .pitch-wrap {
+      position: relative;
+      border-radius: 14px; overflow: hidden;
+      border: 2px solid rgba(52,211,153,0.45);
+      background: linear-gradient(180deg, #0d4a29 0%, #0a3b21 50%, #0d4a29 100%);
+      margin: 10px 0;
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+    }
+    .pitch-svg { width: 100%; height: auto; display: block; }
+
+    /* Live Match Arena & Canvas */
+    .match-arena {
+      background: #072615; border: 2px solid var(--emerald);
+      border-radius: 14px; padding: 10px; margin-bottom: 10px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+    .scoreboard {
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(0,0,0,0.65); border: 1px solid var(--border);
+      border-radius: 12px; padding: 8px 12px; margin-bottom: 8px;
+    }
+    .score-team { font-size: 12.5px; font-weight: 900; width: 38%; }
+    .score-center {
+      font-size: 20px; font-weight: 900; color: var(--gold-light);
+      background: rgba(245,158,11,0.18); padding: 4px 12px; border-radius: 10px;
+      border: 1px solid rgba(245,158,11,0.4); text-align: center;
+    }
+    #matchCanvas {
+      width: 100%; height: auto; aspect-ratio: 360 / 210; border-radius: 10px;
+      background: #093c1f; display: block; border: 1px solid rgba(255,255,255,0.22);
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.4);
+    }
+
+    /* Live In-Match Stats Panel */
+    .live-stats-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(0,0,0,0.45); border-radius: 8px; padding: 6px 10px;
+      margin-top: 8px; font-size: 11px; border: 1px solid rgba(255,255,255,0.08);
+    }
+    .stat-pill { display: flex; align-items: center; gap: 4px; font-weight: 700; color: #a7f3d0; }
+
+    .commentary-feed {
+      max-height: 135px; overflow-y: auto;
+      background: rgba(0,0,0,0.5); border-radius: 10px; padding: 8px;
+      margin-top: 8px; font-size: 12px; line-height: 1.45;
+      border: 1px solid rgba(255,255,255,0.08);
+      scrollbar-width: thin; scrollbar-color: var(--emerald) transparent;
+    }
+    .comm-line { padding: 3px 0; border-bottom: 1px dashed rgba(255,255,255,0.06); }
+    .comm-line.goal { color: var(--gold-light); font-weight: 800; background: rgba(245,158,11,0.12); border-radius: 4px; padding: 3px 6px; }
+
+    /* Modals */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+      display: none; align-items: center; justify-content: center; padding: 14px;
+    }
+    .modal-backdrop.show { display: flex; }
+    .modal-card {
+      background: linear-gradient(180deg, #0e291d, #06140d);
+      border: 2px solid var(--gold); border-radius: 18px;
+      max-width: 460px; width: 100%; padding: 16px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.85);
+      max-height: 90vh; overflow-y: auto;
+      scrollbar-width: thin; scrollbar-color: var(--gold) transparent;
+    }
+    .modal-close-btn {
+      background: rgba(255,255,255,0.1); border: 1px solid var(--border);
+      color: #fff; width: 28px; height: 28px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 900;
+    }
+
+    /* Standings Table */
+    .table-container { width: 100%; overflow-x: auto; margin-top: 6px; }
+    .standings-table { width: 100%; border-collapse: collapse; font-size: 11.5px; text-align: center; }
+    .standings-table th { background: rgba(0,0,0,0.4); padding: 7px 4px; color: var(--gold-light); font-weight: 800; border-bottom: 1px solid var(--border); }
+    .standings-table td { padding: 6px 4px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .standings-table tr.user-row { background: rgba(16,185,129,0.22); font-weight: 800; border: 1px solid var(--emerald); }
+    .standings-table tr.top-row td:first-child { color: var(--gold); font-weight: 900; }
+    .team-cell { text-align: left; display: flex; align-items: center; gap: 6px; }
+
+    /* Interactive Guide Tabs */
+    .guide-tabs { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 10px; scrollbar-width: none; }
+    .guide-tab-btn {
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+      color: var(--muted); padding: 6px 11px; border-radius: 99px;
+      font-size: 11px; font-weight: 800; white-space: nowrap; cursor: pointer;
+    }
+    .guide-tab-btn.active {
+      background: rgba(245,158,11,0.22); border-color: var(--gold);
+      color: var(--gold-light); box-shadow: 0 0 10px rgba(245,158,11,0.3);
+    }
+    .guide-card {
+      background: rgba(0,0,0,0.35); border-radius: 12px; padding: 12px;
+      border: 1px solid rgba(255,255,255,0.08); margin-bottom: 10px;
+    }
+    .guide-card h4 { font-size: 13px; color: var(--gold-light); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+    .guide-card p, .guide-card li { font-size: 12px; color: #d1fae5; line-height: 1.45; }
+    .guide-card ul { padding-left: 18px; margin-top: 4px; }
+    .guide-card li { margin-bottom: 4px; }
+
+    /* Toast */
+    #toast {
+      position: fixed; top: 68px; left: 50%; transform: translateX(-50%);
+      background: rgba(6, 20, 13, 0.96); border: 1.5px solid var(--gold);
+      color: var(--gold-light); padding: 9px 18px; border-radius: 99px;
+      font-size: 12.5px; font-weight: 800; z-index: 120;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.6);
+      opacity: 0; pointer-events: none; transition: opacity 0.22s;
+      white-space: nowrap; max-width: 90vw; overflow: hidden; text-overflow: ellipsis;
+    }
+    #toast.show { opacity: 1; }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+      background: rgba(5, 14, 9, 0.96);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid var(--border);
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      max-width: 540px; margin: 0 auto;
+      padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+    }
+    .nav-btn {
+      background: none; border: none; color: #6ee7b7;
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      font-size: 10.5px; font-weight: 700; padding: 6px 2px; border-radius: 10px;
+      cursor: pointer; opacity: 0.68; transition: 0.15s;
+    }
+    .nav-btn.active {
+      opacity: 1; color: var(--gold-light);
+      background: rgba(16, 185, 129, 0.18);
+    }
+    .nav-icon { font-size: 18px; line-height: 1; }
+
+    /* Generic Utility Classes */
+    .stack { display: flex; flex-direction: column; gap: 8px; }
+    .stat-row { display: flex; justify-content: space-between; font-size: 10.5px; color: #a7f3d0; margin-bottom: 3px; }
+    .muted-desc { font-size: 11.5px; color: #cbd5e1; margin-bottom: 8px; line-height: 1.35; }
+    .note { font-size: 12px; color: #a7f3d0; margin: 6px 0; line-height: 1.4; }
+    .hero-card { background: linear-gradient(135deg, rgba(16,185,129,0.22), rgba(6,17,11,0.96)); }
+    .rival-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .rival-img { width: 68px; height: 68px; border-radius: 14px; border: 2px solid var(--danger); object-fit: cover; flex-shrink: 0; box-shadow: 0 4px 12px rgba(239,68,68,0.3); }
+    .rival-club { font-size: 15px; font-weight: 900; color: #fff; }
+    .rival-ovr { color: #fca5a5; font-size: 12px; }
+    .rival-mgr { font-size: 12px; color: var(--gold-light); font-weight: 700; }
+    .rival-style { font-size: 11.5px; color: #cbd5e1; margin-top: 2px; }
+    .tip-box { background: rgba(0,0,0,0.45); border-left: 3px solid var(--gold); padding: 8px 10px; border-radius: 8px; font-size: 12px; color: #ecfdf5; margin-bottom: 8px; }
+    .vs-row { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: #d1fae5; }
+    .minute-row { display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: var(--gold-light); margin-bottom: 6px; font-weight: 800; }
+    .fac-img { width: 100%; height: 135px; object-fit: cover; border-radius: 11px; margin-bottom: 8px; border: 1px solid var(--border); }
+    .banner-img { width: 100%; height: 150px; object-fit: cover; border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--gold); }
+    .hist-row { display: flex; justify-content: space-between; font-size: 12px; padding: 6px 0; border-bottom: 1px dashed rgba(255,255,255,0.08); }
+    .onboard-list { font-size: 12.5px; line-height: 1.5; padding-left: 18px; margin-bottom: 12px; color: #ecfdf5; }
+    .onboard-list li { margin-bottom: 4px; }
+    .onboard-label { font-size: 11px; font-weight: 800; color: var(--gold-light); text-transform: uppercase; display: block; margin-bottom: 4px; }
+    .onboard-input { width: 100%; padding: 11px 12px; border-radius: 10px; border: 1px solid var(--border); background: rgba(0,0,0,0.4); color: #fff; font-size: 15px; font-weight: 800; margin-bottom: 12px; user-select: text; }
+
+    /* Elockman Game Studio Splash Intro */
+    .studio {
+      position: fixed; inset: 0; z-index: 99999;
+      background: #000;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer; transition: opacity .5s ease; overflow: hidden;
+    }
+    .studio video {
+      width: 100%; height: 100%; object-fit: contain; background: #000; display: block;
+      opacity: 0; transition: opacity .25s ease-in;
+    }
+    .studio video.is-playing { opacity: 1; }
+    .studio video::-webkit-media-controls { display: none !important; }
+    .studio video::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; }
+    .studio video::-webkit-media-controls-enclosure { display: none !important; }
+    .studio-fallback {
+      position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 14px; pointer-events: none; opacity: 1; transition: opacity .4s ease;
+    }
+    .studio video.is-playing + .studio-fallback { opacity: 0; }
+    .studio-logo {
+      width: min(50vmin, 160px); height: auto; border-radius: 20px;
+      box-shadow: 0 0 35px rgba(16, 185, 129, 0.35);
+      animation: studioPulse 2.2s infinite ease-in-out;
+    }
+    .studio-text {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-weight: 900; letter-spacing: 3px; font-size: 13px; color: #fff;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.9);
+    }
+    @keyframes studioPulse {
+      0%, 100% { transform: scale(0.97); opacity: 0.88; }
+      50% { transform: scale(1.03); opacity: 1; }
+    }
+    .studio.out { opacity: 0; pointer-events: none; transition: opacity .45s ease; }
+    .studio.gone { display: none !important; }
+
+    /* Retro CM 01/02 Attribute Grid & Styling */
+    .retro-badge {
+      display: inline-block; font-size: 10px; font-weight: 900; letter-spacing: 0.5px;
+      padding: 2px 6px; border-radius: 4px; background: rgba(16,185,129,0.2); border: 1px solid var(--emerald);
+      color: var(--emerald-bright); font-family: 'Consolas', monospace;
+    }
+    .retro-ticker {
+      background: #020c07; border: 1.5px solid rgba(52,211,153,0.4); border-radius: 9px;
+      padding: 9px 12px; margin-bottom: 10px; color: #6ee7b7; font-family: 'Consolas', monospace;
+      font-size: 11.5px; line-height: 1.4; min-height: 42px; display: flex; align-items: center;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.7);
+    }
+    .retro-ticker strong { color: var(--gold-light); margin-right: 5px; }
+    .speed-controls {
+      display: flex; gap: 5px; align-items: center; justify-content: center; margin: 8px 0;
+    }
+    .speed-btn {
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: #cbd5e1;
+      font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 6px; cursor: pointer;
+    }
+    .speed-btn.active {
+      background: var(--gold); color: #06110b; border-color: #fde68a; font-weight: 900;
+      box-shadow: 0 0 10px rgba(245,158,11,0.5);
+    }
+    .attr-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+      background: rgba(0,0,0,0.48); border: 1px solid rgba(52,211,153,0.22);
+      border-radius: 10px; padding: 10px; margin: 8px 0;
+      font-family: 'Consolas', 'Courier New', monospace;
+    }
+    .attr-row {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 11.5px; padding: 3px 4px; border-bottom: 1px dashed rgba(255,255,255,0.08);
+      color: #94a3b8;
+    }
+    .attr-val {
+      font-weight: 900; padding: 1px 6px; border-radius: 4px; min-width: 26px; text-align: right;
+    }
+    .attr-val.elite { color: #34d399; background: rgba(16,185,129,0.22); text-shadow: 0 0 8px rgba(52,211,153,0.7); }
+    .attr-val.good { color: #fbbf24; background: rgba(245,158,11,0.2); }
+    .attr-val.avg { color: #94a3b8; background: rgba(255,255,255,0.06); }
+    .negotiate-card {
+      background: rgba(0,0,0,0.4); border: 1px solid var(--gold); border-radius: 12px;
+      padding: 12px; margin-bottom: 12px;
+    }
+    .press-q-card {
+      background: rgba(0,0,0,0.4); border-left: 3px solid var(--cyan); border-radius: 8px;
+      padding: 10px; margin-bottom: 12px; font-size: 12px; color: #ecfdf5; line-height: 1.45;
+    }
+    .press-journal { font-size: 10.5px; font-weight: 800; color: #38bdf8; text-transform: uppercase; margin-bottom: 4px; }
+
+    /* Game Feel (Juice): Eased Overshoot Pops, Arena Flash & Sliders */
+    @keyframes kePop {
+      0% { transform: scale(0.84); }
+      55% { transform: scale(1.16); }
+      100% { transform: scale(1); }
+    }
+    .ke-pop {
+      display: inline-block;
+      animation: kePop 0.34s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    .match-arena {
+      position: relative;
+      transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .match-arena.goal-flash {
+      box-shadow: 0 0 28px rgba(245, 158, 11, 0.65), inset 0 0 24px rgba(52, 211, 153, 0.35);
+      border-color: var(--gold);
+    }
+    .match-arena.goal-glow {
+      box-shadow: 0 0 18px rgba(52, 211, 153, 0.45);
+      border-color: var(--gold);
+    }
+    .ke-float-pop {
+      position: fixed; left: 50%; top: 104px; transform: translateX(-50%);
+      z-index: 115; pointer-events: none;
+      font-size: 13px; font-weight: 900; padding: 4px 12px; border-radius: 999px;
+      background: rgba(6, 20, 13, 0.92); border: 1.5px solid var(--gold); color: var(--gold-light);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+      animation: keFloatPop 0.95s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    @keyframes keFloatPop {
+      0% { opacity: 0; transform: translate(-50%, 10px) scale(0.82); }
+      22% { opacity: 1; transform: translate(-50%, -4px) scale(1.08); }
+      100% { opacity: 0; transform: translate(-50%, -28px) scale(0.98); }
+    }
+    .settings-row {
+      display: flex; flex-direction: column; gap: 5px;
+      background: rgba(0, 0, 0, 0.32); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px; padding: 9px 11px;
+    }
+    .settings-row label {
+      font-size: 12px; font-weight: 800; color: #d1fae5;
+    }
+    .settings-row-top {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px; font-weight: 800; color: #d1fae5;
+    }
+    .settings-val {
+      font-family: 'Consolas', monospace; font-size: 11.5px; color: var(--gold-light);
+    }
+    .ke-range {
+      width: 100%; height: 22px; accent-color: var(--emerald); cursor: pointer;
+    }
+    .rename-error {
+      color: #fca5a5; font-size: 11.5px; font-weight: 800;
+      margin: -6px 0 10px; padding: 6px 9px; border-radius: 8px;
+      background: rgba(239, 68, 68, 0.16); border: 1px solid rgba(239, 68, 68, 0.45);
+    }
+    .rename-error[hidden] { display: none; }
+    body.reduce-flash .match-arena.goal-flash {
+      box-shadow: 0 0 18px rgba(52, 211, 153, 0.45);
+    }
+    body.reduce-motion .ke-pop,
+    body.reduce-motion .ke-float-pop,
+    body.reduce-motion .studio-logo {
+      animation: none !important;
+    }
+    body.reduce-motion *,
+    body.reduce-motion *::before,
+    body.reduce-motion *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+    body.reduce-motion .pill:active,
+    body.reduce-motion .btn:active {
+      transform: none !important;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ke-pop, .ke-float-pop, .studio-logo { animation: none !important; }
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+      .pill:active, .btn:active { transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Elockman Game Studio Splash Intro -->
+  <div id="studio" class="studio" role="presentation">
+    <video id="studio-video" src="img/elockman_intro.mp4" autoplay muted playsinline webkit-playsinline preload="auto" disablepictureinpicture disableremoteplayback></video>
+    <div class="studio-fallback">
+      <img src="img/studio_logo.webp" alt="Elockman Game Studio" class="studio-logo" />
+      <div class="studio-text">ELOCKMAN GAME STUDIO</div>
+    </div>
+  </div>
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-row">
+        <div class="club-brand">
+          <img src="img/icon-192.png" alt="Arma" class="club-crest" />
+          <div style="min-width:0;">
+            <div class="club-title" id="hudClubName">ANADOLU FK</div>
+            <div class="club-sub" id="hudSeasonInfo">Hafta 1 / 8 • Süper Lig</div>
+          </div>
+        </div>
+        <div class="hud-actions">
+          <a href="https://elockmangames.com" target="_blank" rel="noopener noreferrer" class="pill" style="text-decoration:none; color:#10b981; font-weight:800; padding:4px 7px; font-size:10.5px;" title="Elockman Game Studio">🏛️</a>
+          <button class="pill btn-pill" id="langToggleBtn" data-act="toggleLang" title="Dil / Language">🌐 TR</button>
+          <button class="pill btn-pill" data-act="openPress" title="Medya & Basın Toplantısı">🎙️ Basın</button>
+          <button class="pill guide-pill" data-ke-i18n="guidePill" data-act="openGuide" title="Kemal Hoca Taktik & Oyun Rehberi">📖 Rehber</button>
+          <button class="pill btn-pill" data-ke-i18n="standingsPill" data-act="openStandings" title="Süper Lig Puan Durumu">📊 Puan</button>
+        </div>
+      </div>
+      <div class="hud-telemetry">
+        <div class="pill gold" title="Kulüp Bütçesi">💰 <span id="hudBudget">₺600B</span></div>
+        <div class="pill" title="Takım Gücü (OVR)">⚡ <span id="hudTeamOvr">78</span></div>
+        <div class="pill cyan" title="Taraftar Desteği">🏟️ <span id="hudFans">8.0B</span></div>
+      </div>
+    </div>
+  </header>
+
+  <div id="toast">Bildirim</div>
+
+  <!-- MAIN CONTENT TABS -->
+  <main class="container" id="appView"></main>
+
+  <!-- 📖 KEMAL HOCA TAKTİK & OYUN REHBERİ MODAL -->
+  <div class="modal-backdrop" id="guideModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="card-header">
+        <div class="card-title" data-ke-i18n="guideModalTitle">📖 MENAJER & TAKTİK REHBERİ</div>
+        <button class="modal-close-btn" data-act="closeGuide" aria-label="Kapat">✕</button>
+      </div>
+
+      <div class="guide-tabs">
+        <button class="guide-tab-btn active" data-guide="genel" data-ke-i18n="gTabGenel">🎯 Genel Bakış</button>
+        <button class="guide-tab-btn" data-guide="taktik" data-ke-i18n="gTabTaktik">📋 Taktik & Antitez</button>
+        <button class="guide-tab-btn" data-guide="mac" data-ke-i18n="gTabMac">⚽ Canlı Maç</button>
+        <button class="guide-tab-btn" data-guide="frikik" data-ke-i18n="gTabFrikik">🎯 Frikik & Penaltı</button>
+        <button class="guide-tab-btn" data-guide="finans" data-ke-i18n="gTabFinans">🏟️ Tesis & Finans</button>
+        <button class="guide-tab-btn" data-guide="altin" data-ke-i18n="gTabAltin">💡 Altın Kurallar</button>
+      </div>
+
+      <div id="guideContent"></div>
+
+      <button class="btn btn-gold btn-block" style="margin-top:10px;" data-act="closeGuide" data-ke-i18n="guideCloseCta">ANLADIM, SAHAYA DÖN</button>
+    </div>
+  </div>
+
+  <!-- 📊 SÜPER LİG PUAN DURUMU MODAL -->
+  <div class="modal-backdrop" id="standingsModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="card-header">
+        <div class="card-title" data-ke-i18n="standingsTitle">📊 SÜPER LİG PUAN CETVELİ</div>
+        <button class="modal-close-btn" data-act="closeStandings" aria-label="Kapat">✕</button>
+      </div>
+      <p class="note" id="standingsSubtitle">Sezon 1 • 8 Takımlı Şampiyonluk Maratonu</p>
+      
+      <div class="table-container">
+        <table class="standings-table">
+          <thead>
+            <tr>
+              <th style="width:26px;">#</th>
+              <th style="text-align:left;" data-ke-i18n="colClub">Kulüp</th>
+              <th data-ke-i18n="colP">O</th>
+              <th data-ke-i18n="colW">G</th>
+              <th data-ke-i18n="colD">B</th>
+              <th data-ke-i18n="colL">M</th>
+              <th data-ke-i18n="colGD">AV</th>
+              <th data-ke-i18n="colPts">P</th>
+            </tr>
+          </thead>
+          <tbody id="standingsBody"></tbody>
+        </table>
+      </div>
+
+      <div style="margin-top:12px;" id="weeklyResultsBox"></div>
+
+      <button class="btn btn-outline btn-block" style="margin-top:12px;" data-act="closeStandings" data-ke-i18n="closeUpper">KAPAT</button>
+    </div>
+  </div>
+
+  <!-- ⏸️ DEVRE ARASI SOYUNMA ODASI MODAL -->
+  <div class="modal-backdrop" id="halftimeModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="card-header">
+        <div class="card-title" data-ke-i18n="htTitle">⏸️ 45' DEVRE ARASI: SOYUNMA ODASI</div>
+        <span class="badge gold" id="htScoreBadge">1 - 0</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <img src="img/kemal_hoca.webp" alt="Kemal Hoca" class="mentor-avatar" />
+        <div>
+          <div class="mentor-name" data-ke-i18n="coachName">Kemal Hoca</div>
+          <div class="mentor-quote" id="htCoachAdvice">"İlk yarı bitti Başkanım! Şimdi taktik hamle zamanı."</div>
+        </div>
+      </div>
+
+      <p class="note" style="margin-bottom:10px;" data-ke-i18n="htPrompt">Takıma ikinci yarı için ne talimat verelim?</p>
+      <div class="stack" style="margin-bottom:12px;">
+        <button class="btn btn-primary btn-block" data-ke-i18n-html="htAttack" data-act="htSpeech" data-val="attack">🔥 "Hücum Edin, Korkak Oynamayın!"<br><small>Hücum şansı artar, tempoyu yükseltiriz</small></button>
+        <button class="btn btn-outline btn-block" data-ke-i18n-html="htDefense" data-act="htSpeech" data-val="defense">🛡️ "Savunmayı Sıkı Tutun, Skoru Koruyun!"<br><small>Savunma blokları sıklaşır, rakibe boşluk yok</small></button>
+        <button class="btn btn-outline btn-block" data-ke-i18n-html="htCalm" data-act="htSpeech" data-val="calm">🧘 "Sakin Kalın, Pas Oyununu Bırakmayın!"<br><small>Topa sahip olma oranımız artar, kondisyon tasarrufu</small></button>
+        <button class="btn btn-gold btn-block" data-ke-i18n-html="htSub" data-act="htSpeech" data-val="sub">🔄 "Taze Kan Al: Oyuncu Değişikliği Yap!"<br><small>Yorulan oyuncuyu çıkar, tüm takıma +%12 kondisyon tazele</small></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 📰 DİNAMİK YÖNETİM & HAFTALIK OLAY MODAL -->
+  <div class="modal-backdrop" id="eventModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="card-header">
+        <div class="card-title" id="eventTitle">📰 BAŞKANLIK KRİTİK KARARI</div>
+        <span class="badge gold" id="eventBadge">Kulüp Olayı</span>
+      </div>
+      <p id="eventDesc" style="font-size:13px; color:#d1fae5; line-height:1.45; margin-bottom:14px;"></p>
+      <div class="stack" id="eventOptionsBox"></div>
+    </div>
+  </div>
+
+  <!-- 🚨 ACİL FİNANSAL KRİZ MODAL -->
+  <div class="modal-backdrop" id="financeCrisisModal" role="dialog" aria-modal="true">
+    <div class="modal-card" style="border-color:var(--danger);">
+      <div class="card-header">
+        <div class="card-title" style="color:#fca5a5;" data-ke-i18n="crisisTitle">🚨 KULÜP FİNANSAL KRİZDE!</div>
+        <span class="badge red" data-ke-i18n="crisisBadge">İflas Uyarısı</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <img src="img/kemal_hoca.webp" alt="Kemal Hoca" class="mentor-avatar" />
+        <div>
+          <div class="mentor-name" style="color:#fca5a5;" data-ke-i18n="crisisBoard">Kemal Hoca & Mali Kurul</div>
+          <div class="mentor-quote" id="crisisCoachQuote">"Başkanım kulüp kasası tehlikeli seviyede ekside! Acil tedbir almazsak federasyon lisans cezası uygulayacak."</div>
+        </div>
+      </div>
+      <p class="note" id="crisisDesc" data-ke-i18n="crisisDesc" style="color:#fecaca;margin-bottom:12px;">Kulüp bütçesi borç batağında. Hemen aşağıdaki kriz önlemlerinden birini devreye sokmalıyız.</p>
+      <div class="stack" id="crisisOptionsBox"></div>
+    </div>
+  </div>
+
+  <!-- 🌟 ALTYAPI SCOUT KEŞİF MODAL -->
+  <div class="modal-backdrop" id="scoutModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="card-header">
+        <div class="card-title" data-ke-i18n="scoutTitle">🌟 ALTYAPI KEŞİF RAPORU</div>
+        <button class="modal-close-btn" data-act="closeScout" aria-label="Kapat">✕</button>
+      </div>
+      <p class="note" style="margin-bottom:10px;" data-ke-i18n="scoutDesc">Kemal Hoca ve scout ekibimiz altyapı akademisinden parlayan genç yetenekleri A takıma kazandırmaya hazır.</p>
+      <div class="stack" id="scoutTalentsBox"></div>
+      <button class="btn btn-outline btn-block" style="margin-top:12px;" data-act="closeScout" data-ke-i18n="closeUpper">KAPAT</button>
+    </div>
+  </div>
+
+  <!-- 🎯 CLUTCH SET-PIECE MODAL (Kritik Dakika Frikik / Penaltı) -->
+  <div class="modal-backdrop" id="clutchModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="card-header">
+        <div class="card-title" id="clutchTitle">🎯 KRİTİK DAKİKA: SERBEST VURUŞ!</div>
+        <span class="badge gold" id="clutchMinBadge">84'</span>
+      </div>
+      <p id="clutchDesc" style="font-size:12.5px; color:#d1fae5; margin-bottom:12px; line-height:1.4;"></p>
+      
+      <!-- Mini Goal Target Visual -->
+      <svg viewBox="0 0 320 110" style="width:100%; border-radius:10px; background:#09381f; border:1px solid rgba(255,255,255,0.2); margin-bottom:12px;">
+        <rect x="30" y="14" width="260" height="82" fill="none" stroke="#ffffff" stroke-width="4"/>
+        <line x1="30" y1="40" x2="290" y2="40" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+        <line x1="30" y1="68" x2="290" y2="68" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+        <line x1="115" y1="14" x2="115" y2="96" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+        <line x1="205" y1="14" x2="205" y2="96" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+        
+        <circle cx="62" cy="36" r="16" fill="rgba(245,158,11,0.35)" stroke="#fbbf24" stroke-width="2"/>
+        <text x="62" y="40" text-anchor="middle" fill="#fff" font-size="10" font-weight="900">90 KÖŞE</text>
+        <circle cx="258" cy="36" r="16" fill="rgba(16,185,129,0.35)" stroke="#34d399" stroke-width="2"/>
+        <text x="258" y="40" text-anchor="middle" fill="#fff" font-size="10" font-weight="900">SERT FÜZE</text>
+        <circle cx="160" cy="48" r="16" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="2"/>
+        <text x="160" y="52" text-anchor="middle" fill="#fff" font-size="9" font-weight="900">PANENKA</text>
+      </svg>
+      <div class="grid-3">
+        <button class="btn btn-gold" data-ke-i18n-html="clutchCorner" data-act="clutch" data-val="corner">🎯 90'a Plase<br><small>Hassas vuruş</small></button>
+        <button class="btn btn-primary" data-ke-i18n-html="clutchPower" data-act="clutch" data-val="power">💥 Sert Füze<br><small>Güçlü şut</small></button>
+        <button class="btn btn-cyan" data-ke-i18n-html="clutchTactic" data-act="clutch" data-val="tactic">🧠 Panenka/Pas<br><small>Akıl oyunu</small></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🎙️ BASIN TOPLANTISI MODAL -->
+  <div class="modal-backdrop" id="pressModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="card-header">
+        <div class="card-title" data-ke-i18n="pressTitle">🎙️ MAÇ ÖNCESİ BASIN TOPLANTISI</div>
+        <button class="modal-close-btn" data-act="closePress" aria-label="Kapat">✕</button>
+      </div>
+      <p class="note" style="margin-bottom:12px;" data-ke-i18n="pressDesc">Spor basını ve muhabirler Kemal Hoca ve sizden kritik derbi öncesi açıklama bekliyor.</p>
+      <div class="press-q-card" id="pressQuestionBox">
+        <div class="press-journal" id="pressJournalName">📰 FANATİK SPOR MUHABİRİ:</div>
+        <div id="pressQuestionText">"Hocam bu hafta taraftar galibiyet bekliyor. Takımın taktik hazırlığı ne durumda?"</div>
+      </div>
+      <div class="stack" id="pressChoicesBox"></div>
+      <button class="btn btn-outline btn-block" style="margin-top:10px;" data-act="closePress" data-ke-i18n="pressEndBtn">TOPLANTIYI BİTİR</button>
+    </div>
+  </div>
+
+  <!-- 🤝 TRANSFER PAZARLIĞI & SÖZLEŞME MODAL -->
+  <div class="modal-backdrop" id="negotiateModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="card-header">
+        <div class="card-title" data-ke-i18n="negotiateTitle">🤝 TRANSFER PAZARLIK MASASI</div>
+        <button class="modal-close-btn" data-act="closeNegotiate" aria-label="Kapat">✕</button>
+      </div>
+      <div id="negotiateDetails"></div>
+    </div>
+  </div>
+
+  <!-- 📋 RETRO CM 01/02 DETAYLI OYUNCU PROFİLİ MODAL -->
+  <div class="modal-backdrop" id="playerModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="card-header">
+        <div class="card-title" data-ke-i18n="playerProfileTitle">📋 CM 01/02 OYUNCU PROFİLİ</div>
+        <button class="modal-close-btn" data-act="closePlayerModal" aria-label="Kapat">✕</button>
+      </div>
+      <div id="playerModalBody"></div>
+    </div>
+  </div>
+
+  <!-- 🏁 KARŞILAMA ONBOARDING MODAL -->
+  <div class="modal-backdrop" id="onboardModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+        <img src="img/kemal_hoca.webp" alt="Kemal Hoca" class="mentor-avatar" />
+        <div>
+          <div class="mentor-name" data-ke-i18n="coachName">Kemal Hoca</div>
+          <div class="mentor-quote" data-ke-i18n="onboardQuote">"Hoş geldiniz Başkanım! Kulübü sıfırdan zirveye birlikte taşıyacağız."</div>
+        </div>
+      </div>
+      <ol class="onboard-list" data-ke-i18n-html="onboardList">
+        <li>👕 <b>Kadro & İdman:</b> Haftada 2 idman hakkın var. Şut idmanı OVR artırır, kamp moral verir, dinlenme kondisyon sağlar.</li>
+        <li>📋 <b>Taktik & Antitez:</b> Rakibin oyun tarzına ters gelen diziliş maçta anında <b>+3 güç</b> kazandırır.</li>
+        <li>⚽ <b>Maç Günü:</b> Kritik dakikalarda frikik ve penaltıları sen yönlendir, devre arasında taktik fırçası çek!</li>
+        <li>🏟️ <b>Tesis & Akademi:</b> Stadyumu büyüt, altyapı akademisinden bedelsiz Türk yıldızları keşfet!</li>
+      </ol>
+      <label class="onboard-label" for="onboardName" data-ke-i18n="onboardLabel">Kulübünün Adı</label>
+      <input id="onboardName" class="onboard-input" maxlength="24" autocomplete="off" value="ANADOLU EFSANE FK" />
+      <button class="btn btn-gold btn-block" data-act="onboardDone" data-ke-i18n="onboardStartBtn">⚽ KULÜBÜ DEVRAL & BAŞLA</button>
+    </div>
+  </div>
+
+  <!-- ✏️ KULÜP ADI DEĞİŞTİRME MODAL -->
+  <div class="modal-backdrop" id="renameModal" role="dialog" aria-modal="true" aria-labelledby="renameModalTitle">
+    <div class="modal-card">
+      <div class="card-header">
+        <div class="card-title" id="renameModalTitle" data-ke-i18n="renameTitle">✏️ KULÜP ADINI DEĞİŞTİR</div>
+        <button class="modal-close-btn" data-act="closeRename" aria-label="Kapat">✕</button>
+      </div>
+      <label class="onboard-label" for="renameInput" data-ke-i18n="renameLabel">Yeni Kulüp Adı (2-24 karakter)</label>
+      <input id="renameInput" class="onboard-input" maxlength="24" autocomplete="off" aria-describedby="renameError" />
+      <p id="renameError" class="rename-error" role="alert" aria-live="polite" hidden></p>
+      <div class="grid-2">
+        <button class="btn btn-outline" data-act="closeRename" data-ke-i18n="cancelUpper">İPTAL</button>
+        <button class="btn btn-gold" data-act="confirmRename" data-ke-i18n="saveUpper">✅ KAYDET</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🗑️ KARİYER SIFIRLAMA ONAY MODAL -->
+  <div class="modal-backdrop" id="confirmResetModal" role="dialog" aria-modal="true" aria-labelledby="resetModalTitle">
+    <div class="modal-card" style="border-color:var(--danger);">
+      <div class="card-header">
+        <div class="card-title" id="resetModalTitle" style="color:#fca5a5;" data-ke-i18n="resetTitle">🗑️ KARİYERİ SIFIRLA</div>
+        <button class="modal-close-btn" data-act="closeReset" aria-label="Kapat">✕</button>
+      </div>
+      <p class="note" style="margin-bottom:12px; color:#fecaca;" data-ke-i18n="resetWarn">Tüm kariyer ilerlemeniz, kupalarınız, tesisleriniz ve kadronuz kalıcı olarak sıfırlanacaktır. Emin misiniz?</p>
+      <div class="grid-2">
+        <button class="btn btn-outline" data-act="closeReset" data-ke-i18n="giveUpUpper">VAZGEÇ</button>
+        <button class="btn btn-outline danger" data-act="confirmReset" data-ke-i18n="confirmResetUpper">🗑️ EVET, SIFIRLA</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAVIGATION -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-tab="kadro" data-act="tab">
+      <span class="nav-icon">👕</span><span data-ke-i18n="navKadro">Kadro</span>
+    </button>
+    <button class="nav-btn" data-tab="taktik" data-act="tab">
+      <span class="nav-icon">📋</span><span data-ke-i18n="navTaktik">Taktik</span>
+    </button>
+    <button class="nav-btn" data-tab="mac" data-act="tab">
+      <span class="nav-icon">⚽</span><span data-ke-i18n="navMac">Maç Günü</span>
+    </button>
+    <button class="nav-btn" data-tab="tesis" data-act="tab">
+      <span class="nav-icon">🏟️</span><span data-ke-i18n="navTesis">Kulüp & Tesis</span>
+    </button>
+    <button class="nav-btn" data-tab="kupa" data-act="tab">
+      <span class="nav-icon">🏆</span><span data-ke-i18n="navKupa">Müzemiz</span>
+    </button>
+  </nav>
+
+  <script src="js/AdMobManager.js"></script>
+  <script src="js/zzfx.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
