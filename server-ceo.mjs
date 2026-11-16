@@ -57,8 +57,8 @@ const GAME_CATALOG = [
     releaseFolder: '1_Hipodrom_Ahiri',
     fallbackAab: 'HipodromAhiri-v1.7-vc5-signed.aab',
     fallbackSizeMb: 21.79,
-    defaultContinuousDays: 10,
-    phaseStatus: 'Kapalı Testte (10/14 Gün)'
+    defaultContinuousDays: 0,
+    phaseStatus: 'Kapalı Test — 12 Organik Aktif Testçi Toplanıyor (Eski Liste İptal)'
   },
   {
     id: 'ring-tycoon',

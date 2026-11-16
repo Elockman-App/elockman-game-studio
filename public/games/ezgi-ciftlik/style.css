@@ -1,0 +1,692 @@
+/* Ezgi'nin Çiftliği — Mobil & Masaüstü Stil Sayfası (Glassmorphism & Hay Day Teması) */
+:root {
+  --primary: #27ae60;
+  --primary-hover: #219653;
+  --accent: #e84393;
+  --gold: #f1c40f;
+  --bg-glass: rgba(255, 255, 255, 0.88);
+  --border-glass: rgba(255, 255, 255, 0.65);
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  --font-family: -apple-system, BlinkMacSystemFont, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #94d07b;
+  font-family: var(--font-family);
+  position: fixed;
+}
+
+#game-canvas {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  touch-action: none;
+}
+
+#ui-root {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* ---------------------------------------------------------------------------
+   ÜST BAR (HUD TOP)
+--------------------------------------------------------------------------- */
+.hud-top {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(10px + env(safe-area-inset-top, 0px)) 14px 10px 14px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 100%);
+  gap: 8px;
+}
+
+.hud-left, .hud-center, .hud-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar-card {
+  display: flex;
+  align-items: center;
+  background: var(--bg-glass);
+  border: 2px solid #ffffff;
+  border-radius: 28px;
+  padding: 4px 12px 4px 4px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.avatar-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffb8b8;
+  border: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-size: 24px;
+}
+
+.lvl-badge {
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  background: #3498db;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 10px;
+  border: 1px solid #ffffff;
+}
+
+.xp-container {
+  margin-left: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.xp-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: #2c3e50;
+  text-align: left;
+}
+
+.xp-bar-bg {
+  width: 70px;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2ecc71, #27ae60);
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+/* 27 Kasım Doğum Günü Butonu */
+.bday-pill {
+  background: linear-gradient(135deg, #ff7675, #e84393);
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-weight: 800;
+  font-size: 13px;
+  box-shadow: 0 4px 15px rgba(232, 67, 147, 0.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bday-pill.pulse {
+  animation: pulseAnim 1.6s infinite;
+}
+
+.bday-pill.claimed {
+  background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+  box-shadow: none;
+}
+
+@keyframes pulseAnim {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(232, 67, 147, 0.7); }
+  50% { transform: scale(1.06); box-shadow: 0 0 0 10px rgba(232, 67, 147, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(232, 67, 147, 0); }
+}
+
+/* Para ve Ambar Rozetleri */
+.currency-chip, .storage-chip {
+  display: flex;
+  align-items: center;
+  background: var(--bg-glass);
+  border: 2px solid #ffffff;
+  border-radius: 20px;
+  padding: 6px 12px;
+  box-shadow: var(--shadow);
+  font-size: 13px;
+  font-weight: 800;
+  color: #2d3436;
+  gap: 5px;
+  backdrop-filter: blur(8px);
+}
+
+.storage-chip {
+  cursor: pointer;
+}
+
+.storage-chip.storage-full {
+  background: #ff7675;
+  color: #ffffff;
+  border-color: #d63031;
+}
+
+.icon-btn {
+  background: var(--bg-glass);
+  border: 2px solid #ffffff;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  box-shadow: var(--shadow);
+}
+
+/* ---------------------------------------------------------------------------
+   ALT BAR (HUD BOTTOM)
+--------------------------------------------------------------------------- */
+.hud-bottom {
+  pointer-events: auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 14px calc(14px + env(safe-area-inset-bottom, 0px)) 14px;
+}
+
+.hud-bottom-left, .hud-bottom-right {
+  display: flex;
+  gap: 10px;
+}
+
+.bottom-action-btn {
+  background: var(--bg-glass);
+  border: 2px solid #ffffff;
+  border-radius: 24px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 14px;
+  color: #2c3e50;
+  backdrop-filter: blur(8px);
+}
+
+.bottom-action-btn:active {
+  transform: scale(0.96);
+}
+
+.gofrik-btn {
+  background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+  border-color: #d6a766;
+  color: #5d4037;
+}
+
+/* ---------------------------------------------------------------------------
+   TOHUM ÇARKI / SEÇİM MENÜSÜ
+--------------------------------------------------------------------------- */
+.seed-wheel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  z-index: 100;
+}
+
+.seed-wheel.hidden {
+  display: none;
+}
+
+.seed-wheel-card {
+  background: var(--bg-glass);
+  border: 3px solid #ffffff;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(12px);
+  width: 320px;
+  text-align: center;
+}
+
+.seed-wheel-title {
+  font-weight: 800;
+  color: #2c3e50;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.seed-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.seed-item {
+  background: #ffffff;
+  border: 2px solid #dcdde1;
+  border-radius: 14px;
+  padding: 10px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.seed-item:active {
+  transform: scale(0.95);
+}
+
+.seed-icon { font-size: 28px; }
+.seed-name { font-size: 12px; font-weight: 800; color: #2f3640; margin-top: 4px; }
+.seed-meta { font-size: 10px; color: #7f8c8d; margin-top: 2px; }
+
+.seed-item.locked {
+  opacity: 0.5;
+  background: #f1f2f6;
+  cursor: not-allowed;
+}
+
+.seed-close-btn {
+  margin-top: 14px;
+  background: #f5f6fa;
+  border: 1px solid #dcdde1;
+  padding: 8px 18px;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 13px;
+  color: #718093;
+  cursor: pointer;
+}
+
+/* ---------------------------------------------------------------------------
+   GENEL MODAL VE DIALOG
+--------------------------------------------------------------------------- */
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  z-index: 200;
+  backdrop-filter: blur(4px);
+}
+
+.modal-backdrop.hidden {
+  display: none;
+}
+
+.modal-dialog {
+  background: #fefefe;
+  border-radius: 24px;
+  width: 90vw;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 18px 20px 14px 20px;
+  border-bottom: 2px solid #f1f2f6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-header h2 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #2c3e50;
+}
+
+.modal-close {
+  background: #f1f2f6;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 800;
+  color: #7f8c8d;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 18px 20px;
+}
+
+/* Buton stilleri */
+.primary-btn {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: #ffffff;
+  border: none;
+  border-radius: 18px;
+  padding: 12px 24px;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(39, 174, 96, 0.35);
+}
+
+.primary-btn:active { transform: scale(0.97); }
+
+.secondary-btn {
+  background: #ffffff;
+  border: 2px solid #27ae60;
+  color: #27ae60;
+  border-radius: 16px;
+  padding: 8px 16px;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.disabled-btn {
+  background: #dcdde1;
+  color: #7f8c8d;
+  border: none;
+  border-radius: 16px;
+  padding: 8px 16px;
+  font-weight: 700;
+  cursor: not-allowed;
+}
+
+/* Doğum Günü Özel İçeriği */
+.bday-header {
+  background: linear-gradient(135deg, #ff7675, #e84393);
+  color: #ffffff;
+}
+
+.bday-header h2 { color: #ffffff; }
+
+.bday-splash {
+  text-align: center;
+  margin: 10px 0;
+}
+
+.bday-cake { font-size: 64px; }
+.bday-hearts { font-size: 22px; margin-top: 6px; }
+
+.bday-msg {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #2c3e50;
+  text-align: center;
+  margin: 14px 0;
+  font-weight: 600;
+}
+
+.bday-gift-box {
+  background: #fff5f8;
+  border: 2px dashed #e84393;
+  border-radius: 16px;
+  padding: 14px;
+  margin: 14px 0;
+}
+
+.gift-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: #2d3436;
+}
+
+.gift-row:last-child { margin-bottom: 0; }
+.gift-icon { font-size: 20px; }
+
+/* Sipariş Panosu Kartları */
+.truck-status-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f1f2f6;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+.truck-ready { background: #e8f8f5; color: #16a085; }
+.truck-away { background: #fef5e7; color: #d35400; }
+
+.orders-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.order-card {
+  background: #ffffff;
+  border: 2px solid #e1e8ed;
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.order-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.order-req-item {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.item-ok { color: #27ae60; }
+.item-missing { color: #e74c3c; }
+
+.order-rewards {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.rew-coin { color: #f39c12; }
+.rew-xp { color: #2980b9; }
+
+.order-actions {
+  display: flex;
+  gap: 6px;
+  margin-left: 10px;
+}
+
+.order-deliver-btn {
+  background: #27ae60;
+  color: #ffffff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.order-deliver-btn.disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.order-discard-btn {
+  background: #f8f9fa;
+  border: 1px solid #dcdde1;
+  padding: 6px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Üretim Binaları */
+.recipes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recipe-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid #ecf0f1;
+  border-radius: 16px;
+  padding: 12px 14px;
+}
+
+.recipe-left { display: flex; align-items: center; gap: 12px; }
+.recipe-icon { font-size: 32px; }
+.recipe-name { font-weight: 800; font-size: 14px; color: #2c3e50; }
+.recipe-meta { font-size: 11px; color: #7f8c8d; margin-top: 2px; }
+.recipe-ingrs { display: flex; gap: 6px; margin-top: 6px; }
+.ingr-pill { font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 8px; }
+.ingr-pill.ok { background: #e8f8f5; color: #27ae60; }
+.ingr-pill.missing { background: #fdebd0; color: #e74c3c; }
+
+.craft-btn {
+  background: #3498db;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.craft-btn.disabled { background: #bdc3c7; cursor: not-allowed; }
+
+/* Balıkçılık */
+.fishing-pond {
+  height: 140px;
+  background: linear-gradient(180deg, #74b9ff, #0984e3);
+  border-radius: 18px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 14px 0;
+}
+
+.fish-bobber { font-size: 36px; }
+.fish-bobber.floating { animation: floatBobber 1.8s infinite ease-in-out; }
+.fish-bobber.bobbing-active { animation: biteBobber 0.25s infinite; }
+
+@keyframes floatBobber {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes biteBobber {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(16px); }
+}
+
+.fish-prompt {
+  text-align: center;
+  font-weight: 800;
+  font-size: 15px;
+  color: #2c3e50;
+  margin-bottom: 12px;
+}
+
+/* Toasts */
+.toast-container {
+  position: absolute;
+  bottom: calc(75px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  z-index: 300;
+}
+
+.toast {
+  background: rgba(44, 62, 80, 0.92);
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(6px);
+  animation: toastIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.toast.toast-error { background: rgba(192, 57, 43, 0.95); }
+
+.toast.fade-out {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Karakter Seçenekleri */
+.custom-row { margin-bottom: 14px; }
+.custom-row label { font-size: 13px; font-weight: 800; color: #2c3e50; display: block; margin-bottom: 6px; }
+.opts-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.opt-chip {
+  background: #f1f2f6;
+  border: 1px solid #dcdde1;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.opt-chip.active { background: #27ae60; color: #ffffff; border-color: #27ae60; }
+.opts-colors { display: flex; gap: 8px; }
+.color-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+.color-dot.active { transform: scale(1.18); border-color: #27ae60; }

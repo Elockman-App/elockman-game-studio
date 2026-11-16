@@ -94,6 +94,17 @@ services:
       - type: redirect
         source: /oyna/hipodrom
         destination: https://elockmangames.com/games/hipodrom-ahiri/
+
+      # Özel Doğum Günü Hediyesi: Ezgi'nin Çiftliği (Gizli / Doğrudan Bağlantı)
+      - type: redirect
+        source: /ezgi
+        destination: https://elockmangames.com/games/ezgi-ciftlik/
+      - type: redirect
+        source: /ezgi/*
+        destination: https://elockmangames.com/games/ezgi-ciftlik/
+      - type: redirect
+        source: /play/ezgi
+        destination: https://elockmangames.com/games/ezgi-ciftlik/
     headers:
       - path: /*
         name: Strict-Transport-Security
