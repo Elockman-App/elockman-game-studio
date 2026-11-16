@@ -765,3 +765,207 @@ html, body {
   justify-content: center;
   gap: 10px;
 }
+
+/* Sürükleyerek Tohum Ekme Aracı Banner'ı (Swipe-to-Sow) */
+.seed-tool-banner {
+  position: fixed;
+  bottom: 84px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, rgba(46, 204, 113, 0.95), rgba(39, 174, 96, 0.95));
+  color: #ffffff;
+  padding: 8px 18px;
+  border-radius: 30px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 150;
+  border: 2px solid #ffffff;
+  backdrop-filter: blur(8px);
+  animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.seed-tool-icon {
+  font-size: 24px;
+}
+.seed-tool-text {
+  font-size: 13px;
+  font-weight: 800;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+.seed-tool-cancel {
+  background: #ffffff;
+  color: #27ae60;
+  border: none;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.seed-tool-cancel:active {
+  transform: scale(0.92);
+}
+
+/* Kasaba Ziyaretçisi Modalı (Town Visitors) */
+.visitor-dialog-body {
+  text-align: center;
+}
+.visitor-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f8f9fa;
+  border-radius: 14px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+}
+.visitor-avatar {
+  font-size: 38px;
+  background: #ffeaa7;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fdcb6e;
+}
+.visitor-info {
+  text-align: left;
+  flex: 1;
+}
+.visitor-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: #2d3436;
+}
+.visitor-bubble {
+  font-size: 13px;
+  font-style: italic;
+  color: #636e72;
+  margin-top: 2px;
+  line-height: 1.3;
+}
+.visitor-req-card {
+  background: #fff;
+  border: 2px dashed #b2bec3;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.visitor-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.visitor-item-icon {
+  font-size: 32px;
+}
+.visitor-item-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: #2d3436;
+}
+.visitor-count-badge {
+  font-size: 13px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 8px;
+}
+.visitor-count-badge.ok {
+  background: #d4edda;
+  color: #155724;
+}
+.visitor-count-badge.missing {
+  background: #f8d7da;
+  color: #721c24;
+}
+.visitor-rewards {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: #e67e22;
+}
+
+/* Gofrik'in Köşesi & Fetch Mini-Oyunu Modalı */
+.gofrik-modal-body {
+  text-align: center;
+}
+.gofrik-hero-card {
+  background: linear-gradient(135deg, #ffeef0, #fff0f5);
+  border: 2px solid #ffccd5;
+  border-radius: 16px;
+  padding: 12px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.gofrik-hero-icon {
+  font-size: 44px;
+  background: #ffffff;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(217, 102, 119, 0.2);
+}
+.gofrik-hero-text {
+  text-align: left;
+}
+.gofrik-hero-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #c0392b;
+}
+.gofrik-hero-desc {
+  font-size: 12px;
+  color: #7f8c8d;
+  line-height: 1.3;
+}
+.gofrik-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.gofrik-act-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 2px solid #ecf0f1;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+.gofrik-act-btn:active {
+  transform: scale(0.96);
+  border-color: #d96677;
+  background: #fff8f9;
+}
+.gofrik-act-btn .act-icon {
+  font-size: 28px;
+}
+.gofrik-act-btn .act-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #2c3e50;
+}
+.gofrik-act-btn .act-sub {
+  font-size: 11px;
+  color: #95a5a6;
+}
+
