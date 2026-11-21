@@ -294,8 +294,20 @@
         }
 
         try {
-          await plugin.initialize({ initializeForTesting: !!config.test });
-          bindListeners(plugin);
+          if (getEnv().platform === 'ios') {
+            try {
+              if (typeof plugin.trackingAuthorizationStatus === 'function') {
+                const attStatus = await plugin.trackingAuthorizationStatus();
+                if (
+                  attStatus &&
+                  attStatus.status === 'notDetermined' &&
+                  typeof plugin.requestTrackingAuthorization === 'function'
+                ) {
+                  await plugin.requestTrackingAuthorization();
+                }
+              }
+            } catch (attErr) {}
+          }
 
           try {
             let consentInfo = await plugin.requestConsentInfo();
@@ -314,6 +326,9 @@
             state.consentOk = true;
             state.consentStatus = 'consent-fallback';
           }
+
+          await plugin.initialize({ initializeForTesting: !!config.test });
+          bindListeners(plugin);
 
           if (state.consentOk) {
             await Promise.all([prepareRewarded(), prepareInterstitial()]);
