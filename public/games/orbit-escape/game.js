@@ -16,7 +16,32 @@ const ui = {
   speed: $('#speedText'), station: $('#stationSign'), best: $('#bestScore'), game: $('#game'), hazard: $('#hazardWarning'), impact: $('#lastImpact'),
   final: $('#finalScore'), finalTickets: $('#finalTickets'), finalBest: $('#finalBest'),
   resultTitle: $('#resultTitle'), sound: $('#soundButton'), fallback: $('#fallback'),
-  reviveAd: $('#reviveAdButton'), doubleCoresAd: $('#doubleCoresAdButton')
+  reviveAd: $('#reviveAdButton'), doubleCoresAd: $('#doubleCoresAdButton'),
+  // Hipodrom Ahiri standard settings & hangar UI
+  settingsButton: $('#settingsButton'),
+  settingsModal: $('#settingsModal'),
+  settingsBackdrop: $('#settingsBackdrop'),
+  closeSettings: $('#closeSettingsButton'),
+  saveSettings: $('#saveSettingsButton'),
+  setMasterToggle: $('#setMasterToggle'),
+  setMasterRange: $('#setMasterRange'),
+  setMasterVal: $('#setMasterVal'),
+  setMusicRange: $('#setMusicRange'),
+  setMusicVal: $('#setMusicVal'),
+  setSfxRange: $('#setSfxRange'),
+  setSfxVal: $('#setSfxVal'),
+  setAmbienceRange: $('#setAmbienceRange'),
+  setAmbienceVal: $('#setAmbienceVal'),
+  setHapticsToggle: $('#setHapticsToggle'),
+  pauseSettingsButton: $('#pauseSettingsButton'),
+  startHangarButton: $('#startHangarButton'),
+  hangarModal: $('#hangarModal'),
+  hangarBackdrop: $('#hangarBackdrop'),
+  closeHangar: $('#closeHangarButton'),
+  confirmShip: $('#confirmShipButton'),
+  hangarGrid: $('#hangarGrid'),
+  activeShipImg: $('#activeShipImg'),
+  activeShipName: $('#activeShipName')
 };
 const LANES = [-1.45, 0, 1.45];
 const PLAYER_Z = 2.15;
@@ -25,7 +50,77 @@ const BEST_KEY = 'elockman-orbit-best-v1';
 const REDUCED_MOTION = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 let mode = 'menu';
 let lastFrame = 0;
-let soundOn = safeGet('elockman-orbit-sound', 'on') !== 'off';
+
+// Hipodrom Ahiri standard audio settings architecture
+const audioSettings = {
+  sound: safeGet('elockman-orbit-sound', 'on') !== 'off',
+  master: Number(safeGet('elockman-orbit-vol-master', '85')),
+  music: Number(safeGet('elockman-orbit-vol-music', '70')),
+  sfx: Number(safeGet('elockman-orbit-vol-sfx', '80')),
+  ambience: Number(safeGet('elockman-orbit-vol-ambience', '65')),
+  haptics: safeGet('elockman-orbit-haptics', 'on') !== 'off'
+};
+let soundOn = audioSettings.sound;
+
+// 4 Distinct Selectable Spacecraft Fleet
+const SHIPS = [
+  {
+    id: 0,
+    name: 'Swift Interceptor',
+    code: 'NX-01 INTERCEPTOR',
+    role: 'Hızlı & Çevik Avcı (Mavi/Beyaz)',
+    desc: 'Yüksek manevra kabiliyeti ve çift turkuaz plazma iticili aerodinamik avcı.',
+    texturePath: 'textures/ship_1.png',
+    thrustColor: [0.25, 0.85, 1.0],
+    accentHex: '#72ddff',
+    speed: 95,
+    agility: 92,
+    shield: 70
+  },
+  {
+    id: 1,
+    name: 'Crimson Striker',
+    code: 'CR-07 STRIKER',
+    role: 'Ağır Taarruz Gemisi (Kırmızı)',
+    desc: 'Kızıl alaşımlı zırh ve aşırı yüklemeli kor afterburner motorları.',
+    texturePath: 'textures/ship_2.png',
+    thrustColor: [1.0, 0.38, 0.10],
+    accentHex: '#ff4c3b',
+    speed: 90,
+    agility: 78,
+    shield: 88
+  },
+  {
+    id: 2,
+    name: 'Shadow Ghost',
+    code: 'GH-99 STEALTH',
+    role: 'Siber Hayalet (Siyah/Yeşil)',
+    desc: 'Radar emici mat karbon gövde ve düşük sürtünmeli iyon sürücüsü.',
+    texturePath: 'textures/ship_3.png',
+    thrustColor: [0.15, 1.0, 0.55],
+    accentHex: '#00ff88',
+    speed: 88,
+    agility: 96,
+    shield: 75
+  },
+  {
+    id: 3,
+    name: 'Void Vanguard',
+    code: 'VV-04 DREADNOUGHT',
+    role: 'Hiçlik Muhafızı (Mor/Altın)',
+    desc: 'Kraliyet moru titanyum şasi ve takviyeli kalkan jeneratör matrisi.',
+    texturePath: 'textures/ship_4.png',
+    thrustColor: [0.85, 0.35, 1.0],
+    accentHex: '#c084fc',
+    speed: 82,
+    agility: 72,
+    shield: 100
+  }
+];
+
+let selectedShip = parseInt(safeGet('elockman-orbit-ship', '0'), 10);
+if (isNaN(selectedShip) || selectedShip < 0 || selectedShip >= SHIPS.length) selectedShip = 0;
+
 let toastTimer = 0;
 let state = freshState();
 let objects = [];
@@ -82,6 +177,29 @@ const audio = {
   musicStep: 0
 };
 
+function applyAudioSettings() {
+  soundOn = audioSettings.sound;
+  if (ui.sound) {
+    ui.sound.classList.toggle('off', !soundOn);
+    ui.sound.textContent = soundOn ? '♫' : '✕';
+    ui.sound.setAttribute('aria-label', soundOn ? 'Sesi kapat' : 'Sesi aç');
+  }
+  if (!audio.ctx) return;
+  const masterVal = soundOn ? (audioSettings.master / 100) * 0.85 : 0;
+  if (audio.master) {
+    audio.master.gain.setTargetAtTime(masterVal, audio.ctx.currentTime, 0.04);
+  }
+  if (audio.musicBus) {
+    audio.musicBus.gain.setTargetAtTime((audioSettings.music / 100) * 0.25, audio.ctx.currentTime, 0.04);
+  }
+  if (audio.sfxBus) {
+    audio.sfxBus.gain.setTargetAtTime((audioSettings.sfx / 100) * 0.70, audio.ctx.currentTime, 0.04);
+  }
+  if (audio.ambienceBus) {
+    audio.ambienceBus.gain.setTargetAtTime((audioSettings.ambience / 100) * 0.30, audio.ctx.currentTime, 0.04);
+  }
+}
+
 function ensureAudio() {
   if (!soundOn) return null;
   try {
@@ -92,7 +210,7 @@ function ensureAudio() {
       audio.ctx = ctx;
 
       audio.master = ctx.createGain();
-      audio.master.gain.value = 0.85;
+      audio.master.gain.value = soundOn ? (audioSettings.master / 100) * 0.85 : 0;
       audio.master.connect(ctx.destination);
 
       audio.musicDuck = ctx.createGain();
@@ -100,15 +218,15 @@ function ensureAudio() {
       audio.musicDuck.connect(audio.master);
 
       audio.musicBus = ctx.createGain();
-      audio.musicBus.gain.value = 0.22;
+      audio.musicBus.gain.value = (audioSettings.music / 100) * 0.25;
       audio.musicBus.connect(audio.musicDuck);
 
       audio.sfxBus = ctx.createGain();
-      audio.sfxBus.gain.value = 0.65;
+      audio.sfxBus.gain.value = (audioSettings.sfx / 100) * 0.70;
       audio.sfxBus.connect(audio.master);
 
       audio.ambienceBus = ctx.createGain();
-      audio.ambienceBus.gain.value = 0.25;
+      audio.ambienceBus.gain.value = (audioSettings.ambience / 100) * 0.30;
       audio.ambienceBus.connect(audio.master);
 
       audio.uiBus = ctx.createGain();
@@ -254,7 +372,7 @@ function playSfx(type, pitchBoost = 1) {
         src.connect(filter); filter.connect(g); g.connect(audio.sfxBus);
         src.start(t); src.stop(t + 0.14);
       }
-    } else if (type === 'hit') {
+    } else if (type === 'hit' || type === 'impact') {
       duckMusic(0.5);
       const osc = ctx.createOscillator();
       const g = ctx.createGain();
@@ -291,6 +409,48 @@ function playSfx(type, pitchBoost = 1) {
         osc.connect(g); g.connect(audio.uiBus);
         osc.start(t + idx * 0.06); osc.stop(t + idx * 0.06 + 0.24);
       });
+    } else if (type === 'shield') {
+      [520, 780, 1040].forEach((f, idx) => {
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(f * randPitch, t + idx * 0.045);
+        g.gain.setValueAtTime(0.18 * randGain, t + idx * 0.045);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + idx * 0.045 + 0.18);
+        osc.connect(g); g.connect(audio.sfxBus);
+        osc.start(t + idx * 0.045); osc.stop(t + idx * 0.045 + 0.20);
+      });
+    } else if (type === 'data') {
+      [440, 660, 880].forEach((f, idx) => {
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(f * randPitch, t + idx * 0.03);
+        g.gain.setValueAtTime(0.16 * randGain, t + idx * 0.03);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + idx * 0.03 + 0.14);
+        osc.connect(g); g.connect(audio.sfxBus);
+        osc.start(t + idx * 0.03); osc.stop(t + idx * 0.03 + 0.15);
+      });
+    } else if (type === 'hyper') {
+      [330, 660, 990, 1320].forEach((f, idx) => {
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(f * randPitch, t + idx * 0.035);
+        g.gain.setValueAtTime(0.15 * randGain, t + idx * 0.035);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + idx * 0.035 + 0.22);
+        osc.connect(g); g.connect(audio.sfxBus);
+        osc.start(t + idx * 0.035); osc.stop(t + idx * 0.035 + 0.24);
+      });
+    } else if (type === 'click') {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(780 * randPitch, t);
+      g.gain.setValueAtTime(0.08, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.04);
+      osc.connect(g); g.connect(audio.uiBus);
+      osc.start(t); osc.stop(t + 0.045);
     }
   } catch {}
 }
@@ -454,13 +614,15 @@ function boot() {
   const texNebula = loadTexture(gl, 'textures/tex_nebula.png');
   const texCrater = loadTexture(gl, 'textures/tex_crater.png');
   const texMothership = loadTexture(gl, 'textures/boss_mothership.png');
+  const shipTextures = SHIPS.map((s) => loadTexture(gl, s.texturePath));
 
   const cube = makeCube(gl);
   const sphere = makeSphere(gl, 20, 28);
   const cylinder = makeCylinder(gl, 20);
   const ring = makeTorus(gl, 22, 10);
   const shipBody = makeShipBody(gl);
-  const asteroidMesh = makeAsteroid(gl, 10, 14);
+  const shipQuad = makeShipQuad(gl);
+  const asteroidMesh = makeAsteroid(gl, 12, 16);
   const crystalMesh = makeCrystal(gl);
   const billboardQuad = makeBillboardQuad(gl);
   const environment = buildEnvironment(gl);
@@ -515,15 +677,29 @@ function boot() {
       audio.engineFilter.frequency.setTargetAtTime(220 + ratio * 260, audio.ctx.currentTime, 0.08);
     }
 
-    // Twin engine ion exhaust particles
+    // Twin engine plasma exhaust particles (Ship-specific palette & turbo lengthening)
     state.exhaustTimer -= dt;
     if (state.exhaustTimer <= 0) {
-      state.exhaustTimer = 0.032;
+      state.exhaustTimer = 0.026;
+      const ship = SHIPS[selectedShip] || SHIPS[0];
+      const tCol = ship.thrustColor;
+      const lean = (LANES[state.lane] - state.laneX) * -0.18;
+      const cosR = Math.cos(lean * 2.2);
+      const sinR = Math.sin(lean * 2.2);
+      const spdRatio = Math.max(0, state.speed - 14.5);
       for (const side of [-1, 1]) {
+        const nozX = side * 0.34;
         spawnParticle(
-          state.laneX + side * 0.31, 0.14, PLAYER_Z + 0.96,
-          (Math.random() - 0.5) * 0.35, (Math.random() - 0.5) * 0.25, 4.5 + state.speed * 0.22,
-          0.34, 0.78, 1.0, 0.055, 0.22, 1.2
+          state.laneX + nozX * cosR,
+          0.16 + nozX * sinR,
+          PLAYER_Z + 0.96,
+          (Math.random() - 0.5) * 0.25 - lean * 0.45,
+          (Math.random() - 0.5) * 0.18,
+          4.8 + state.speed * 0.25,
+          tCol[0], tCol[1], tCol[2],
+          0.065 + spdRatio * 0.02,
+          0.24 + spdRatio * 0.08,
+          1.3
         );
       }
     }
@@ -606,9 +782,59 @@ function boot() {
     const safeLanes = [0, 1, 2].filter((i) => i !== blockedLane);
     const rewardLane = safeLanes[Math.floor(random() * safeLanes.length)];
     const otherLane = safeLanes.find((i) => i !== rewardLane);
-    objects.push({ type: 'asteroid', lane: blockedLane, z: -72, checked: false, nearMissed: false, phase: random() * 6.2 });
-    objects.push({ type: 'energy', lane: rewardLane, z: -72, checked: false, nearMissed: false, phase: random() * 6.2 });
-    if (random() > .38) objects.push({ type: 'energy', lane: otherLane, z: -76, checked: false, nearMissed: false, phase: random() * 6.2 });
+
+    // 3 Distinct Asteroid Classes (Silicate, Cinder Lava, Glacial Ice)
+    const aRoll = random();
+    const aType = aRoll < 0.45 ? 'silicate' : aRoll < 0.75 ? 'cinder' : 'ice';
+
+    objects.push({
+      type: 'asteroid',
+      subType: aType,
+      lane: blockedLane,
+      z: -72,
+      checked: false,
+      nearMissed: false,
+      phase: random() * 6.2,
+      spinX: 0.22 + random() * 0.28,
+      spinY: 0.20 + random() * 0.26,
+      spinZ: 0.16 + random() * 0.22
+    });
+
+    // 3 Distinct Energy / Boost Pickups (Hyper Boost, Shield Orb, Data Core)
+    const pRoll = random();
+    let pType = 'hyper';
+    if (state.hearts < 3 && pRoll < 0.40) {
+      pType = 'shield';
+    } else if (pRoll < 0.45) {
+      pType = 'hyper';
+    } else if (pRoll < 0.80) {
+      pType = 'data';
+    } else {
+      pType = 'shield';
+    }
+
+    objects.push({
+      type: 'energy',
+      subType: pType,
+      lane: rewardLane,
+      z: -72,
+      checked: false,
+      nearMissed: false,
+      phase: random() * 6.2
+    });
+
+    if (random() > 0.40) {
+      const pType2 = random() > 0.5 ? 'data' : 'hyper';
+      objects.push({
+        type: 'energy',
+        subType: pType2,
+        lane: otherLane,
+        z: -76,
+        checked: false,
+        nearMissed: false,
+        phase: random() * 6.2
+      });
+    }
   }
 
   function render(time) {
@@ -647,13 +873,20 @@ function boot() {
 
   function drawSpaceBackdrop(time) {
     const drift = Math.sin(time * .08) * .7;
-    draw(sphere, [0, 22.0, -115], [32.0, 32.0, 32.0], [.85, .75, 1.05], .28, [0, time * .006, 0.1], texNebula);
-    draw(sphere, [-11.2 + drift, 10.5, -64], [6.8, 6.8, 6.8], [1.0, 1.05, 1.15], .16, [0.12, time * 0.025, 0.04], texIce);
-    draw(ring, [-11.2 + drift, 10.5, -64], [9.2, 9.2, .20], [.30, .64, .96], .38, [.12, .28, -.12]);
-    draw(sphere, [12.0, 6.8, -82], [4.6, 4.6, 4.6], [1.1, 0.85, 0.75], .22, [0.08, time * 0.02, -0.05], texLava);
-    draw(ring, [12.0, 6.8, -82], [6.2, 6.2, .15], [.95, .45, .15], .28, [.2, .16, .18]);
+    // Deep space nebula backdrop sphere (store key art parity)
+    draw(sphere, [0, 22.0, -115], [36.0, 36.0, 36.0], [.90, .80, 1.15], .32, [0, time * .005, 0.08], texNebula);
 
-    const bossGlow = .55 + Math.sin(time * 3.5) * .25;
+    // Celestial Body 1: Giant Frosted Glacial Planet (Clean surface, NO ARTIFICIAL RING)
+    draw(sphere, [-12.5 + drift, 11.2, -68], [7.2, 7.2, 7.2], [1.0, 1.08, 1.22], .16, [0.12, time * 0.022, 0.04], texIce);
+
+    // Celestial Body 2: Molten Volcanic Celestial Body (Volcanic glow, NO ARTIFICIAL RING)
+    draw(sphere, [13.2, 7.5, -86], [5.0, 5.0, 5.0], [1.15, 0.80, 0.70], .24, [0.08, time * 0.018, -0.05], texLava);
+
+    // Celestial Body 3: Distant violet gas giant silhouette in deep space
+    draw(sphere, [-2.0, 32.0, -125], [18.0, 18.0, 18.0], [0.55, 0.35, 0.85], .12, [0, time * 0.008, 0], texNebula);
+
+    // Alien Mothership / Boss in deep horizon
+    const bossGlow = .50 + Math.sin(time * 3.5) * .25;
     const bossSwayX = Math.sin(time * 0.15) * 4.2;
     const bossSwayY = 13.5 + Math.cos(time * 0.22) * 1.2;
     draw(billboardQuad, [bossSwayX, bossSwayY, -85.0], [15.0, 15.0, 1.0], [1.0, 0.9, 0.9], bossGlow, [0, 0, Math.sin(time * 0.15) * 0.05], texMothership);
@@ -678,49 +911,96 @@ function boot() {
   }
 
   function drawShip(time) {
+    const ship = SHIPS[selectedShip] || SHIPS[0];
+    const texShip = shipTextures[selectedShip] || shipTextures[0];
     const x = state.laneX;
-    const lean = (LANES[state.lane] - x) * -.16;
-    const hover = Math.sin(time * 4.2) * 0.03;
-    const engineGlow = .75 + Math.sin(time * 12) * .28;
-    const spin = mode === 'playing' ? time * 2.2 : 0;
+    const targetLaneX = LANES[state.lane];
+    const lean = (targetLaneX - x) * -0.18; // banking factor
+    const hover = Math.sin(time * 4.6) * 0.035;
+    const engineGlow = 0.82 + Math.sin(time * 14) * 0.28;
+    const speedRatio = Math.max(0, state.speed - 14.5);
+    const turboFlameLen = 0.18 + speedRatio * 0.05;
 
-    // Invulnerability flicker / shield aura
+    // Pitch, yaw, and banking roll angles
+    const pitch = -0.28 + hover * 0.8;
+    const yaw = lean * 0.85;
+    const roll = lean * 2.2;
+    const shipRot = [pitch, yaw, roll];
+
+    // Invulnerability shield aura / energy cocoon
     if (state.invuln > 0) {
-      const pulse = 0.85 + Math.sin(time * 18) * 0.15;
-      draw(ring, [x, .28 + hover, PLAYER_Z], [1.22 * pulse, 1.22 * pulse, .08], [.28, .88, 1.0], 0.95, [Math.PI / 2, 0, time * 2.5]);
+      const pulse = 0.92 + Math.sin(time * 18) * 0.16;
+      draw(sphere, [x, 0.32 + hover, PLAYER_Z], [1.22 * pulse, 0.95 * pulse, 1.55 * pulse], [0.28, 0.88, 1.0], 0.85, [0, time * 2.2, 0]);
     }
 
-    draw(cube, [x, .12 + hover, PLAYER_Z + .03], [.62, .11, 1.22], [.045, .07, .15], .12, [0, lean, 0]);
-    draw(shipBody, [x, .24 + hover, PLAYER_Z], [.92, .40, 1.82], [.66, .75, .88], .10, [0, lean, 0]);
-    draw(cube, [x, .45 + hover, PLAYER_Z - .34], [.40, .17, .62], [.035, .12, .30], .48, [0, lean, 0]);
-    draw(cube, [x, .455 + hover, PLAYER_Z + .03], [.16, .035, 1.26], [.95, .61, .25], .38, [0, lean, 0]);
+    // Sleek aerodynamic composite under-fuselage / keel (3D volume & shadow)
+    draw(shipBody, [x, 0.14 + hover, PLAYER_Z + 0.04], [0.85, 0.26, 1.38], [0.07, 0.09, 0.16], 0.08, shipRot);
 
-    for (const side of [-1, 1]) {
-      draw(cube, [x + side * .65, .16 + hover, PLAYER_Z + .02], [.70, .075, .64], [.16, .27, .47], .18, [0, lean, side * -.08]);
-      draw(cube, [x + side * .89, .22 + hover, PLAYER_Z - .13], [.12, .15, .38], [.23, .40, .64], .38, [0, lean, side * -.05]);
-      draw(cube, [x + side * .40, .16 + hover, PLAYER_Z + .81], [.12, .12, .22], [.08, .11, .20], .10);
-      draw(sphere, [x + side * .31, .15 + hover, PLAYER_Z + .92], [.14, .14, .16 + (state.speed - 14.5) * 0.015], [.34, .76, 1], engineGlow);
-      draw(cube, [x + side * .27, .29 + hover, PLAYER_Z - .84], [.08, .08, .06], [.72, .94, 1], .9, [0, spin, 0]);
+    // High-resolution textured ship deck (Alpha-cutout sprite)
+    draw(shipQuad, [x, 0.28 + hover, PLAYER_Z], [1.20, 1.0, 1.45], [1.0, 1.0, 1.0], 0.18, shipRot, texShip);
+
+    // Twin plasma exhaust nozzles
+    const tCol = ship.thrustColor;
+    const cosR = Math.cos(roll);
+    const sinR = Math.sin(roll);
+    for (const nozX of [-0.34, 0.34]) {
+      const worldNozX = x + nozX * cosR;
+      const worldNozY = 0.18 + hover + nozX * sinR;
+      const worldNozZ = PLAYER_Z + 0.88;
+
+      // Glowing nozzle orb
+      draw(sphere, [worldNozX, worldNozY, worldNozZ], [0.12, 0.10, 0.14], tCol, engineGlow);
+      // Lengthened plasma flame cone
+      draw(cube, [worldNozX, worldNozY, worldNozZ + turboFlameLen * 0.5], [0.08, 0.06, turboFlameLen], tCol, 1.2 + engineGlow * 0.3);
     }
   }
 
   function drawHazardOrEnergy(item, time) {
     const x = LANES[item.lane];
-    const bob = Math.sin(time * 3.3 + item.phase) * .11;
+    const bob = Math.sin(time * 3.3 + item.phase) * 0.11;
+
     if (item.type === 'energy') {
-      draw(crystalMesh, [x, .55 + bob, item.z], [.38, .52, .38], [1, .62, .16], 1.05, [time * .24, time * .8 + item.phase, time * .15]);
-      draw(sphere, [x, .55 + bob, item.z], [.13, .13, .13], [.58, .9, 1], .72);
+      const pType = item.subType || 'hyper';
+      if (pType === 'shield') {
+        // Shield Orb: Concentric luminous plasma sphere with inner core
+        const pulse = 0.95 + Math.sin(time * 6 + item.phase) * 0.15;
+        draw(sphere, [x, 0.52 + bob, item.z], [0.32 * pulse, 0.32 * pulse, 0.32 * pulse], [0.22, 0.88, 1.0], 1.25, [0, time * 2, 0]);
+        draw(sphere, [x, 0.52 + bob, item.z], [0.16, 0.16, 0.16], [1.0, 1.0, 1.0], 1.4);
+      } else if (pType === 'data') {
+        // Data Core: Emerald green rotating prism with digital gleam
+        draw(crystalMesh, [x, 0.54 + bob, item.z], [0.35, 0.55, 0.35], [0.15, 1.0, 0.55], 1.15, [time * 0.4, time * 1.8 + item.phase, time * 0.3]);
+        draw(sphere, [x, 0.54 + bob, item.z], [0.13, 0.13, 0.13], [0.8, 1.0, 0.9], 0.9);
+      } else {
+        // Hyper Drive: Golden yellow crystal core with high energy emission
+        draw(crystalMesh, [x, 0.55 + bob, item.z], [0.38, 0.52, 0.38], [1.0, 0.78, 0.18], 1.2, [time * 0.24, time * 0.8 + item.phase, time * 0.15]);
+        draw(sphere, [x, 0.55 + bob, item.z], [0.14, 0.14, 0.14], [1.0, 0.95, 0.6], 1.1);
+      }
       return;
     }
 
-    const spin = time * .32 + item.phase;
-    draw(asteroidMesh, [x, .34, item.z], [.66, .62, .65], [1.0, 0.78, 0.65], .08, [spin, spin * .7, spin * .4], texCrater);
-    draw(sphere, [x + .16, .48, item.z + .51], [.13, .11, .04], [.20, .12, .12], .02);
-    draw(sphere, [x - .20, .20, item.z + .48], [.10, .09, .035], [.18, .10, .10], .02);
-    draw(sphere, [x + .02, .17, item.z + .57], [.08, .07, .025], [.19, .11, .1], .02);
-    draw(ring, [x, .38, item.z], [.86, .86, .13], [1, .12, .20], .92, [.15, .1, spin]);
-    draw(cube, [x, 1.04, item.z], [.055, .23, .06], [1, .18, .23], .72, [0, 0, spin]);
-    draw(sphere, [x, .88, item.z], [.07, .07, .07], [1, .32, .25], .9);
+    // Realistic asteroid tumbling physics across 3 axes - NO ARTIFICIAL HALO RINGS!
+    const rotX = time * (item.spinX || 0.32) + item.phase;
+    const rotY = time * (item.spinY || 0.24);
+    const rotZ = time * (item.spinZ || 0.18);
+    const astRotation = [rotX, rotY, rotZ];
+
+    const aClass = item.subType || 'silicate';
+    if (aClass === 'cinder') {
+      // Lav / Cinder Akkor Göktaşı (Ateşli, akkor çatlaklar)
+      const glow = 0.24 + Math.sin(time * 4.2 + item.phase) * 0.12;
+      draw(asteroidMesh, [x, 0.34, item.z], [0.72, 0.68, 0.70], [1.25, 0.65, 0.40], glow, astRotation, texLava);
+      draw(sphere, [x + 0.18, 0.46, item.z + 0.48], [0.14, 0.12, 0.05], [1.0, 0.4, 0.15], glow * 0.8);
+    } else if (aClass === 'ice') {
+      // Buzul / Kristal Göktaşı (Mavi ışıltılı, dondurucu)
+      const shimmer = 0.16 + Math.cos(time * 3.5 + item.phase) * 0.08;
+      draw(asteroidMesh, [x, 0.34, item.z], [0.68, 0.65, 0.68], [0.80, 1.10, 1.35], shimmer, astRotation, texIce);
+      draw(sphere, [x - 0.16, 0.22, item.z + 0.46], [0.12, 0.10, 0.04], [0.5, 0.9, 1.0], shimmer * 0.9);
+    } else {
+      // Standart Bazalt / Silikat Kraterli Göktaşı
+      draw(asteroidMesh, [x, 0.34, item.z], [0.68, 0.64, 0.66], [0.95, 0.88, 0.82], 0.05, astRotation, texCrater);
+      draw(sphere, [x + 0.16, 0.48, item.z + 0.51], [0.13, 0.11, 0.04], [0.20, 0.12, 0.12], 0.02);
+      draw(sphere, [x - 0.20, 0.20, item.z + 0.48], [0.10, 0.09, 0.035], [0.18, 0.10, 0.10], 0.02);
+    }
   }
 
   function updateHazardWarning() {
@@ -793,22 +1073,45 @@ function boot() {
   }
 
   function collectEnergy(item) {
-    state.tickets++;
+    const pType = item.subType || 'hyper';
     state.combo++;
     state.maxCombo = Math.max(state.maxCombo, state.combo);
     const mult = Math.min(4, 1 + Math.floor(state.combo / 3));
-    state.score += 120 * mult;
-    state.trauma = Math.min(1, state.trauma + 0.08);
-    spawnBurst(LANES[item.lane], 0.5, PLAYER_Z, 14, 1.0, 0.78, 0.25, 3.4, 0.075);
-    if (state.combo > 0 && state.combo % 10 === 0 && state.hearts < 3) {
-      state.hearts++;
-      showToast('10 COMBO! +1 KALKAN YENİLENDİ');
+
+    if (pType === 'shield') {
+      state.tickets++;
+      if (state.hearts < 3) {
+        state.hearts++;
+        showToast('KALKAN MATRİSİ YENİLENDİ! 🛡️ (+1 KALKAN)');
+      } else {
+        const bonus = 250 * mult;
+        state.score += bonus;
+        showToast('AŞIRI YÜKLÜ KALKAN! 🛡️ (+' + bonus + ')');
+      }
+      spawnBurst(LANES[item.lane], 0.5, PLAYER_Z, 16, 0.22, 0.88, 1.0, 3.6, 0.08);
+      playSfx('shield');
+    } else if (pType === 'data') {
+      state.tickets += 2;
+      const pts = 200 * mult;
+      state.score += pts;
+      showToast('VERİ ÇEKİRDEĞİ DEŞİFRE EDİLDİ! ✦ (+' + pts + ')');
+      spawnBurst(LANES[item.lane], 0.5, PLAYER_Z, 18, 0.15, 1.0, 0.55, 3.8, 0.08);
+      playSfx('data');
     } else {
-      showToast(state.combo >= 3 ? 'ENERJİ x' + mult + ' • SERİ ' + state.combo : '+1 ENERJİ ÇEKİRDEĞİ');
+      // Hyper Boost
+      state.tickets++;
+      const pts = 150 * mult;
+      state.score += pts;
+      state.speed = Math.min(26.0, state.speed + 1.2);
+      showToast('HİPER BOOST! ⚡ (+' + pts + ')');
+      spawnBurst(LANES[item.lane], 0.5, PLAYER_Z, 20, 1.0, 0.78, 0.18, 4.2, 0.09);
+      playSfx('hyper');
     }
+
+    state.trauma = Math.min(1, state.trauma + 0.08);
     syncComboUI();
-    playSfx('energy');
-    if (navigator.vibrate) navigator.vibrate(10);
+    updateHud();
+    if (audioSettings.haptics && navigator.vibrate) navigator.vibrate(12);
   }
 
   function triggerNearMiss(item) {
@@ -817,6 +1120,7 @@ function boot() {
     spawnBurst((LANES[item.lane] + state.laneX) * 0.5, 0.35, PLAYER_Z, 8, 0.45, 0.90, 1.0, 2.5, 0.055);
     showToast('KIL PAYI! +50');
     playSfx('nearmiss');
+    if (audioSettings.haptics && navigator.vibrate) navigator.vibrate(8);
   }
 
   function hitAsteroid(item) {
@@ -824,20 +1128,26 @@ function boot() {
     state.hearts--;
     state.combo = 0;
     syncComboUI();
-    state.invuln = 1.15;
+    state.invuln = 1.25;
     state.trauma = 0.85;
     state.hitStop = REDUCED_MOTION ? 0 : 0.065;
-    state.lastImpact = { name: 'ASTEROİT', lane: ['SOL', 'ORTA', 'SAĞ'][item.lane] };
-    spawnBurst(LANES[item.lane], 0.4, PLAYER_Z, 24, 1.0, 0.32, 0.14, 5.0, 0.10);
+    const aType = item.subType || 'silicate';
+    const aName = aType === 'cinder' ? 'LAV ASTEROİTİ' : aType === 'ice' ? 'BUZUL ASTEROİTİ' : 'SİLİKAT ASTEROİT';
+    state.lastImpact = { name: aName, lane: ['SOL', 'ORTA', 'SAĞ'][item.lane] };
+
+    // Burst colors matching asteroid class
+    const bCol = aType === 'cinder' ? [1.0, 0.40, 0.12] : aType === 'ice' ? [0.45, 0.85, 1.0] : [0.85, 0.75, 0.70];
+    spawnBurst(LANES[item.lane], 0.4, PLAYER_Z, 26, bCol[0], bCol[1], bCol[2], 5.2, 0.11);
+
     ui.game.classList.remove('impact');
     void ui.game.offsetWidth;
     ui.game.classList.add('impact');
     setTimeout(() => ui.game.classList.remove('impact'), 260);
-    ui.impact.textContent = 'SON ÇARPIŞMA: ASTEROİT • ' + state.lastImpact.lane + ' ROTA';
+    ui.impact.textContent = 'SON ÇARPIŞMA: ' + aName + ' • ' + state.lastImpact.lane + ' ROTA';
     ui.impact.classList.add('collision');
-    showToast(state.hearts ? 'ASTEROİT ÇARPTI • ' + state.hearts + ' KALKAN KALDI' : 'ASTEROİT ÇARPTI • KALKANLAR TÜKENDİ');
-    playSfx('hit');
-    if (navigator.vibrate) navigator.vibrate([35, 25, 45]);
+    showToast(state.hearts ? aName + ' ÇARPTI • ' + state.hearts + ' KALKAN KALDI' : aName + ' ÇARPTI • KALKANLAR TÜKENDİ');
+    playSfx('impact');
+    if (audioSettings.haptics && navigator.vibrate) navigator.vibrate([40, 30, 60]);
     updateHud();
   }
 
@@ -989,6 +1299,177 @@ function boot() {
   updateBestOnHome();
   createDateLabel();
 
+  function updateActiveShipUI() {
+    const ship = SHIPS[selectedShip] || SHIPS[0];
+    if (ui.activeShipImg) ui.activeShipImg.src = ship.texturePath;
+    if (ui.activeShipName) ui.activeShipName.textContent = ship.name;
+  }
+
+  function initSettingsModal() {
+    function openModal() {
+      if (mode === 'playing') pauseRun();
+      if (ui.setMasterToggle) ui.setMasterToggle.checked = audioSettings.sound;
+      if (ui.setMasterRange) ui.setMasterRange.value = audioSettings.master;
+      if (ui.setMasterVal) ui.setMasterVal.textContent = audioSettings.master + '%';
+      if (ui.setMusicRange) ui.setMusicRange.value = audioSettings.music;
+      if (ui.setMusicVal) ui.setMusicVal.textContent = audioSettings.music + '%';
+      if (ui.setSfxRange) ui.setSfxRange.value = audioSettings.sfx;
+      if (ui.setSfxVal) ui.setSfxVal.textContent = audioSettings.sfx + '%';
+      if (ui.setAmbienceRange) ui.setAmbienceRange.value = audioSettings.ambience;
+      if (ui.setAmbienceVal) ui.setAmbienceVal.textContent = audioSettings.ambience + '%';
+      if (ui.setHapticsToggle) ui.setHapticsToggle.checked = audioSettings.haptics;
+      if (ui.settingsModal) ui.settingsModal.classList.remove('hidden');
+      playSfx('click');
+    }
+
+    function closeModal() {
+      if (ui.settingsModal) ui.settingsModal.classList.add('hidden');
+      playSfx('click');
+    }
+
+    if (ui.settingsButton) ui.settingsButton.addEventListener('click', openModal);
+    if (ui.pauseSettingsButton) ui.pauseSettingsButton.addEventListener('click', openModal);
+    const startSetBtn = $('#openSettingsButton');
+    if (startSetBtn) startSetBtn.addEventListener('click', openModal);
+    if (ui.closeSettings) ui.closeSettings.addEventListener('click', closeModal);
+    if (ui.settingsBackdrop) ui.settingsBackdrop.addEventListener('click', closeModal);
+    if (ui.saveSettings) ui.saveSettings.addEventListener('click', closeModal);
+
+    if (ui.setMasterToggle) {
+      ui.setMasterToggle.addEventListener('change', (e) => {
+        audioSettings.sound = e.target.checked;
+        soundOn = audioSettings.sound;
+        safeSet('elockman-orbit-sound', soundOn ? 'on' : 'off');
+        applyAudioSettings();
+        if (soundOn) {
+          ensureAudio();
+          playSfx('click');
+        }
+      });
+    }
+
+    if (ui.setMasterRange) {
+      ui.setMasterRange.addEventListener('input', (e) => {
+        audioSettings.master = Number(e.target.value);
+        if (ui.setMasterVal) ui.setMasterVal.textContent = e.target.value + '%';
+        safeSet('elockman-orbit-vol-master', String(audioSettings.master));
+        applyAudioSettings();
+      });
+    }
+
+    if (ui.setMusicRange) {
+      ui.setMusicRange.addEventListener('input', (e) => {
+        audioSettings.music = Number(e.target.value);
+        if (ui.setMusicVal) ui.setMusicVal.textContent = e.target.value + '%';
+        safeSet('elockman-orbit-vol-music', String(audioSettings.music));
+        applyAudioSettings();
+      });
+    }
+
+    if (ui.setSfxRange) {
+      ui.setSfxRange.addEventListener('input', (e) => {
+        audioSettings.sfx = Number(e.target.value);
+        if (ui.setSfxVal) ui.setSfxVal.textContent = e.target.value + '%';
+        safeSet('elockman-orbit-vol-sfx', String(audioSettings.sfx));
+        applyAudioSettings();
+      });
+    }
+
+    if (ui.setAmbienceRange) {
+      ui.setAmbienceRange.addEventListener('input', (e) => {
+        audioSettings.ambience = Number(e.target.value);
+        if (ui.setAmbienceVal) ui.setAmbienceVal.textContent = e.target.value + '%';
+        safeSet('elockman-orbit-vol-ambience', String(audioSettings.ambience));
+        applyAudioSettings();
+      });
+    }
+
+    if (ui.setHapticsToggle) {
+      ui.setHapticsToggle.addEventListener('change', (e) => {
+        audioSettings.haptics = e.target.checked;
+        safeSet('elockman-orbit-haptics', audioSettings.haptics ? 'on' : 'off');
+        if (audioSettings.haptics && navigator.vibrate) navigator.vibrate(20);
+      });
+    }
+  }
+
+  function initHangarModal() {
+    function renderHangarCards() {
+      if (!ui.hangarGrid) return;
+      ui.hangarGrid.innerHTML = SHIPS.map((ship) => {
+        const isActive = ship.id === selectedShip;
+        return `
+          <div class="hangar-card-item ${isActive ? 'active' : ''}" data-ship-id="${ship.id}">
+            <div class="ship-card-head">
+              <img src="${ship.texturePath}" alt="${ship.name}" class="ship-card-thumb">
+              <div class="ship-card-title">
+                <span class="ship-card-code">${ship.code}</span>
+                <strong class="ship-card-name">${ship.name}</strong>
+                <span class="ship-card-role">${ship.role}</span>
+              </div>
+            </div>
+            <div class="ship-card-desc">${ship.desc}</div>
+            <div class="ship-stats">
+              <div class="ship-stat-row">
+                <span>HIZ</span>
+                <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width:${ship.speed}%"></div></div>
+                <span>${ship.speed}%</span>
+              </div>
+              <div class="ship-stat-row">
+                <span>MANEVRA</span>
+                <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width:${ship.agility}%;background:${ship.accentHex}"></div></div>
+                <span>${ship.agility}%</span>
+              </div>
+              <div class="ship-stat-row">
+                <span>KALKAN</span>
+                <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width:${ship.shield}%;background:#ffc15d"></div></div>
+                <span>${ship.shield}%</span>
+              </div>
+            </div>
+            <button class="ship-select-btn" type="button" data-select-ship="${ship.id}">
+              ${isActive ? 'SEÇİLDİ ✓' : 'BU GEMİYİ SEÇ ↗'}
+            </button>
+          </div>
+        `;
+      }).join('');
+
+      ui.hangarGrid.querySelectorAll('[data-select-ship]').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const sid = parseInt(btn.getAttribute('data-select-ship'), 10);
+          selectedShip = sid;
+          safeSet('elockman-orbit-ship', String(selectedShip));
+          updateActiveShipUI();
+          renderHangarCards();
+          playSfx('click');
+          showToast(SHIPS[selectedShip].name + ' HAZIRLANDI!');
+        });
+      });
+    }
+
+    function openHangar() {
+      renderHangarCards();
+      if (ui.hangarModal) ui.hangarModal.classList.remove('hidden');
+      playSfx('click');
+    }
+
+    function closeHangar() {
+      if (ui.hangarModal) ui.hangarModal.classList.add('hidden');
+      playSfx('click');
+    }
+
+    if (ui.startHangarButton) ui.startHangarButton.addEventListener('click', openHangar);
+    if (ui.closeHangar) ui.closeHangar.addEventListener('click', closeHangar);
+    if (ui.hangarBackdrop) ui.hangarBackdrop.addEventListener('click', closeHangar);
+    if (ui.confirmShip) ui.confirmShip.addEventListener('click', closeHangar);
+
+    updateActiveShipUI();
+  }
+
+  initSettingsModal();
+  initHangarModal();
+  applyAudioSettings();
+
   let pointerStart = null;
   canvas.addEventListener('pointerdown', (event) => {
     pointerStart = { x: event.clientX, y: event.clientY };
@@ -1029,6 +1510,10 @@ function boot() {
   requestAnimationFrame(function initialFrame(now) { lastFrame = now; requestAnimationFrame(frame); });
 }
 
+function isPowerOf2(value) {
+  return (value & (value - 1)) === 0;
+}
+
 function loadTexture(context, url) {
   const texture = context.createTexture();
   context.bindTexture(context.TEXTURE_2D, texture);
@@ -1038,11 +1523,17 @@ function loadTexture(context, url) {
   image.onload = () => {
     context.bindTexture(context.TEXTURE_2D, texture);
     context.texImage2D(context.TEXTURE_2D, 0, context.RGBA, context.RGBA, context.UNSIGNED_BYTE, image);
-    context.texParameteri(context.TEXTURE_2D, context.TEXTURE_WRAP_S, context.REPEAT);
-    context.texParameteri(context.TEXTURE_2D, context.TEXTURE_WRAP_T, context.REPEAT);
-    context.texParameteri(context.TEXTURE_2D, context.TEXTURE_MIN_FILTER, context.LINEAR_MIPMAP_LINEAR);
+    if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+      context.texParameteri(context.TEXTURE_2D, context.TEXTURE_WRAP_S, context.REPEAT);
+      context.texParameteri(context.TEXTURE_2D, context.TEXTURE_WRAP_T, context.REPEAT);
+      context.texParameteri(context.TEXTURE_2D, context.TEXTURE_MIN_FILTER, context.LINEAR_MIPMAP_LINEAR);
+      context.generateMipmap(context.TEXTURE_2D);
+    } else {
+      context.texParameteri(context.TEXTURE_2D, context.TEXTURE_WRAP_S, context.CLAMP_TO_EDGE);
+      context.texParameteri(context.TEXTURE_2D, context.TEXTURE_WRAP_T, context.CLAMP_TO_EDGE);
+      context.texParameteri(context.TEXTURE_2D, context.TEXTURE_MIN_FILTER, context.LINEAR);
+    }
     context.texParameteri(context.TEXTURE_2D, context.TEXTURE_MAG_FILTER, context.LINEAR);
-    context.generateMipmap(context.TEXTURE_2D);
   };
   image.src = url;
   return texture;
@@ -1129,6 +1620,38 @@ function makeShipBody(context) {
     uvs.push(0, 0, 1, 0, 1, 1, 0, 1);
     indices.push(base, base+1, base+2, base, base+2, base+3);
   }
+  return uploadMesh(context, positions, normals, colors, indices, uvs);
+}
+
+function makeShipQuad(context) {
+  const positions = [
+    -1.0, 0,  1.0,
+     1.0, 0,  1.0,
+     1.0, 0, -1.0,
+    -1.0, 0, -1.0
+  ];
+  const normals = [
+    0, 1, 0,
+    0, 1, 0,
+    0, 1, 0,
+    0, 1, 0
+  ];
+  const colors = [
+    1, 1, 1,
+    1, 1, 1,
+    1, 1, 1,
+    1, 1, 1
+  ];
+  const uvs = [
+    0, 1,
+    1, 1,
+    1, 0,
+    0, 0
+  ];
+  const indices = [
+    0, 1, 2,  0, 2, 3,
+    0, 2, 1,  0, 3, 2
+  ];
   return uploadMesh(context, positions, normals, colors, indices, uvs);
 }
 
@@ -1319,12 +1842,18 @@ function moveLane(direction) {
 }
 
 function toggleSound() {
-  soundOn = !soundOn;
+  audioSettings.sound = !audioSettings.sound;
+  soundOn = audioSettings.sound;
   safeSet('elockman-orbit-sound', soundOn ? 'on' : 'off');
-  ui.sound.classList.toggle('off', !soundOn);
-  ui.sound.setAttribute('aria-label', soundOn ? 'Sesi kapat' : 'Sesi aç');
-  if (!soundOn) stopEngineAndMusic();
-  else if (mode === 'playing') startEngineAndMusic();
+  if (ui.setMasterToggle) ui.setMasterToggle.checked = soundOn;
+  applyAudioSettings();
+  if (!soundOn) {
+    stopEngineAndMusic();
+  } else {
+    ensureAudio();
+    if (mode === 'playing') startEngineAndMusic();
+    playSfx('click');
+  }
 }
 
 function updateBestOnHome() {

@@ -30,7 +30,10 @@
         <span class="brand-name">ELOCKMAN<span>GAME STUDIO</span></span>
       </a>
       <div class="run-pill"><i></i> ORBITAL FLIGHT <span id="dateLabel">SEKTÖR 01</span></div>
-      <button class="icon-button sound-toggle" id="soundButton" aria-label="Sesi aç veya kapat" title="Ses">♫</button>
+      <div class="topbar-controls">
+        <button class="icon-button sound-toggle" id="soundButton" aria-label="Sesi aç veya kapat" title="Ses">♫</button>
+        <button class="icon-button settings-toggle" id="settingsButton" aria-label="Ses ve Oyun Ayarları" title="Ayarlar">⚙️</button>
+      </div>
     </header>
 
     <section class="hud" id="hud" aria-live="polite">
@@ -66,6 +69,16 @@
         <h1>ORBIT<br><span>ESCAPE</span></h1>
         <p>Kızıl asteroitlerden kaç.<br>Altın enerji çekirdeklerini topla.</p>
         <div class="best-line">EN İYİ UÇUŞ <strong id="bestScore">000000</strong></div>
+        <div class="ship-select-bar">
+          <div class="active-ship-preview">
+            <img id="activeShipImg" src="textures/ship_1.png" alt="Seçili Gemi" class="active-ship-thumb">
+            <div class="active-ship-info">
+              <span class="active-ship-tag">GÖREV GEMİSİ</span>
+              <strong id="activeShipName">Swift Interceptor</strong>
+            </div>
+          </div>
+          <button class="glass-pill-button" id="startHangarButton" type="button">🚀 HANGAR</button>
+        </div>
         <button class="primary-button" id="startButton">
           <span>ROTAYA GİR</span><b>↗</b>
         </button>
@@ -84,6 +97,7 @@
         <h2>Uçuşa kısa bir ara.</h2>
         <p>Yörünge sabit. Hazır olduğunda devam et.</p>
         <button class="primary-button" id="resumeButton"><span>DEVAM ET</span><b>▶</b></button>
+        <button class="glass-pill-button" id="pauseSettingsButton" type="button" style="margin-top:10px;width:100%;justify-content:center;">⚙️ SES AYARLARI</button>
         <button class="text-button" id="restartButton">UÇUŞU YENİLE</button>
       </div>
     </section>
@@ -120,6 +134,103 @@
         <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 14px;">
           <button class="primary-button" id="retryGraphics"><span>YENİDEN DENE</span><b>↻</b></button>
           <a href="https://elockmangames.com" class="primary-button" style="text-decoration: none; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);"><span>STÜDYOYA DÖN</span><b>←</b></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SES VE OYUN AYARLARI MODALI (HİPODROM AHIRI STANDARDI) -->
+    <div class="modal hidden" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <div class="modal-backdrop" id="settingsBackdrop"></div>
+      <div class="glass-card modal-card settings-card">
+        <div class="sheet-head">
+          <div class="sheet-title-group">
+            <div class="mini-eyebrow">ELOCKMAN FLIGHT OPS · YAPILANDIRMA</div>
+            <h2 id="settingsTitle">⚙️ Ses & Atmosfer Ayarları</h2>
+          </div>
+          <button class="close-button" id="closeSettingsButton" aria-label="Ayarları Kapat">✕</button>
+        </div>
+        <div class="settings-content">
+          <section class="setting-group">
+            <div class="setting-row">
+              <div class="setting-label">
+                <strong>Genel Ses (Master)</strong>
+                <small>Tüm müzik, motor ve efektleri açar veya kapatır</small>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="setMasterToggle" checked>
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <div class="setting-row slider-row">
+              <div class="setting-label">
+                <span>Ana Ses Düzeyi</span>
+                <span class="vol-badge" id="setMasterVal">85%</span>
+              </div>
+              <input type="range" class="range-slider" min="0" max="100" value="85" id="setMasterRange">
+            </div>
+          </section>
+
+          <section class="setting-group">
+            <div class="setting-row slider-row">
+              <div class="setting-label">
+                <strong>🎵 Müzik & Sektör Teması</strong>
+                <span class="vol-badge" id="setMusicVal">70%</span>
+              </div>
+              <input type="range" class="range-slider" min="0" max="100" value="70" id="setMusicRange">
+            </div>
+            <div class="setting-row slider-row">
+              <div class="setting-label">
+                <strong>💥 Ses Efektleri (SFX)</strong>
+                <span class="vol-badge" id="setSfxVal">80%</span>
+              </div>
+              <input type="range" class="range-slider" min="0" max="100" value="80" id="setSfxRange">
+            </div>
+            <div class="setting-row slider-row">
+              <div class="setting-label">
+                <strong>🚀 Motor & Telsiz Ambiyansı</strong>
+                <span class="vol-badge" id="setAmbienceVal">65%</span>
+              </div>
+              <input type="range" class="range-slider" min="0" max="100" value="65" id="setAmbienceRange">
+            </div>
+          </section>
+
+          <section class="setting-group">
+            <div class="setting-row">
+              <div class="setting-label">
+                <strong>📱 Dokunsal Titreşim (Haptics)</strong>
+                <small>Çarpışma ve kıl payı geçişlerde titreşim</small>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="setHapticsToggle" checked>
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </section>
+
+          <div class="settings-actions">
+            <button class="primary-button" id="saveSettingsButton" type="button" style="width:100%;justify-content:center;"><span>KAYDET & KAPAT</span><b>✓</b></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HANGAR & UZAY GEMİSİ SEÇİM MODALI -->
+    <div class="modal hidden" id="hangarModal" role="dialog" aria-modal="true" aria-labelledby="hangarTitle">
+      <div class="modal-backdrop" id="hangarBackdrop"></div>
+      <div class="glass-card modal-card hangar-card">
+        <div class="sheet-head">
+          <div class="sheet-title-group">
+            <div class="mini-eyebrow">ELOCKMAN FLIGHT OPS · FİLO HANGARI</div>
+            <h2 id="hangarTitle">🚀 Uzay Gemisi Filosu</h2>
+          </div>
+          <button class="close-button" id="closeHangarButton" aria-label="Hangardan Çık">✕</button>
+        </div>
+        <p class="hangar-subtitle">Uçuş tarzınıza uygun gemiyi seçin. Her geminin kendine has aerodinamik manevra, hız ve kalkan profili bulunur.</p>
+        <div class="hangar-grid" id="hangarGrid">
+          <!-- Dinamik olarak game.js tarafından üretilir -->
+        </div>
+        <div class="settings-actions" style="margin-top:14px;">
+          <button class="primary-button" id="confirmShipButton" type="button" style="width:100%;justify-content:center;"><span>SEÇİLEN GEMİYLE ROTAYA DÖN</span><b>↗</b></button>
         </div>
       </div>
     </div>
