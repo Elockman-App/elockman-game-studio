@@ -737,6 +737,20 @@
         <circle cx="160" cy="48" r="16" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="2"/>
         <text x="160" y="52" text-anchor="middle" fill="#fff" font-size="9" font-weight="900">PANENKA</text>
       </svg>
+
+      <!-- 🎯 Zamanlamalı Dokunuş (Timing Tap) Barı -->
+      <div style="margin-bottom:12px; background:rgba(0,0,0,0.4); padding:8px 12px; border-radius:10px; border:1px solid var(--border);">
+        <div style="display:flex; justify-content:space-between; font-size:10.5px; font-weight:800; margin-bottom:5px; color:#cbd5e1;">
+          <span>🎯 ŞUT ZAMANLAMA BARI</span>
+          <span id="clutchTimingZoneText" style="color:#34d399; font-weight:900;">YEŞİL BÖLGEDE DOKUN!</span>
+        </div>
+        <div style="position:relative; height:18px; border-radius:9px; background:linear-gradient(to right, #ef4444 0%, #eab308 35%, #10b981 44%, #10b981 56%, #eab308 65%, #ef4444 100%); overflow:hidden; border:1px solid rgba(255,255,255,0.25);">
+          <!-- Needle -->
+          <div id="clutchTimingNeedle" style="position:absolute; top:0; bottom:0; width:8px; margin-left:-4px; background:#ffffff; box-shadow:0 0 10px #ffffff; border-radius:3px; left:50%; transition:none;"></div>
+        </div>
+        <button class="btn btn-gold" id="btnClutchTap" data-act="clutchTap" style="width:100%; margin-top:8px; font-weight:900; letter-spacing:0.4px;">⚡ ZAMANLAMAYI YAKALA VE DOKSANA AS!</button>
+      </div>
+
       <div class="grid-3">
         <button class="btn btn-gold" data-ke-i18n-html="clutchCorner" data-act="clutch" data-val="corner">🎯 90'a Plase<br><small>Hassas vuruş</small></button>
         <button class="btn btn-primary" data-ke-i18n-html="clutchPower" data-act="clutch" data-val="power">💥 Sert Füze<br><small>Güçlü şut</small></button>
@@ -831,6 +845,58 @@
         <button class="modal-close-btn" data-act="closeSettings" aria-label="Kapat">✕</button>
       </div>
       <div class="modal-body" id="settingsModalBody"></div>
+    </div>
+  </div>
+
+  <!-- 🏆 LİG EDİTÖRÜ (TAKIM & FORMA ÖZELLEŞTİRME) MODAL -->
+  <div class="modal-backdrop" id="leagueEditorModal" role="dialog" aria-modal="true" aria-labelledby="leagueEditorTitle">
+    <div class="modal-card">
+      <div class="card-header">
+        <div class="card-title" id="leagueEditorTitle">🏆 LİG EDİTÖRÜ & FORMA ÖZELLEŞTİRME</div>
+        <button class="modal-close-btn" data-act="closeLeagueEditor" aria-label="Kapat">✕</button>
+      </div>
+      <p class="note" style="margin-bottom:12px; color:#d1fae5;">Süper Lig'deki takımların adlarını, renklerini ve stadyumlarını dilediğiniz gibi özelleştirin.</p>
+      
+      <div style="margin-bottom:10px;">
+        <label class="onboard-label" for="leTeamSelect">Düzenlenecek Takım</label>
+        <select id="leTeamSelect" class="onboard-input" style="padding:8px 10px;"></select>
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <label class="onboard-label" for="leTeamName">Takım Adı</label>
+        <input id="leTeamName" class="onboard-input" maxlength="24" autocomplete="off" />
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <label class="onboard-label" for="leStadiumName">Stadyum Adı</label>
+        <input id="leStadiumName" class="onboard-input" maxlength="28" autocomplete="off" />
+      </div>
+
+      <div class="grid-2" style="margin-bottom:12px;">
+        <div>
+          <label class="onboard-label" for="leColorPrimary">Ana Forma Rengi</label>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <input type="color" id="leColorPrimary" value="#10b981" style="width:40px; height:32px; border:none; border-radius:6px; cursor:pointer; background:none;" />
+            <span id="leColorPrimaryText" style="font-size:11px; font-weight:700; color:#fff;">#10b981</span>
+          </div>
+        </div>
+        <div>
+          <label class="onboard-label" for="leColorSecondary">İkincil Forma Rengi</label>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <input type="color" id="leColorSecondary" value="#ffffff" style="width:40px; height:32px; border:none; border-radius:6px; cursor:pointer; background:none;" />
+            <span id="leColorSecondaryText" style="font-size:11px; font-weight:700; color:#fff;">#ffffff</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="lePreviewKit" style="padding:10px; border-radius:10px; background:rgba(0,0,0,0.3); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; gap:16px; margin-bottom:14px;">
+        <!-- Dynamic kit preview -->
+      </div>
+
+      <div class="grid-2">
+        <button class="btn btn-outline" data-act="resetLeagueEditor">🔄 Varsayılana Dön</button>
+        <button class="btn btn-gold" data-act="saveLeagueEditor">✅ Kaydet</button>
+      </div>
     </div>
   </div>
 
