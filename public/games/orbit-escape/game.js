@@ -921,37 +921,34 @@ function boot() {
     const speedRatio = Math.max(0, state.speed - 14.5);
     const turboFlameLen = 0.18 + speedRatio * 0.05;
 
-    // Pitch, yaw, and banking roll angles
-    const pitch = -0.28 + hover * 0.8;
-    const yaw = lean * 0.85;
-    const roll = lean * 2.2;
+    // Pitch, yaw, and banking roll angles (Tilted towards camera sightline for crisp 3/4 overhead view)
+    const pitch = 0.62 + hover * 0.4;
+    const yaw = lean * 0.55;
+    const roll = lean * 1.45;
     const shipRot = [pitch, yaw, roll];
 
     // Invulnerability shield aura / energy cocoon
     if (state.invuln > 0) {
       const pulse = 0.92 + Math.sin(time * 18) * 0.16;
-      draw(sphere, [x, 0.32 + hover, PLAYER_Z], [1.22 * pulse, 0.95 * pulse, 1.55 * pulse], [0.28, 0.88, 1.0], 0.85, [0, time * 2.2, 0]);
+      draw(sphere, [x, 0.42 + hover, PLAYER_Z], [1.22 * pulse, 0.95 * pulse, 1.35 * pulse], [0.28, 0.88, 1.0], 0.85, [0, time * 2.2, 0]);
     }
 
-    // Sleek aerodynamic composite under-fuselage / keel (3D volume & shadow)
-    draw(shipBody, [x, 0.14 + hover, PLAYER_Z + 0.04], [0.85, 0.26, 1.38], [0.07, 0.09, 0.16], 0.08, shipRot);
+    // High-resolution textured ship deck (Alpha-cutout sprite facing camera at 3/4 angle)
+    draw(shipQuad, [x, 0.52 + hover, PLAYER_Z], [1.18, 1.0, 1.25], [1.0, 1.0, 1.0], 0.42, shipRot, texShip);
 
-    // High-resolution textured ship deck (Alpha-cutout sprite)
-    draw(shipQuad, [x, 0.28 + hover, PLAYER_Z], [1.20, 1.0, 1.45], [1.0, 1.0, 1.0], 0.18, shipRot, texShip);
-
-    // Twin plasma exhaust nozzles
+    // Twin plasma exhaust nozzles aligned with rear thrusters
     const tCol = ship.thrustColor;
     const cosR = Math.cos(roll);
     const sinR = Math.sin(roll);
-    for (const nozX of [-0.34, 0.34]) {
+    for (const nozX of [-0.26, 0.26]) {
       const worldNozX = x + nozX * cosR;
-      const worldNozY = 0.18 + hover + nozX * sinR;
-      const worldNozZ = PLAYER_Z + 0.88;
+      const worldNozY = 0.14 + hover - nozX * sinR * 0.5;
+      const worldNozZ = PLAYER_Z + 0.72;
 
       // Glowing nozzle orb
-      draw(sphere, [worldNozX, worldNozY, worldNozZ], [0.12, 0.10, 0.14], tCol, engineGlow);
+      draw(sphere, [worldNozX, worldNozY, worldNozZ], [0.10, 0.09, 0.12], tCol, engineGlow);
       // Lengthened plasma flame cone
-      draw(cube, [worldNozX, worldNozY, worldNozZ + turboFlameLen * 0.5], [0.08, 0.06, turboFlameLen], tCol, 1.2 + engineGlow * 0.3);
+      draw(cube, [worldNozX, worldNozY - 0.04, worldNozZ + turboFlameLen * 0.5], [0.065, 0.055, turboFlameLen], tCol, 1.2 + engineGlow * 0.3);
     }
   }
 
