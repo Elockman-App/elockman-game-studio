@@ -9,7 +9,7 @@ const GAMES = {
     hasCommittedIos: true,
     srcFiles: ['index.html', 'build.js', 'AdMobManager.js'],
     checkBetting: true,
-    expectPortalHideInNative: false
+    expectPortalHideInNative: true
   },
   'ring-tycoon': {
     bundleId: 'com.elockman.ringtycoon',
@@ -109,7 +109,7 @@ function auditGame(slug) {
     if (!wf.includes('NSUserTrackingUsageDescription')) errors.push(`${wfRel} missing NSUserTrackingUsageDescription`);
     if (!wf.includes('SKAdNetwork') && !cfg.hasCommittedIos) errors.push(`${wfRel} missing SKAdNetworkItems`);
     if (!wf.includes('PrivacyInfo.xcprivacy')) errors.push(`${wfRel} does not verify/embed PrivacyInfo.xcprivacy`);
-    if (!wf.includes('len(certs) >= 3')) errors.push(`${wfRel} missing safe certificate pruning (len(certs) >= 3)`);
+    if (!wf.includes('len(certs) >= 2')) errors.push(`${wfRel} missing safe certificate pruning (len(certs) >= 2)`);
     if (!wf.includes('IOS_APP_STORE')) errors.push(`${wfRel} missing automated IOS_APP_STORE provisioning via ASC API`);
     if (!wf.includes(cfg.bundleId)) errors.push(`${wfRel} does not reference expected bundleId ${cfg.bundleId}`);
   }
