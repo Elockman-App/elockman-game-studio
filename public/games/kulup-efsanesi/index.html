@@ -7,6 +7,7 @@
   <title>Kulüp Efsanesi: Futbol Başkan & Taktik Menajeri</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" href="img/icon-192.png" />
+  <link rel="stylesheet" href="js/vendor/driver.css" />
   <style>
     :root {
       --bg: #06110b;
@@ -543,6 +544,86 @@
       }
       .pill:active, .btn:active { transform: none !important; }
     }
+
+    /* Kemal Hoca driver.js Spotlight Popover */
+    .elockman-driver-pop.driver-popover {
+      background: linear-gradient(165deg, #0d281a 0%, #06130c 100%);
+      color: #f0fdf4;
+      border: 1.5px solid #f59e0b;
+      border-radius: 16px;
+      padding: 15px 16px 14px;
+      min-width: 250px;
+      max-width: min(330px, calc(100vw - 24px));
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.8), 0 0 24px rgba(16, 185, 129, 0.28);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .elockman-driver-pop .driver-popover-title {
+      color: #fde68a;
+      font-size: 14.5px;
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      padding-right: 28px;
+      line-height: 1.35;
+    }
+    .elockman-driver-pop .driver-popover-description {
+      color: #d1fae5;
+      font-size: 12.5px;
+      line-height: 1.5;
+      margin-top: 7px;
+    }
+    .elockman-driver-pop .driver-popover-close-btn {
+      color: #cbd5e1;
+      top: 10px;
+      right: 10px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.09);
+      font-size: 14px;
+      line-height: 26px;
+    }
+    .elockman-driver-pop .driver-popover-close-btn:hover,
+    .elockman-driver-pop .driver-popover-close-btn:focus-visible {
+      color: #fff;
+      background: rgba(245, 158, 11, 0.28);
+    }
+    .elockman-driver-pop .driver-popover-footer {
+      margin-top: 13px;
+      gap: 8px;
+    }
+    .elockman-driver-pop .driver-popover-progress-text {
+      color: #6ee7b7;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+    }
+    .elockman-driver-pop .driver-popover-footer-btn {
+      background: rgba(16, 185, 129, 0.16);
+      border: 1px solid rgba(52, 211, 153, 0.45);
+      color: #ecfdf5;
+      border-radius: 9px;
+      padding: 6px 11px;
+      font-size: 11.5px;
+      font-weight: 800;
+      text-shadow: none;
+    }
+    .elockman-driver-pop .driver-popover-footer-btn:hover,
+    .elockman-driver-pop .driver-popover-footer-btn:focus-visible {
+      background: rgba(16, 185, 129, 0.3);
+    }
+    .elockman-driver-pop .driver-popover-next-btn {
+      background: linear-gradient(135deg, #fbbf24, #d97706);
+      border-color: #fde68a;
+      color: #1a0f00;
+    }
+    .elockman-driver-pop .driver-popover-next-btn:hover,
+    .elockman-driver-pop .driver-popover-next-btn:focus-visible {
+      background: linear-gradient(135deg, #fcd34d, #f59e0b);
+    }
+    .elockman-driver-pop .driver-popover-arrow-side-left { border-left-color: #091d13; }
+    .elockman-driver-pop .driver-popover-arrow-side-right { border-right-color: #091d13; }
+    .elockman-driver-pop .driver-popover-arrow-side-top { border-top-color: #091d13; }
+    .elockman-driver-pop .driver-popover-arrow-side-bottom { border-bottom-color: #0d281a; }
   </style>
 </head>
 <body>
@@ -568,7 +649,7 @@
           </div>
         </div>
         <div class="hud-actions">
-          <a href="https://elockmangames.com" target="_blank" rel="noopener noreferrer" class="pill" style="text-decoration:none; color:#10b981; font-weight:800; padding:4px 7px; font-size:10.5px;" title="Elockman Game Studio">🏛️</a>
+          <a id="studioPortalLink" href="https://elockmangames.com" target="_blank" rel="noopener noreferrer" class="pill" style="text-decoration:none; color:#10b981; font-weight:800; padding:4px 7px; font-size:10.5px;" title="Elockman Game Studio">🏛️</a>
           <button class="pill btn-pill" id="langToggleBtn" data-act="toggleLang" title="Dil / Language">🌐 TR</button>
           <button class="pill btn-pill" data-act="openPress" title="Medya & Basın Toplantısı">🎙️ Basın</button>
           <button class="pill guide-pill" data-ke-i18n="guidePill" data-act="openGuide" title="Kemal Hoca Taktik & Oyun Rehberi">📖 Rehber</button>
@@ -936,6 +1017,7 @@
 
   <script src="js/AdMobManager.js"></script>
   <script src="js/zzfx.js"></script>
+  <script src="js/vendor/driver.js.iife.js"></script>
   <script src="js/game.js"></script>
 </body>
 </html>

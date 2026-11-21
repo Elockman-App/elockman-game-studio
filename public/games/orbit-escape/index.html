@@ -25,10 +25,14 @@
     <div class="scanline"></div>
 
     <header class="topbar">
-      <a class="brand" href="https://elockmangames.com" aria-label="Elockman Game Studio Ana Sayfası" title="Elockman Game Studio Ana Sayfasına Dön">
+      <a class="brand" id="brandPortalLink" href="https://elockmangames.com" aria-label="Elockman Game Studio Ana Sayfası" title="Elockman Game Studio Ana Sayfasına Dön">
         <img class="brand-logo" src="assets/elockman-studio.webp" alt="">
         <span class="brand-name">ELOCKMAN<span>GAME STUDIO</span></span>
       </a>
+      <div class="brand hidden" id="brandNativeBadge" aria-label="Elockman Game Studio">
+        <img class="brand-logo" src="assets/elockman-studio.webp" alt="">
+        <span class="brand-name">ELOCKMAN<span>GAME STUDIO</span></span>
+      </div>
       <div class="run-pill"><i></i> ORBITAL FLIGHT <span id="dateLabel">SEKTÖR 01</span></div>
       <div class="topbar-controls">
         <button class="icon-button sound-toggle" id="soundButton" aria-label="Sesi aç veya kapat" title="Ses">♫</button>
@@ -133,7 +137,7 @@
         <p>Tarayıcınızda veya cihazınızda WebGL donanım hızlandırma etkinleştirilmemiş olabilir.</p>
         <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 14px;">
           <button class="primary-button" id="retryGraphics"><span>YENİDEN DENE</span><b>↻</b></button>
-          <a href="https://elockmangames.com" class="primary-button" style="text-decoration: none; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);"><span>STÜDYOYA DÖN</span><b>←</b></a>
+          <a id="fallbackPortalLink" href="https://elockmangames.com" class="primary-button" style="text-decoration: none; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);"><span>STÜDYOYA DÖN</span><b>←</b></a>
         </div>
       </div>
     </div>
@@ -145,7 +149,7 @@
         <div class="sheet-head">
           <div class="sheet-title-group">
             <div class="mini-eyebrow">ELOCKMAN FLIGHT OPS · YAPILANDIRMA</div>
-            <h2 id="settingsTitle">⚙️ Ses & Atmosfer Ayarları</h2>
+            <h2 id="settingsTitle">⚙️ Ses, Kontroller &amp; Ayarlar</h2>
           </div>
           <button class="close-button" id="closeSettingsButton" aria-label="Ayarları Kapat">✕</button>
         </div>
@@ -204,6 +208,62 @@
                 <input type="checkbox" id="setHapticsToggle" checked>
                 <span class="slider round"></span>
               </label>
+            </div>
+          </section>
+
+          <section class="setting-group howto-card" id="howToPlayCard">
+            <div class="howto-head">
+              <strong>🎮 Nasıl Oynanır / Kontroller</strong>
+              <span class="howto-badge">45s KAÇIŞ</span>
+            </div>
+            <div class="howto-grid">
+              <div class="howto-item">
+                <span class="howto-ico">↔️</span>
+                <div>
+                  <b>Rota Değiştir</b>
+                  <small>Sağa/sola kaydır, <b>‹ ›</b> oklarına dokun veya <b>← / →</b> tuşlarını kullan.</small>
+                </div>
+              </div>
+              <div class="howto-item">
+                <span class="howto-ico">🛡️</span>
+                <div>
+                  <b>3 Kalkan &amp; Asteroit</b>
+                  <small>Her çarpışma <b>1 kalkan</b> düşürür; 3 kalkan biterse uçuş sona erer.</small>
+                </div>
+              </div>
+              <div class="howto-item">
+                <span class="howto-ico">✦</span>
+                <div>
+                  <b>Altın Veri Çekirdekleri</b>
+                  <small>Altın &amp; zümrüt çekirdeklerle yüksek puan ve kombo çarpanı kazan.</small>
+                </div>
+              </div>
+              <div class="howto-item">
+                <span class="howto-ico">🔵</span>
+                <div>
+                  <b>Mavi Kalkan Küresi</b>
+                  <small>Eksik <b>+1 kalkanı</b> anında onarır; tam kalkanda +250 bonus verir.</small>
+                </div>
+              </div>
+              <div class="howto-item howto-item-wide">
+                <span class="howto-ico">⚡</span>
+                <div>
+                  <b>Hiper Boost (Hyper Boost)</b>
+                  <small>Hiper kristalleriyle hızını ve kombo puanlarını katlayarak 45 saniyede rekor kır!</small>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="setting-group legal-card" id="legalSupportCard">
+            <div class="howto-head">
+              <strong>📜 Gizlilik &amp; Destek</strong>
+              <span class="legal-ver">v1.1.0</span>
+            </div>
+            <p class="legal-copy">Elockman Game Studio · Orbit Escape (<code>com.elockman.orbitescape</code>)</p>
+            <div class="legal-links">
+              <a class="legal-link" href="https://elockmangames.com/privacy/orbit-escape/" target="_blank" rel="noopener noreferrer">🔒 Gizlilik Politikası ↗</a>
+              <a class="legal-link" href="https://elockmangames.com/support.html" target="_blank" rel="noopener noreferrer">💬 Destek &amp; İletişim ↗</a>
             </div>
           </section>
 

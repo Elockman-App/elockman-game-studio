@@ -1918,6 +1918,21 @@ function normalize(a) { const m = Math.hypot(a[0],a[1],a[2]) || 1; return [a[0]/
 function cross(a,b) { return [a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]]; }
 function dot(a,b) { return a[0]*b[0]+a[1]*b[1]+a[2]*b[2]; }
 
+function applyNativePortalGuard() {
+  try {
+    const isNative = !!(typeof window !== 'undefined' && window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' && window.Capacitor.isNativePlatform());
+    if (!isNative) return;
+    const brandLink = document.getElementById('brandPortalLink');
+    const brandBadge = document.getElementById('brandNativeBadge');
+    const fallbackLink = document.getElementById('fallbackPortalLink');
+    if (brandLink) brandLink.classList.add('hidden');
+    if (brandBadge) brandBadge.classList.remove('hidden');
+    if (fallbackLink) fallbackLink.classList.add('hidden');
+    document.querySelectorAll('a[href="https://elockmangames.com"]').forEach((el) => el.classList.add('hidden'));
+  } catch (e) {}
+}
+applyNativePortalGuard();
+
 boot();
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));

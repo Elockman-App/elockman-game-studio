@@ -711,3 +711,144 @@ input:checked + .slider.round:before {
   color: #1a1110;
   cursor: default;
 }
+
+/* --- How To Play & Legal/Support Sections inside Settings --- */
+.settings-card {
+  width: min(560px, 100%);
+  padding: 16px 16px 14px;
+}
+.settings-card .sheet-head {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+.settings-content {
+  gap: 8px;
+}
+.setting-group {
+  padding: 9px 11px;
+  gap: 7px;
+}
+.setting-row:not(.slider-row) .setting-label {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2px;
+}
+.settings-actions .primary-button {
+  margin-top: 2px;
+  padding: 11px 16px;
+}
+.howto-card {
+  border-color: rgba(114, 221, 255, 0.22);
+  background: linear-gradient(145deg, rgba(12, 22, 48, 0.72), rgba(8, 14, 32, 0.72));
+}
+.howto-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.howto-head strong {
+  font-size: 12px;
+  color: #f2f4ff;
+  letter-spacing: 0.03em;
+}
+.howto-badge, .legal-ver {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  padding: 2px 8px;
+  border-radius: 99px;
+  color: var(--gold);
+  background: rgba(255, 193, 93, 0.12);
+  border: 1px solid rgba(255, 193, 93, 0.35);
+}
+.legal-ver {
+  color: var(--cyan);
+  background: rgba(114, 221, 255, 0.1);
+  border-color: rgba(114, 221, 255, 0.28);
+}
+.howto-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+.howto-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 7px 8px;
+  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(6, 10, 24, 0.55);
+}
+.howto-item-wide {
+  grid-column: 1 / -1;
+}
+.howto-ico {
+  flex-shrink: 0;
+  font-size: 14px;
+  line-height: 1.2;
+}
+.howto-item b {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--cyan);
+  margin-bottom: 1px;
+}
+.howto-item small {
+  display: block;
+  font-size: 9px;
+  line-height: 1.32;
+  color: #aebbd6;
+}
+.howto-item small b {
+  display: inline;
+  color: #f2f4ff;
+  font-size: inherit;
+}
+.legal-card {
+  border-color: rgba(255, 193, 93, 0.2);
+}
+.legal-copy {
+  margin: 0 !important;
+  font-size: 10px !important;
+  color: #96a5c4 !important;
+}
+.legal-copy code {
+  color: var(--cyan);
+  font-size: 9.5px;
+}
+.legal-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 2px;
+}
+.legal-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(114, 221, 255, 0.3);
+  background: rgba(114, 221, 255, 0.08);
+  color: #e8f5ff;
+  font-size: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+.legal-link:hover {
+  background: rgba(114, 221, 255, 0.2);
+  border-color: var(--cyan);
+  transform: translateY(-1px);
+}
+@media (max-width: 340px) {
+  .howto-grid, .legal-links {
+    grid-template-columns: 1fr;
+  }
+}

@@ -10,13 +10,12 @@
   <link rel="icon" href="./assets/icon-CysfyeMm.webp">
   <title>Ring Tycoon — Boks Salonu & Menajerlik</title>
   <script>
-    // Yerel dosya sistemi (file://) üzerinden doğrudan çift tıklandığında anında Render canlı yayınına aktar
-    if (window.location.protocol === 'file:') {
-      window.location.replace('https://ring-tycoon.onrender.com/');
+    if (window.location.protocol === 'file:' && !(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform())) {
+      window.location.replace('https://elockmangames.com/play/ring-tycoon');
     }
   </script>
-  <script type="module" crossorigin src="./assets/index-CIHsdpU_.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-DPo9b3GS.css">
+  <script type="module" crossorigin src="./assets/index-B8LINhWt.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CS00iEyT.css">
 </head>
 <body>
 
