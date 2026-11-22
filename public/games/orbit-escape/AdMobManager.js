@@ -297,6 +297,12 @@
           await plugin.initialize({ initializeForTesting: !!config.test });
           bindListeners(plugin);
 
+          if (getEnv().platform === 'ios' && typeof plugin.requestTrackingAuthorization === 'function') {
+            try {
+              await plugin.requestTrackingAuthorization();
+            } catch (attErr) {}
+          }
+
           try {
             let consentInfo = await plugin.requestConsentInfo();
             if (consentInfo && consentInfo.isConsentFormAvailable && consentInfo.status === 'REQUIRED') {

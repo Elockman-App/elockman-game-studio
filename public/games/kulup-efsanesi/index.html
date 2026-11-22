@@ -175,7 +175,12 @@
 
     /* Grid layouts */
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .grid-3 > * { min-width: 0; overflow-wrap: anywhere; }
+    @media (max-width: 420px) {
+      .grid-3 { gap: 5px; }
+      .grid-3 .opt-btn, .grid-3 .btn { padding-left: 6px; padding-right: 6px; font-size: 11px; }
+    }
     .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
 
     /* Player Cards */
@@ -868,11 +873,11 @@
     </div>
   </div>
 
-  <!-- 📋 RETRO CM 01/02 DETAYLI OYUNCU PROFİLİ MODAL -->
+  <!-- 📋 DETAYLI OYUNCU PROFİLİ MODAL -->
   <div class="modal-backdrop" id="playerModal" role="dialog" aria-modal="true">
     <div class="modal-card">
       <div class="card-header">
-        <div class="card-title" data-ke-i18n="playerProfileTitle">📋 CM 01/02 OYUNCU PROFİLİ</div>
+        <div class="card-title" data-ke-i18n="playerProfileTitle">📋 DETAYLI OYUNCU PROFİLİ</div>
         <button class="modal-close-btn" data-act="closePlayerModal" aria-label="Kapat">✕</button>
       </div>
       <div id="playerModalBody"></div>

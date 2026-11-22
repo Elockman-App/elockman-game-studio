@@ -1,5 +1,5 @@
-const CACHE = 'elockman-orbit-v1';
-const FILES = ['./', './index.html', './styles.css', './game.js', './favicon.svg', './manifest.webmanifest', './assets/elockman-studio.webp'];
+const CACHE = 'elockman-orbit-v3';
+const FILES = ['./', './index.html', './styles.css', './game.js', './AdMobManager.js', './favicon.svg', './manifest.webmanifest', './assets/elockman-studio.webp'];
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(FILES)));
   self.skipWaiting();
@@ -10,9 +10,15 @@ self.addEventListener('activate', (event) => {
 });
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
-  event.respondWith(caches.match(event.request).then((cached) => cached || fetch(event.request).then((response) => {
-    const copy = response.clone();
-    caches.open(CACHE).then((cache) => cache.put(event.request, copy));
-    return response;
-  }).catch(() => caches.match('./index.html'))));
+  event.respondWith(
+    fetch(event.request)
+      .then((response) => {
+        if (response && response.status === 200) {
+          const copy = response.clone();
+          caches.open(CACHE).then((cache) => cache.put(event.request, copy));
+        }
+        return response;
+      })
+      .catch(() => caches.match(event.request).then((cached) => cached || caches.match('./index.html')))
+  );
 });

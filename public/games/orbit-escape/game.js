@@ -556,6 +556,8 @@ function boot() {
     'uniform float uTime;',
     'uniform sampler2D uSampler;',
     'uniform float uUseTexture;',
+    'uniform float uAlpha;',
+    'uniform float uFogExempt;',
     'varying vec3 vWorld;',
     'varying vec3 vNormal;',
     'varying vec3 vColor;',
@@ -570,17 +572,19 @@ function boot() {
     '  float specular = pow(max(dot(n, halfDir), 0.0), 32.0) * 0.34;',
     '  float rim = pow(1.0 - max(dot(n, viewDir), 0.0), 3.0) * 0.42;',
     '  vec3 baseColor = vColor * uTint;',
+    '  float outAlpha = uAlpha;',
     '  if (uUseTexture > 0.5) {',
     '    vec4 tex = texture2D(uSampler, vTexCoord);',
-    '    if (tex.a < 0.15) discard;',
+    '    if (tex.a < 0.06) discard;',
     '    baseColor = mix(baseColor, tex.rgb * uTint, 0.90);',
+    '    outAlpha *= tex.a;',
     '  }',
     '  vec3 base = max(baseColor, vec3(0.0));',
     '  float grain = sin(dot(vWorld, vec3(113.1, 79.7, 53.3))) * 0.010;',
     '  float panel = 1.0 - 0.045 * step(0.988, fract(vWorld.y * 1.15)) * step(0.3, abs(n.x));',
     '  vec3 lit = base * (0.38 + diffuse + grain) * panel + vec3(specular) + uRimColor * rim + base * uEmission;',
-    '  float fog = smoothstep(46.0, 128.0, distance(uCamera, vWorld));',
-    '  gl_FragColor = vec4(mix(lit, uFogColor, fog), 1.0);',
+    '  float fog = smoothstep(46.0, 128.0, distance(uCamera, vWorld)) * (1.0 - uFogExempt);',
+    '  gl_FragColor = vec4(mix(lit, uFogColor, fog), outAlpha);',
     '}'
   ].join('\n');
 
@@ -606,13 +610,18 @@ function boot() {
     emission: gl.getUniformLocation(program, 'uEmission'),
     time: gl.getUniformLocation(program, 'uTime'),
     sampler: gl.getUniformLocation(program, 'uSampler'),
-    useTexture: gl.getUniformLocation(program, 'uUseTexture')
+    useTexture: gl.getUniformLocation(program, 'uUseTexture'),
+    alpha: gl.getUniformLocation(program, 'uAlpha'),
+    fogExempt: gl.getUniformLocation(program, 'uFogExempt')
   };
 
   const texLava = loadTexture(gl, 'textures/tex_lava.png');
   const texIce = loadTexture(gl, 'textures/tex_ice.png');
   const texNebula = loadTexture(gl, 'textures/tex_nebula.png');
   const texCrater = loadTexture(gl, 'textures/tex_crater.png');
+  const texAstCinder = loadTexture(gl, 'textures/asteroid-cinder.png');
+  const texAstIce = loadTexture(gl, 'textures/asteroid-ion-crystal.png');
+  const texAstSilicate = loadTexture(gl, 'textures/asteroid-silicate.png');
   const texMothership = loadTexture(gl, 'textures/boss_mothership.png');
   const shipTextures = SHIPS.map((s) => loadTexture(gl, s.texturePath));
 
@@ -661,11 +670,14 @@ function boot() {
     }
 
     state.time = Math.max(0, state.time - dt);
+    const activeShip = SHIPS[selectedShip] || SHIPS[0];
+    const speedFactor = 1.0 + (activeShip.speed - 85) * 0.008;
+    const agilityRate = 10.0 + (activeShip.agility - 70) * 0.22;
     const comboBoost = Math.min(state.combo, 8) * 0.22;
     state.distance += state.speed * dt;
-    state.speed = Math.min(22.5, 14.5 + state.distance * .012 + comboBoost);
+    state.speed = Math.min(24.0, (14.5 + state.distance * .012 + comboBoost) * speedFactor);
     state.envOffset = (state.envOffset + state.speed * dt) % 96;
-    state.laneX += (LANES[state.lane] - state.laneX) * Math.min(1, dt * 13);
+    state.laneX += (LANES[state.lane] - state.laneX) * Math.min(1, dt * agilityRate);
     state.invuln = Math.max(0, state.invuln - dt);
     state.spawnTimer -= dt;
 
@@ -873,30 +885,32 @@ function boot() {
 
   function drawSpaceBackdrop(time) {
     const drift = Math.sin(time * .08) * .7;
+    const noFog = { fogExempt: 1.0 };
     // Deep space nebula backdrop sphere (store key art parity)
-    draw(sphere, [0, 22.0, -115], [36.0, 36.0, 36.0], [.90, .80, 1.15], .32, [0, time * .005, 0.08], texNebula);
+    draw(sphere, [0, 22.0, -115], [36.0, 36.0, 36.0], [.90, .80, 1.15], .32, [0, time * .005, 0.08], texNebula, noFog);
 
-    // Celestial Body 1: Giant Frosted Glacial Planet (Clean surface, NO ARTIFICIAL RING)
-    draw(sphere, [-12.5 + drift, 11.2, -68], [7.2, 7.2, 7.2], [1.0, 1.08, 1.22], .16, [0.12, time * 0.022, 0.04], texIce);
+    // Celestial Body 1: Giant Frosted Glacial Planet + orbital ice ring
+    draw(sphere, [-12.5 + drift, 11.2, -68], [7.2, 7.2, 7.2], [1.0, 1.08, 1.22], .16, [0.12, time * 0.022, 0.04], texIce, noFog);
+    draw(ring, [-12.5 + drift, 11.2, -68], [10.4, 1.0, 10.4], [0.55, 0.90, 1.15], .42, [0.42, time * 0.04, -0.18], null, { alpha: 0.62, additive: true, fogExempt: 1.0 });
 
-    // Celestial Body 2: Molten Volcanic Celestial Body (Volcanic glow, NO ARTIFICIAL RING)
-    draw(sphere, [13.2, 7.5, -86], [5.0, 5.0, 5.0], [1.15, 0.80, 0.70], .24, [0.08, time * 0.018, -0.05], texLava);
+    // Celestial Body 2: Molten Volcanic Celestial Body
+    draw(sphere, [13.2, 7.5, -86], [5.0, 5.0, 5.0], [1.15, 0.80, 0.70], .24, [0.08, time * 0.018, -0.05], texLava, noFog);
 
     // Celestial Body 3: Distant violet gas giant silhouette in deep space
-    draw(sphere, [-2.0, 32.0, -125], [18.0, 18.0, 18.0], [0.55, 0.35, 0.85], .12, [0, time * 0.008, 0], texNebula);
+    draw(sphere, [-2.0, 32.0, -125], [18.0, 18.0, 18.0], [0.55, 0.35, 0.85], .12, [0, time * 0.008, 0], texNebula, noFog);
 
     // Alien Mothership / Boss in deep horizon
     const bossGlow = .50 + Math.sin(time * 3.5) * .25;
     const bossSwayX = Math.sin(time * 0.15) * 4.2;
     const bossSwayY = 13.5 + Math.cos(time * 0.22) * 1.2;
-    draw(billboardQuad, [bossSwayX, bossSwayY, -85.0], [15.0, 15.0, 1.0], [1.0, 0.9, 0.9], bossGlow, [0, 0, Math.sin(time * 0.15) * 0.05], texMothership);
+    draw(billboardQuad, [bossSwayX, bossSwayY, -85.0], [15.0, 15.0, 1.0], [1.0, 0.9, 0.9], bossGlow, [0, 0, Math.sin(time * 0.15) * 0.05], texMothership, { alpha: 0.95, fogExempt: 1.0 });
   }
 
   function drawWarpStreaks() {
     const len = 0.65 + Math.max(0, state.speed - 14.5) * 0.14;
     for (let i = 0; i < STREAK_COUNT; i++) {
       const s = warpStreaks[i];
-      draw(cube, [s.x, s.y, s.z], [0.028, 0.028, len], s.color, 0.95);
+      draw(cube, [s.x, s.y, s.z], [0.028, 0.028, len], s.color, 0.95, [0, 0, 0], null, { alpha: 0.75, additive: true });
     }
   }
 
@@ -906,7 +920,7 @@ function boot() {
       if (!p.active) continue;
       const t = p.life / p.maxLife;
       const sc = p.size * (0.35 + 0.65 * t);
-      draw(cube, [p.x, p.y, p.z], [sc, sc, sc], [p.r, p.g, p.b], p.emission * t);
+      draw(cube, [p.x, p.y, p.z], [sc, sc, sc], [p.r, p.g, p.b], p.emission * t, [0, 0, 0], null, { alpha: 0.85 * t, additive: true });
     }
   }
 
@@ -919,36 +933,36 @@ function boot() {
     const hover = Math.sin(time * 4.6) * 0.035;
     const engineGlow = 0.82 + Math.sin(time * 14) * 0.28;
     const speedRatio = Math.max(0, state.speed - 14.5);
-    const turboFlameLen = 0.18 + speedRatio * 0.05;
+    const turboFlameLen = 0.22 + speedRatio * 0.055;
 
-    // Pitch, yaw, and banking roll angles (Tilted towards camera sightline for crisp 3/4 overhead view)
-    const pitch = 0.62 + hover * 0.4;
+    // Pitch, yaw, and banking roll angles (Sleek forward flight angle)
+    const pitch = 0.24 + hover * 0.35;
     const yaw = lean * 0.55;
     const roll = lean * 1.45;
     const shipRot = [pitch, yaw, roll];
 
-    // Invulnerability shield aura / energy cocoon
-    if (state.invuln > 0) {
-      const pulse = 0.92 + Math.sin(time * 18) * 0.16;
-      draw(sphere, [x, 0.42 + hover, PLAYER_Z], [1.22 * pulse, 0.95 * pulse, 1.35 * pulse], [0.28, 0.88, 1.0], 0.85, [0, time * 2.2, 0]);
-    }
+    // High-resolution textured ship deck
+    draw(shipQuad, [x, 0.50 + hover, PLAYER_Z], [1.18, 1.0, 1.25], [1.0, 1.0, 1.0], 0.42, shipRot, texShip, { noCull: true });
 
-    // High-resolution textured ship deck (Alpha-cutout sprite facing camera at 3/4 angle)
-    draw(shipQuad, [x, 0.52 + hover, PLAYER_Z], [1.18, 1.0, 1.25], [1.0, 1.0, 1.0], 0.42, shipRot, texShip);
-
-    // Twin plasma exhaust nozzles aligned with rear thrusters
+    // Twin additive plasma exhaust cones aligned with pitched rear thrusters
     const tCol = ship.thrustColor;
     const cosR = Math.cos(roll);
     const sinR = Math.sin(roll);
-    for (const nozX of [-0.26, 0.26]) {
+    for (const nozX of [-0.25, 0.25]) {
       const worldNozX = x + nozX * cosR;
-      const worldNozY = 0.14 + hover - nozX * sinR * 0.5;
-      const worldNozZ = PLAYER_Z + 0.72;
+      const worldNozY = 0.44 + hover - nozX * sinR * 0.5;
+      const worldNozZ = PLAYER_Z + 0.60;
 
       // Glowing nozzle orb
-      draw(sphere, [worldNozX, worldNozY, worldNozZ], [0.10, 0.09, 0.12], tCol, engineGlow);
+      draw(sphere, [worldNozX, worldNozY, worldNozZ], [0.11, 0.09, 0.13], tCol, engineGlow, [0, 0, 0], null, { alpha: 0.78, additive: true });
       // Lengthened plasma flame cone
-      draw(cube, [worldNozX, worldNozY - 0.04, worldNozZ + turboFlameLen * 0.5], [0.065, 0.055, turboFlameLen], tCol, 1.2 + engineGlow * 0.3);
+      draw(cube, [worldNozX, worldNozY - 0.02, worldNozZ + turboFlameLen * 0.48], [0.065, 0.055, turboFlameLen], tCol, 1.25 + engineGlow * 0.3, shipRot, null, { alpha: 0.68, additive: true });
+    }
+
+    // Translucent Invulnerability shield aura / energy cocoon (keeps ship visible!)
+    if (state.invuln > 0) {
+      const pulse = 0.94 + Math.sin(time * 18) * 0.12;
+      draw(sphere, [x, 0.46 + hover, PLAYER_Z], [1.22 * pulse, 0.88 * pulse, 1.32 * pulse], [0.28, 0.88, 1.0], 0.95, [0, time * 2.2, 0], null, { alpha: 0.28, additive: true });
     }
   }
 
@@ -985,18 +999,14 @@ function boot() {
     if (aClass === 'cinder') {
       // Lav / Cinder Akkor Göktaşı (Ateşli, akkor çatlaklar)
       const glow = 0.24 + Math.sin(time * 4.2 + item.phase) * 0.12;
-      draw(asteroidMesh, [x, 0.34, item.z], [0.72, 0.68, 0.70], [1.25, 0.65, 0.40], glow, astRotation, texLava);
-      draw(sphere, [x + 0.18, 0.46, item.z + 0.48], [0.14, 0.12, 0.05], [1.0, 0.4, 0.15], glow * 0.8);
+      draw(asteroidMesh, [x, 0.34, item.z], [0.72, 0.68, 0.70], [1.25, 0.75, 0.55], glow, astRotation, texAstCinder);
     } else if (aClass === 'ice') {
       // Buzul / Kristal Göktaşı (Mavi ışıltılı, dondurucu)
       const shimmer = 0.16 + Math.cos(time * 3.5 + item.phase) * 0.08;
-      draw(asteroidMesh, [x, 0.34, item.z], [0.68, 0.65, 0.68], [0.80, 1.10, 1.35], shimmer, astRotation, texIce);
-      draw(sphere, [x - 0.16, 0.22, item.z + 0.46], [0.12, 0.10, 0.04], [0.5, 0.9, 1.0], shimmer * 0.9);
+      draw(asteroidMesh, [x, 0.34, item.z], [0.68, 0.65, 0.68], [0.85, 1.12, 1.35], shimmer, astRotation, texAstIce);
     } else {
       // Standart Bazalt / Silikat Kraterli Göktaşı
-      draw(asteroidMesh, [x, 0.34, item.z], [0.68, 0.64, 0.66], [0.95, 0.88, 0.82], 0.05, astRotation, texCrater);
-      draw(sphere, [x + 0.16, 0.48, item.z + 0.51], [0.13, 0.11, 0.04], [0.20, 0.12, 0.12], 0.02);
-      draw(sphere, [x - 0.20, 0.20, item.z + 0.48], [0.10, 0.09, 0.035], [0.18, 0.10, 0.10], 0.02);
+      draw(asteroidMesh, [x, 0.34, item.z], [0.68, 0.64, 0.66], [1.0, 0.95, 0.90], 0.06, astRotation, texAstSilicate);
     }
   }
 
@@ -1014,7 +1024,7 @@ function boot() {
     ui.hazard.classList.remove('hidden');
   }
 
-  function draw(mesh, position, scale, tint, emission = 0, rotation = [0, 0, 0], texture = null) {
+  function draw(mesh, position, scale, tint, emission = 0, rotation = [0, 0, 0], texture = null, opts = null) {
     modelMatrix(position, rotation, scale, _matModel);
     normalMatrix(_matModel, _matNormal);
 
@@ -1045,12 +1055,33 @@ function boot() {
       gl.uniform1f(loc.useTexture, 0.0);
     }
 
+    const alpha = opts && opts.alpha != null ? opts.alpha : 1.0;
+    const additive = !!(opts && opts.additive);
+    const fogExempt = opts && opts.fogExempt != null ? opts.fogExempt : 0.0;
+    const noCull = !!(opts && opts.noCull);
+
+    const needsBlend = alpha < 0.999 || additive;
+    if (needsBlend) {
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.SRC_ALPHA, additive ? gl.ONE : gl.ONE_MINUS_SRC_ALPHA);
+      gl.depthMask(false);
+    }
+    if (noCull) gl.disable(gl.CULL_FACE);
+
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, mesh.index);
     gl.uniformMatrix4fv(loc.model, false, _matModel);
     gl.uniformMatrix4fv(loc.normalMatrix, false, _matNormal);
     gl.uniform3f(loc.tint, tint[0], tint[1], tint[2]);
     gl.uniform1f(loc.emission, emission);
+    gl.uniform1f(loc.alpha, alpha);
+    gl.uniform1f(loc.fogExempt, fogExempt);
     gl.drawElements(gl.TRIANGLES, mesh.count, gl.UNSIGNED_SHORT, 0);
+
+    if (noCull) gl.enable(gl.CULL_FACE);
+    if (needsBlend) {
+      gl.depthMask(true);
+      gl.disable(gl.BLEND);
+    }
   }
 
   function syncComboUI() {
@@ -1125,7 +1156,8 @@ function boot() {
     state.hearts--;
     state.combo = 0;
     syncComboUI();
-    state.invuln = 1.25;
+    const shipSpec = SHIPS[selectedShip] || SHIPS[0];
+    state.invuln = 1.25 + (shipSpec.shield - 70) * 0.018;
     state.trauma = 0.85;
     state.hitStop = REDUCED_MOTION ? 0 : 0.065;
     const aType = item.subType || 'silicate';
