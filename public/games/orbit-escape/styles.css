@@ -190,7 +190,7 @@ h1 span { color: transparent; -webkit-text-stroke: 1.5px rgba(255,193,93,.98); t
 .hazard-warning {
   position: absolute;
   z-index: 5;
-  top: calc(132px + var(--safe-top));
+  top: calc(164px + var(--safe-top));
   left: 50%;
   transform: translateX(-50%);
   max-width: calc(100% - 28px);
@@ -249,7 +249,7 @@ h1 span { color: transparent; -webkit-text-stroke: 1.5px rgba(255,193,93,.98); t
   .brand-logo { width: 35px; height: 35px; border-radius: 8px; }
   .brand-name { font-size: 9px; }
   .brand-name span { font-size: 6px; }
-  .hazard-warning { top: calc(117px + var(--safe-top)); font-size: 8px; }
+  .hazard-warning { top: calc(150px + var(--safe-top)); font-size: 8px; }
 }
 
 /* Elockman Game Studio Splash Intro */
