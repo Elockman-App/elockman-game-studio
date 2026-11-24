@@ -53,7 +53,19 @@
       <div class="lives" id="lives" aria-label="3 kalkan">
         <span class="heart on">⬡</span><span class="heart on">⬡</span><span class="heart on">⬡</span>
       </div>
+      <div class="sector-progress-wrap" aria-hidden="true">
+        <div class="sector-progress-track"><div class="sector-progress-fill" id="sectorProgressFill"></div></div>
+        <div class="hud-telemetry-meta"><span>KALKAN <b id="shieldPct">100%</b></span><div class="threat-lanes" id="threatLanes"><span>L</span><span>C</span><span>R</span></div></div>
+      </div>
     </section>
+
+    <div class="cockpit-visor" id="cockpitVisor" aria-hidden="true">
+      <svg viewBox="0 0 240 60" class="visor-reticle">
+        <path d="M 18 30 L 58 30 L 66 24 M 222 30 L 182 30 L 174 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <circle cx="120" cy="30" r="14" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" opacity="0.55"/>
+        <path d="M 112 30 L 128 30 M 120 22 L 120 38" fill="none" stroke="currentColor" stroke-width="1" opacity="0.65"/>
+      </svg>
+    </div>
 
     <div class="combo-pill hidden" id="comboPill" aria-live="polite">COMBO <b>x1</b></div>
 

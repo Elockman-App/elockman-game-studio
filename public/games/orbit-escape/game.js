@@ -639,7 +639,7 @@ function boot() {
   const asteroidMesh = makeAsteroid(gl, 20, 28);
   const crystalMesh = makeCrystal(gl);
   const billboardQuad = makeBillboardQuad(gl);
-  const environment = buildEnvironment(gl);
+  const { rails: environment, deck: envDeck } = buildEnvironment(gl);
 
   gl.enable(gl.DEPTH_TEST);
   gl.depthFunc(gl.LEQUAL);
@@ -880,9 +880,10 @@ function boot() {
     gl.uniform3f(loc.rimColor, pal.rim[0], pal.rim[1], pal.rim[2]);
     gl.uniform1f(loc.time, time);
 
-    draw(environment, [0, 0, state.envOffset], [1, 1, 1], [1, 1, 1], 0);
     drawSpaceBackdrop(time);
     drawWarpStreaks();
+    draw(envDeck, [0, 0, state.envOffset], [1, 1, 1], [1, 1, 1], 0.08, [0, 0, 0], null, { alpha: 0.44 });
+    draw(environment, [0, 0, state.envOffset], [1, 1, 1], [1, 1, 1], 0.14);
     for (const item of objects) drawHazardOrEnergy(item, time);
     drawParticles();
     drawShip(time);
@@ -1025,13 +1026,22 @@ function boot() {
 
   function updateHazardWarning() {
     const incoming = objects
-      .filter((item) => item.type === 'asteroid' && !item.checked && item.z > -27 && item.z < PLAYER_Z + .55)
-      .sort((a, b) => b.z - a.z)[0];
-    if (!incoming) {
+      .filter((item) => item.type === 'asteroid' && !item.checked && item.z > -32 && item.z < PLAYER_Z + .55);
+    const closest = incoming.slice().sort((a, b) => b.z - a.z)[0];
+
+    const threatDots = document.querySelectorAll('#threatLanes span');
+    if (threatDots.length === 3) {
+      for (let i = 0; i < 3; i++) {
+        const hasThreat = incoming.some((it) => it.lane === i);
+        threatDots[i].classList.toggle('hot', hasThreat);
+      }
+    }
+
+    if (!closest) {
       ui.hazard.classList.add('hidden');
       return;
     }
-    const laneName = ['SOL', 'ORTA', 'SAĞ'][incoming.lane];
+    const laneName = ['SOL', 'ORTA', 'SAĞ'][closest.lane];
     const warning = 'UYARI • ASTEROİT ' + laneName + ' ROTASINDA';
     if (ui.hazard.textContent !== warning) ui.hazard.textContent = warning;
     ui.hazard.classList.remove('hidden');
@@ -1197,7 +1207,8 @@ function boot() {
     ui.score.textContent = String(state.score).padStart(6, '0');
     ui.tickets.textContent = state.tickets;
     ui.timer.innerHTML = String(Math.ceil(state.time)) + '<span>s</span>';
-    ui.speed.textContent = 'WARP ' + Math.round(state.speed * 4.2) + '%';
+    const warpPct = Math.round(state.speed * 4.2);
+    ui.speed.textContent = 'WARP ' + warpPct + '%';
     ui.lives.setAttribute('aria-label', state.hearts + ' kalkan kaldı');
     [...ui.lives.children].forEach((heart, i) => {
       heart.classList.toggle('on', i < state.hearts);
@@ -1206,6 +1217,23 @@ function boot() {
     const dateLabel = $('#dateLabel');
     if (dateLabel && dateLabel.textContent !== state.sector) {
       dateLabel.textContent = state.sector;
+    }
+    // Sci-Fi Cockpit Telemetry & Sector Accent (modern-web-guidance CSS variables)
+    const sectorAccents = ['#72ddff', '#66f2ff', '#ff7847', '#c084fc'];
+    const accent = sectorAccents[state.sectorIdx] || '#72ddff';
+    if (ui.game) {
+      const rollDeg = ((LANES[state.lane] - state.laneX) * -9.5).toFixed(2) + 'deg';
+      ui.game.style.setProperty('--ship-roll', rollDeg);
+      ui.game.style.setProperty('--sector-accent', accent);
+    }
+    const progressEl = $('#sectorProgressFill');
+    if (progressEl) {
+      const pct = Math.min(100, Math.max(4, Math.round(((RUN_SECONDS - state.time) / RUN_SECONDS) * 100)));
+      progressEl.style.width = pct + '%';
+    }
+    const shieldPctEl = $('#shieldPct');
+    if (shieldPctEl) {
+      shieldPctEl.textContent = Math.round((state.hearts / 3) * 100) + '%';
     }
   }
 
@@ -1582,34 +1610,38 @@ function loadTexture(context, url) {
 }
 
 function buildEnvironment(context) {
-  const builder = new MeshBuilder();
+  const deckBuilder = new MeshBuilder();
+  const railsBuilder = new MeshBuilder();
   const segmentLength = 8;
   const count = 27;
   const routeBounds = [-2.22, -.74, .74, 2.22];
   for (let s = 0; s < count; s++) {
     const center = 8 - s * segmentLength;
     const pattern = s % 12;
-    builder.box(0, -.72, center, 8.4, .15, 7.5, pattern % 3 === 0 ? [.045, .060, .14] : [.032, .047, .12]);
-    builder.box(-4.12, -.59, center, .12, .13, 7.4, [.10, .15, .30]);
-    builder.box(4.12, -.59, center, .12, .13, 7.4, [.10, .15, .30]);
+    // Translucent holographic orbital deck
+    deckBuilder.box(0, -.70, center, 8.2, .05, 7.6, pattern % 3 === 0 ? [.04, .09, .22] : [.025, .055, .16]);
+
+    // Glowing side rails & holographic lane guideways
+    railsBuilder.box(-4.12, -.62, center, .10, .11, 7.6, [.14, .32, .62]);
+    railsBuilder.box(4.12, -.62, center, .10, .11, 7.6, [.14, .32, .62]);
 
     for (let lane = 0; lane < routeBounds.length; lane++) {
-      const color = lane === 1 ? [.16, .54, .86] : lane === 0 ? [.40, .25, .78] : [.90, .49, .19];
-      builder.box(routeBounds[lane], -.615, center, .035, .025, 7.1, color);
+      const color = lane === 1 || lane === 2 ? [.22, .74, .98] : lane === 0 ? [.54, .35, .95] : [.98, .58, .24];
+      railsBuilder.box(routeBounds[lane], -.635, center, .042, .026, 7.4, color);
     }
     for (let t = 0; t < 3; t++) {
       const markerZ = center - 2.5 + t * 2.5;
-      builder.box(0, -.625, markerZ, 7.8, .022, .09, pattern % 4 === 0 ? [.19, .28, .48] : [.09, .14, .27]);
-      for (const laneX of LANES) builder.box(laneX, -.60, markerZ, .70, .026, .075, [.10, .31, .55]);
+      railsBuilder.box(0, -.645, markerZ, 7.8, .018, .07, pattern % 4 === 0 ? [.24, .42, .72] : [.10, .20, .42]);
+      for (const laneX of LANES) railsBuilder.box(laneX, -.625, markerZ, .64, .022, .07, [.16, .52, .85]);
     }
 
     if (pattern % 3 === 0) {
-      const portal = pattern === 0 ? [.62, .30, .92] : [.28, .45, .75];
-      builder.box(-4.1, .38, center, .10, 2.0, .12, portal);
-      builder.box(4.1, .38, center, .10, 2.0, .12, portal);
-      builder.box(0, 1.38, center, 8.2, .08, .12, portal);
-      builder.box(-3.85, 1.18, center, .30, .035, .44, [.94, .61, .25]);
-      builder.box(3.85, 1.18, center, .30, .035, .44, [.94, .61, .25]);
+      const portal = pattern === 0 ? [.68, .36, 1.0] : [.28, .72, .98];
+      railsBuilder.box(-4.1, .38, center, .09, 2.0, .10, portal);
+      railsBuilder.box(4.1, .38, center, .09, 2.0, .10, portal);
+      railsBuilder.box(0, 1.38, center, 8.2, .07, .10, portal);
+      railsBuilder.box(-3.85, 1.18, center, .30, .035, .44, [.98, .66, .28]);
+      railsBuilder.box(3.85, 1.18, center, .30, .035, .44, [.98, .66, .28]);
     }
 
     for (let n = 0; n < 14; n++) {
@@ -1620,10 +1652,10 @@ function buildEnvironment(context) {
       const starZ = center - 3.4 + ((n * 17) % 68) / 10;
       const size = .018 + (n % 4) * .009;
       const color = n % 7 === 0 ? [1, .70, .39] : n % 3 === 0 ? [.43, .75, 1] : [.72, .82, 1];
-      builder.box(starX, starY, starZ, size, size, size, color);
+      railsBuilder.box(starX, starY, starZ, size, size, size, color);
     }
   }
-  return builder.upload(context);
+  return { deck: deckBuilder.upload(context), rails: railsBuilder.upload(context) };
 }
 
 class MeshBuilder {
