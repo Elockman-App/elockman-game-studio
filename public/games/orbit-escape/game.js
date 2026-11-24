@@ -575,9 +575,14 @@ function boot() {
     '  float outAlpha = uAlpha;',
     '  if (uUseTexture > 0.5) {',
     '    vec4 tex = texture2D(uSampler, vTexCoord);',
-    '    if (tex.a < 0.06) discard;',
-    '    baseColor = mix(baseColor, tex.rgb * uTint, 0.90);',
-    '    outAlpha *= tex.a;',
+    '    if (uAlpha < 0.999) {',
+    '      if (tex.a < 0.04) discard;',
+    '      baseColor = tex.rgb * uTint;',
+    '      outAlpha = uAlpha * tex.a;',
+    '    } else {',
+    '      baseColor = mix(baseColor, tex.rgb * uTint, 0.92);',
+    '      outAlpha = 1.0;',
+    '    }',
     '  }',
     '  vec3 base = max(baseColor, vec3(0.0));',
     '  float grain = sin(dot(vWorld, vec3(113.1, 79.7, 53.3))) * 0.010;',
@@ -631,7 +636,7 @@ function boot() {
   const ring = makeTorus(gl, 22, 10);
   const shipBody = makeShipBody(gl);
   const shipQuad = makeShipQuad(gl);
-  const asteroidMesh = makeAsteroid(gl, 12, 16);
+  const asteroidMesh = makeAsteroid(gl, 20, 28);
   const crystalMesh = makeCrystal(gl);
   const billboardQuad = makeBillboardQuad(gl);
   const environment = buildEnvironment(gl);
@@ -886,24 +891,29 @@ function boot() {
   function drawSpaceBackdrop(time) {
     const drift = Math.sin(time * .08) * .7;
     const noFog = { fogExempt: 1.0 };
-    // Deep space nebula backdrop sphere (store key art parity)
-    draw(sphere, [0, 22.0, -115], [36.0, 36.0, 36.0], [.90, .80, 1.15], .32, [0, time * .005, 0.08], texNebula, noFog);
 
-    // Celestial Body 1: Giant Frosted Glacial Planet + orbital ice ring
-    draw(sphere, [-12.5 + drift, 11.2, -68], [7.2, 7.2, 7.2], [1.0, 1.08, 1.22], .16, [0.12, time * 0.022, 0.04], texIce, noFog);
-    draw(ring, [-12.5 + drift, 11.2, -68], [10.4, 1.0, 10.4], [0.55, 0.90, 1.15], .42, [0.42, time * 0.04, -0.18], null, { alpha: 0.62, additive: true, fogExempt: 1.0 });
+    // Deep space nebula veil (non-occluding additive backdrop at far z so it never swallows planets/ships)
+    draw(sphere, [0, 18.0, -128], [44.0, 28.0, 12.0], [0.55, 0.28, 0.85], 0.42, [0, time * 0.004, 0.08], texNebula, { alpha: 0.38, additive: true, fogExempt: 1.0 });
 
-    // Celestial Body 2: Molten Volcanic Celestial Body
-    draw(sphere, [13.2, 7.5, -86], [5.0, 5.0, 5.0], [1.15, 0.80, 0.70], .24, [0.08, time * 0.018, -0.05], texLava, noFog);
+    // Celestial Body 1 (Top-Left Horizon): Frosted Glacial Planet + Dual Equatorial Ice Rings
+    const icePos = [-17.5 + drift, 14.5, -82];
+    draw(sphere, icePos, [5.4, 5.4, 5.4], [1.0, 1.08, 1.22], 0.20, [0.12, time * 0.022, 0.04], texIce, noFog);
+    draw(ring, icePos, [8.6, 1.0, 8.6], [0.55, 0.92, 1.18], 0.48, [0.38, time * 0.03, -0.22], null, { alpha: 0.65, additive: true, fogExempt: 1.0, noCull: true });
+    draw(ring, icePos, [10.2, 1.0, 10.2], [0.38, 0.78, 1.08], 0.34, [0.38, time * 0.03, -0.22], null, { alpha: 0.42, additive: true, fogExempt: 1.0, noCull: true });
 
-    // Celestial Body 3: Distant violet gas giant silhouette in deep space
-    draw(sphere, [-2.0, 32.0, -125], [18.0, 18.0, 18.0], [0.55, 0.35, 0.85], .12, [0, time * 0.008, 0], texNebula, noFog);
+    // Celestial Body 2 (Top-Right Horizon): Molten Volcanic Planet + Orbiting Cratered Moon
+    const lavaPos = [18.0 - drift * 0.6, 11.0, -96];
+    draw(sphere, lavaPos, [4.2, 4.2, 4.2], [1.18, 0.80, 0.68], 0.28, [0.08, time * 0.018, -0.05], texLava, noFog);
+    const moonX = lavaPos[0] + Math.cos(time * 0.35) * 6.8;
+    const moonY = lavaPos[1] + 0.8 + Math.sin(time * 0.35) * 1.6;
+    const moonZ = lavaPos[2] + Math.sin(time * 0.35) * 4.5;
+    draw(sphere, [moonX, moonY, moonZ], [1.15, 1.15, 1.15], [0.92, 0.94, 1.02], 0.14, [0.05, time * 0.05, 0], texCrater, noFog);
 
-    // Alien Mothership / Boss in deep horizon
-    const bossGlow = .50 + Math.sin(time * 3.5) * .25;
-    const bossSwayX = Math.sin(time * 0.15) * 4.2;
-    const bossSwayY = 13.5 + Math.cos(time * 0.22) * 1.2;
-    draw(billboardQuad, [bossSwayX, bossSwayY, -85.0], [15.0, 15.0, 1.0], [1.0, 0.9, 0.9], bossGlow, [0, 0, Math.sin(time * 0.15) * 0.05], texMothership, { alpha: 0.95, fogExempt: 1.0 });
+    // Alien Mothership / Boss hovering clearly above the track horizon (no planet occlusion)
+    const bossGlow = 0.55 + Math.sin(time * 3.5) * 0.22;
+    const bossSwayX = Math.sin(time * 0.18) * 3.2;
+    const bossSwayY = 9.2 + Math.cos(time * 0.25) * 0.65;
+    draw(billboardQuad, [bossSwayX, bossSwayY, -64.0], [8.5, 8.5, 1.0], [1.0, 0.94, 0.92], bossGlow, [0, 0, Math.sin(time * 0.15) * 0.04], texMothership, { alpha: 0.96, fogExempt: 1.0, noCull: true });
   }
 
   function drawWarpStreaks() {
@@ -941,8 +951,8 @@ function boot() {
     const roll = lean * 1.45;
     const shipRot = [pitch, yaw, roll];
 
-    // High-resolution textured ship deck
-    draw(shipQuad, [x, 0.50 + hover, PLAYER_Z], [1.18, 1.0, 1.25], [1.0, 1.0, 1.0], 0.42, shipRot, texShip, { noCull: true });
+    // High-resolution textured ship deck (alpha < 1 enables proper BLEND & avoids Z-buffer clipping of thruster glow)
+    draw(shipQuad, [x, 0.50 + hover, PLAYER_Z], [1.18, 1.0, 1.25], [1.0, 1.0, 1.0], 0.42, shipRot, texShip, { noCull: true, alpha: 0.995 });
 
     // Twin additive plasma exhaust cones aligned with pitched rear thrusters
     const tCol = ship.thrustColor;
@@ -959,10 +969,11 @@ function boot() {
       draw(cube, [worldNozX, worldNozY - 0.02, worldNozZ + turboFlameLen * 0.48], [0.065, 0.055, turboFlameLen], tCol, 1.25 + engineGlow * 0.3, shipRot, null, { alpha: 0.68, additive: true });
     }
 
-    // Translucent Invulnerability shield aura / energy cocoon (keeps ship visible!)
+    // Dual orbital plasma shield rings when invulnerable (keeps spacecraft crisp!)
     if (state.invuln > 0) {
-      const pulse = 0.94 + Math.sin(time * 18) * 0.12;
-      draw(sphere, [x, 0.46 + hover, PLAYER_Z], [1.22 * pulse, 0.88 * pulse, 1.32 * pulse], [0.28, 0.88, 1.0], 0.95, [0, time * 2.2, 0], null, { alpha: 0.28, additive: true });
+      const pulse = 0.95 + Math.sin(time * 16) * 0.08;
+      draw(ring, [x, 0.48 + hover, PLAYER_Z], [1.15 * pulse, 1.0, 1.15 * pulse], [0.28, 0.90, 1.0], 1.35, [0.18, time * 3.5, 0.12], null, { alpha: 0.65, additive: true, noCull: true });
+      draw(ring, [x, 0.48 + hover, PLAYER_Z], [0.95 * pulse, 1.0, 0.95 * pulse], [0.65, 0.96, 1.0], 1.15, [-0.25, -time * 2.8, -0.18], null, { alpha: 0.45, additive: true, noCull: true });
     }
   }
 
@@ -997,16 +1008,18 @@ function boot() {
 
     const aClass = item.subType || 'silicate';
     if (aClass === 'cinder') {
-      // Lav / Cinder Akkor Göktaşı (Ateşli, akkor çatlaklar)
-      const glow = 0.24 + Math.sin(time * 4.2 + item.phase) * 0.12;
-      draw(asteroidMesh, [x, 0.34, item.z], [0.72, 0.68, 0.70], [1.25, 0.75, 0.55], glow, astRotation, texAstCinder);
+      // Lav / Cinder Akkor Göktaşı (Ateşli, akkor çatlaklar + 3B magma çekirdek çıkıntısı)
+      const glow = 0.28 + Math.sin(time * 4.2 + item.phase) * 0.12;
+      draw(asteroidMesh, [x, 0.34, item.z], [0.74, 0.70, 0.72], [1.18, 0.85, 0.75], glow, astRotation, texAstCinder);
+      draw(crystalMesh, [x, 0.34, item.z], [0.46, 0.86, 0.46], [1.0, 0.42, 0.10], 0.85 + glow, [rotX + 0.5, rotY + 0.8, rotZ]);
     } else if (aClass === 'ice') {
-      // Buzul / Kristal Göktaşı (Mavi ışıltılı, dondurucu)
-      const shimmer = 0.16 + Math.cos(time * 3.5 + item.phase) * 0.08;
-      draw(asteroidMesh, [x, 0.34, item.z], [0.68, 0.65, 0.68], [0.85, 1.12, 1.35], shimmer, astRotation, texAstIce);
+      // Buzul / Kristal Göktaşı (Mavi ışıltılı + 3B kristal çıkıntıları)
+      const shimmer = 0.20 + Math.cos(time * 3.5 + item.phase) * 0.08;
+      draw(asteroidMesh, [x, 0.34, item.z], [0.70, 0.67, 0.70], [0.95, 1.08, 1.22], shimmer, astRotation, texAstIce);
+      draw(crystalMesh, [x, 0.34, item.z], [0.50, 0.96, 0.50], [0.30, 0.90, 1.0], 0.90 + shimmer, [rotX + 0.4, rotY + 1.1, rotZ - 0.3]);
     } else {
       // Standart Bazalt / Silikat Kraterli Göktaşı
-      draw(asteroidMesh, [x, 0.34, item.z], [0.68, 0.64, 0.66], [1.0, 0.95, 0.90], 0.06, astRotation, texAstSilicate);
+      draw(asteroidMesh, [x, 0.34, item.z], [0.70, 0.66, 0.68], [1.0, 0.96, 0.92], 0.10, astRotation, texAstSilicate);
     }
   }
 
@@ -1687,19 +1700,29 @@ function makeShipQuad(context) {
 function makeAsteroid(context, rings, segments) {
   const positions = [], normals = [], colors = [], uvs = [], indices = [];
   for (let y = 0; y <= rings; y++) {
-    const theta = y / rings * Math.PI;
+    const v = y / rings;
+    const theta = v * Math.PI;
     for (let x = 0; x <= segments; x++) {
-      const phi = x / segments * Math.PI * 2;
+      const u = x / segments;
+      const phi = u * Math.PI * 2;
       const rawX = -Math.cos(phi) * Math.sin(theta);
       const rawY = Math.cos(theta);
       const rawZ = Math.sin(phi) * Math.sin(theta);
-      const rock = .82 + .11 * Math.sin(phi * 3.1 + theta * 4.7) + .07 * Math.cos(phi * 5.3 - theta * 2.9);
+      // Seamless 3D positional displacement (zero UV seam gap at phi=0 / phi=2*PI)
+      const n3 = Math.sin(rawX * 4.2 + rawY * 3.7) * Math.cos(rawZ * 4.5 - rawX * 2.8)
+               + 0.50 * Math.sin(rawZ * 7.1 - rawY * 6.3)
+               + 0.25 * Math.cos(rawX * 10.3 + rawZ * 9.7);
+      const rock = 0.84 + 0.14 * n3;
       const px = rawX * rock, py = rawY * rock, pz = rawZ * rock;
       positions.push(px, py, pz);
-      const normal = normalize([rawX * (1 + .1 * Math.sin(phi * 2)), rawY, rawZ * (1 + .1 * Math.cos(theta * 3))]);
+      const normal = normalize([
+        rawX + 0.16 * Math.cos(rawX * 4.2 + rawY * 3.7),
+        rawY - 0.14 * Math.cos(rawZ * 7.1 - rawY * 6.3),
+        rawZ + 0.16 * Math.sin(rawZ * 4.5 - rawX * 2.8)
+      ]);
       normals.push(normal[0], normal[1], normal[2]);
       colors.push(1, 1, 1);
-      uvs.push(x / segments, y / rings);
+      uvs.push(u, v);
     }
   }
   for (let y = 0; y < rings; y++) for (let x = 0; x < segments; x++) {
@@ -1766,15 +1789,19 @@ function makeTorus(context, majorSegments, minorSegments) {
   for (let i = 0; i <= majorSegments; i++) {
     const u = i / majorSegments, phi = u * Math.PI * 2;
     for (let j = 0; j <= minorSegments; j++) {
-      const v = j / minorSegments, theta = v * Math.PI * 2, ring = .76 + .24 * Math.cos(theta);
-      const x = Math.cos(phi) * ring, y = Math.sin(phi) * ring, z = .24 * Math.sin(theta);
-      p.push(x, y, z); n.push(Math.cos(phi) * Math.cos(theta), Math.sin(phi) * Math.cos(theta), Math.sin(theta)); c.push(1, 1, 1);
+      const v = j / minorSegments, theta = v * Math.PI * 2;
+      const ring = 0.86 + 0.16 * Math.cos(theta);
+      const x = Math.cos(phi) * ring;
+      const y = 0.045 * Math.sin(theta);
+      const z = Math.sin(phi) * ring;
+      const nl = normalize([Math.cos(phi) * Math.cos(theta) * 0.25, Math.sin(theta), Math.sin(phi) * Math.cos(theta) * 0.25]);
+      p.push(x, y, z); n.push(nl[0], nl[1], nl[2]); c.push(1, 1, 1);
       uvs.push(u, v);
     }
   }
   for (let i = 0; i < majorSegments; i++) for (let j = 0; j < minorSegments; j++) {
     const a = i * (minorSegments + 1) + j, b = a + minorSegments + 1;
-    ix.push(a, b, a + 1, b, b + 1, a + 1);
+    ix.push(a, a + 1, b, b, a + 1, b + 1);
   }
   return uploadMesh(context, p, n, c, ix, uvs);
 }
@@ -1936,6 +1963,7 @@ function normalMatrix(m, out) {
   const x = Math.hypot(m[0], m[1], m[2]) || 1, y = Math.hypot(m[4], m[5], m[6]) || 1, z = Math.hypot(m[8], m[9], m[10]) || 1;
   out.set(m);
   out[0]/=x; out[1]/=x; out[2]/=x; out[4]/=y; out[5]/=y; out[6]/=y; out[8]/=z; out[9]/=z; out[10]/=z;
+  out[12]=0; out[13]=0; out[14]=0; out[15]=1;
   return out;
 }
 

@@ -1,4 +1,4 @@
-const CACHE = 'elockman-orbit-v3';
+const CACHE = 'elockman-orbit-v4';
 const FILES = ['./', './index.html', './styles.css', './game.js', './AdMobManager.js', './favicon.svg', './manifest.webmanifest', './assets/elockman-studio.webp'];
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(FILES)));
