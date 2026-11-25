@@ -1,3 +1,5 @@
+/test /test-hub.html 301
+/test.html /test-hub.html 301
 /play/garaj-efsanesi/* /play/garaj-efsanesi/ 200
 /play/kulup-efsanesi/* /play/kulup-efsanesi/ 200
 /play/orbit-escape/* /play/orbit-escape/ 200

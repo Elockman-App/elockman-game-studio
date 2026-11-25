@@ -26,7 +26,7 @@ const requiredGames = [
   'Garaj Efsanesi',
   'Kulüp Efsanesi',
   'Orbit Escape',
-  'Ring Tycoon',
+  'Ring Efsanesi',
   'Hipodrom Ahırı'
 ];
 for (const g of requiredGames) {
@@ -101,8 +101,8 @@ const siteCss = fs.readFileSync('public/assets/site.css', 'utf8');
 if (!siteCss.includes('overflow-x: hidden')) {
   errors.push('site.css missing overflow-x: hidden safety');
 }
-if (!siteCss.includes('studio-hero.jpg')) {
-  errors.push('site.css missing studio-hero.jpg');
+if (!siteCss.includes('studio-hero.webp')) {
+  errors.push('site.css missing studio-hero.webp');
 }
 
 // 3. Check render.yaml
@@ -129,7 +129,7 @@ for (const route of requiredPlayRoutes) {
   if (c.includes('\u00C3') || c.includes('\u00C5') || c.includes('â€”')) {
     errors.push(f + ' contains mojibake');
   }
-  if (!c.includes('/assets/site.css?v=20261109_v4')) {
+  if (!c.includes('/assets/site.css?v=202611')) {
     errors.push(f + ' missing cache-busted site.css');
   }
 });
