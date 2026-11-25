@@ -137,16 +137,23 @@
       rimLight.position.set(-5.0, 4.0, -4.0);
       this.scene.add(rimLight);
 
-      // Curved 3D Workshop Backdrop Wall (textured with img/bg_workshop.webp)
-      const texLoader = new THREE.TextureLoader();
-      texLoader.load('img/bg_workshop.webp', (tex) => {
+      // Curved 3D Workshop Backdrop Wall (via <img> + CanvasTexture so it works on file://, https:// & Capacitor)
+      const bgImg = new Image();
+      bgImg.onload = () => {
+        const c = document.createElement('canvas');
+        c.width = 1024;
+        c.height = 512;
+        const cctx = c.getContext('2d');
+        cctx.drawImage(bgImg, 0, 0, 1024, 512);
+        const tex = new THREE.CanvasTexture(c);
         tex.colorSpace = THREE.SRGBColorSpace;
-        const wallGeo = new THREE.CylinderGeometry(11.5, 11.5, 6.4, 48, 1, true, Math.PI * 0.2, Math.PI * 1.6);
-        const wallMat = new THREE.MeshBasicMaterial({ map: tex, side: THREE.BackSide, transparent: true, opacity: 0.75 });
+        const wallGeo = new THREE.CylinderGeometry(10.5, 10.5, 6.2, 48, 1, true, 0, Math.PI * 2);
+        const wallMat = new THREE.MeshBasicMaterial({ map: tex, side: THREE.BackSide, transparent: true, opacity: 0.72 });
         const wall = new THREE.Mesh(wallGeo, wallMat);
-        wall.position.y = 2.8;
+        wall.position.y = 2.6;
         this.scene.add(wall);
-      });
+      };
+      bgImg.src = 'img/bg_workshop.webp';
 
       // Overhead studio LED light strips
       const stripGeo = new THREE.BoxGeometry(3.6, 0.05, 0.24);
@@ -239,17 +246,33 @@
         else if (obj.name.startsWith('Mod_Hood')) obj.visible = (vm.hood || 0) > 0;
         else if (obj.name.startsWith('Mod_Exhaust')) obj.visible = (vm.exhaustNeon || 0) >= 1;
 
-        if (obj.material && obj.material.name === 'CarPaint') {
+        const mName = (obj.material && obj.material.name || '').toLowerCase();
+        const oName = (obj.name || '').toLowerCase();
+        if (mName === 'carpaint' || mName === 'body' || oName === 'body' || mName.includes('red')) {
           obj.material = new THREE.MeshPhysicalMaterial({
             color: bodyColor,
             metalness,
             roughness,
             clearcoat,
-            clearcoatRoughness: 0.08,
+            clearcoatRoughness: 0.06,
           });
-        } else if (obj.material && obj.material.name === 'Rim') {
+        } else if (mName.includes('glass') || oName.includes('glass')) {
+          obj.material = new THREE.MeshPhysicalMaterial({
+            color: '#0c1320',
+            metalness: 0.2,
+            roughness: 0.04,
+            transmission: 0.0,
+            transparent: true,
+            opacity: 0.78,
+            clearcoat: 1.0,
+          });
+        } else if (mName === 'rim' || oName.startsWith('rim_') || mName.includes('metal') && oName.includes('wheel')) {
           const rimColors = ['#c89b3c', '#e2e8f0', '#a16207', '#475569'];
-          obj.material.color.set(rimColors[vm.rims || 0] || '#e2e8f0');
+          obj.material = new THREE.MeshStandardMaterial({
+            color: rimColors[vm.rims || 0] || '#e2e8f0',
+            metalness: 0.92,
+            roughness: 0.18,
+          });
         }
       });
 
@@ -263,7 +286,7 @@
     updateCar(car) {
       if (!this.isReady || !car) return;
       this.curCar = car;
-      const carId = car.id || 'sahin';
+      const carId = 'showroom';
 
       if (this.glbCache[carId]) {
         if (this.curCarId !== carId) {
@@ -280,14 +303,12 @@
         const onLoaded = (gltf) => {
           this.glbCache[carId] = gltf.scene;
           this.glbLoading[carId] = false;
-          if ((this.curCar && this.curCar.id) === carId) {
-            this._mountCarScene(carId, gltf.scene);
-            this._applyCarMaterialsAndMods(this.carRoot.children[0], this.curCar);
-          }
+          this._mountCarScene(carId, gltf.scene);
+          this._applyCarMaterialsAndMods(this.carRoot.children[0], this.curCar);
         };
-        if (global.GARAJ_GLB_B64 && global.GARAJ_GLB_B64[carId]) {
+        if (global.GARAJ_GLB_B64 && global.GARAJ_GLB_B64.showroom) {
           try {
-            const bin = atob(global.GARAJ_GLB_B64[carId]);
+            const bin = atob(global.GARAJ_GLB_B64.showroom);
             const bytes = new Uint8Array(bin.length);
             for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
             this.loader.parse(bytes.buffer, '', onLoaded, () => { this.glbLoading[carId] = false; });
@@ -297,7 +318,7 @@
           }
         }
         this.loader.load(
-          'models/car_' + carId + '.glb',
+          'models/car_showroom.glb',
           onLoaded,
           undefined,
           () => {
@@ -318,14 +339,14 @@
 
     focusPart(partKey) {
       const presets = {
-        default:     { theta: 0.72,  phi: 1.24, dist: 4.9,  look: [0, 0.58, 0],     spin: 0.14 },
-        frontBumper: { theta: 0.32,  phi: 1.32, dist: 3.3,  look: [1.55, 0.34, 0],  spin: 0.0 },
-        hood:        { theta: 0.55,  phi: 1.05, dist: 3.4,  look: [1.05, 0.78, 0],  spin: 0.0 },
-        bodyKit:     { theta: 1.45,  phi: 1.28, dist: 4.3,  look: [0, 0.45, 0],     spin: 0.04 },
-        rims:        { theta: 1.25,  phi: 1.36, dist: 2.85, look: [1.15, 0.34, 0.6],spin: 0.0 },
-        spoiler:     { theta: -2.45, phi: 1.12, dist: 3.35, look: [-1.65, 0.85, 0], spin: 0.0 },
-        exhaustNeon: { theta: -2.75, phi: 1.34, dist: 3.3,  look: [-1.6, 0.25, 0],  spin: 0.0 },
-        paintFinish: { theta: 0.82,  phi: 1.15, dist: 4.4,  look: [0, 0.65, 0],     spin: 0.22 },
+        default: { theta: 0.72, phi: 1.24, dist: 4.9, look: [0, 0.58, 0], spin: 0.14 },
+        frontBumper: { theta: 0.32, phi: 1.32, dist: 3.3, look: [1.55, 0.34, 0], spin: 0.0 },
+        hood: { theta: 0.55, phi: 1.05, dist: 3.4, look: [1.05, 0.78, 0], spin: 0.0 },
+        bodyKit: { theta: 1.45, phi: 1.28, dist: 4.3, look: [0, 0.45, 0], spin: 0.04 },
+        rims: { theta: 1.25, phi: 1.36, dist: 2.85, look: [1.15, 0.34, 0.6], spin: 0.0 },
+        spoiler: { theta: -2.45, phi: 1.12, dist: 3.35, look: [-1.65, 0.85, 0], spin: 0.0 },
+        exhaustNeon: { theta: -2.75, phi: 1.34, dist: 3.3, look: [-1.6, 0.25, 0], spin: 0.0 },
+        paintFinish: { theta: 0.82, phi: 1.15, dist: 4.4, look: [0, 0.65, 0], spin: 0.22 },
       };
       const p = presets[partKey] || presets.default;
       this.targetTheta = p.theta;
