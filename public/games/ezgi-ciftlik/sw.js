@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ezgi-ciftlik-shell-v4';
+const CACHE_NAME = 'ezgi-ciftlik-shell-v5';
 const APP_SHELL = [
   './',
   './index.html',
@@ -7,7 +7,12 @@ const APP_SHELL = [
   './bundle.js',
   './img/icon-180.png',
   './img/icon-512.png',
-  './img/splash.jpg'
+  './img/splash.jpg',
+  './assets/big-barn.glb',
+  './assets/chicken.glb',
+  './assets/cow.glb',
+  './assets/pig.glb',
+  './assets/sheep.glb'
 ];
 
 self.addEventListener('install', event => {
