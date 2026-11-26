@@ -28,7 +28,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
-      background: radial-gradient(circle at 50% 0%, #123824 0%, #06110b 70%);
+      background: radial-gradient(circle at 50% 0%, #103723 0%, #040d08 75%);
       color: var(--text);
       min-height: 100vh;
       min-height: 100dvh;
@@ -36,6 +36,17 @@
       padding-left: env(safe-area-inset-left);
       padding-right: env(safe-area-inset-right);
       overflow-x: hidden;
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(180deg, rgba(4, 15, 10, 0.80) 0%, rgba(4, 14, 9, 0.90) 55%, rgba(3, 10, 6, 0.96) 100%),
+        url('img/bg_stadium_night.webp') center top / cover no-repeat;
+      pointer-events: none;
     }
 
     /* Distinct Keyboard / Gamepad Focus (game-ui-ux) */
@@ -95,15 +106,93 @@
     /* Container & Cards */
     .container { max-width: 540px; margin: 0 auto; padding: 12px; }
     .card {
-      background: var(--card);
+      background: linear-gradient(165deg, rgba(16, 40, 27, 0.90) 0%, rgba(8, 22, 15, 0.94) 100%);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 14px;
       margin-bottom: 12px;
-      box-shadow: 0 10px 28px rgba(0,0,0,0.42);
-      backdrop-filter: blur(8px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.50), inset 0 1px 0 rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
     }
-    .card.gold-border { border-color: var(--border-gold); }
+    .card.gold-border {
+      border-color: var(--border-gold);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.52), 0 0 18px rgba(245,158,11,0.12), inset 0 1px 0 rgba(253,230,138,0.14);
+    }
+
+    /* V3.1 Premium Tiered Player Cards & Broadcast Goal Banner */
+    .player-card.tier-icon {
+      background: linear-gradient(135deg, rgba(88, 28, 135, 0.34), rgba(180, 83, 9, 0.24), rgba(8, 22, 15, 0.92));
+      border: 1.5px solid #fbbf24 !important;
+      box-shadow: 0 6px 22px rgba(245, 158, 11, 0.28), inset 0 1px 0 rgba(254, 240, 138, 0.32);
+    }
+    .player-card.tier-gold {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.20), rgba(10, 28, 19, 0.92));
+      border: 1.5px solid rgba(251, 191, 36, 0.65) !important;
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.16), inset 0 1px 0 rgba(253, 230, 138, 0.22);
+    }
+    .player-card.tier-emerald {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.16), rgba(8, 22, 15, 0.92));
+      border: 1px solid rgba(52, 211, 153, 0.48) !important;
+      box-shadow: inset 0 1px 0 rgba(167, 243, 208, 0.14);
+    }
+    .player-card.tier-bronze {
+      background: linear-gradient(135deg, rgba(148, 163, 184, 0.14), rgba(8, 20, 14, 0.92));
+      border: 1px solid rgba(148, 163, 184, 0.35) !important;
+    }
+    .tier-pill {
+      font-size: 9px; font-weight: 900; letter-spacing: 0.4px;
+      padding: 1.5px 5.5px; border-radius: 5px; text-transform: uppercase;
+    }
+    .tier-pill.icon { background: linear-gradient(135deg, #c084fc, #f59e0b); color: #140800; }
+    .tier-pill.gold { background: linear-gradient(135deg, #fbbf24, #d97706); color: #1a0f00; }
+    .tier-pill.emerald { background: rgba(16,185,129,0.28); color: #6ee7b7; border: 1px solid rgba(52,211,153,0.5); }
+    .tier-pill.bronze { background: rgba(148,163,184,0.22); color: #cbd5e1; }
+
+    .goal-broadcast-banner {
+      position: absolute; left: 10px; right: 10px; top: 50%; transform: translateY(-50%) scale(0.92);
+      z-index: 25; pointer-events: none; opacity: 0;
+      background: linear-gradient(90deg, rgba(6, 20, 13, 0.94), rgba(16, 185, 129, 0.94), rgba(245, 158, 11, 0.95), rgba(6, 20, 13, 0.94));
+      border-top: 2px solid #fef08a; border-bottom: 2px solid #fef08a;
+      border-radius: 10px; padding: 9px 14px; text-align: center;
+      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.8), 0 0 28px rgba(245, 158, 11, 0.55);
+      transition: opacity 0.22s ease, transform 0.26s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .goal-broadcast-banner.show {
+      opacity: 1; transform: translateY(-50%) scale(1);
+    }
+    .goal-broadcast-banner.away {
+      background: linear-gradient(90deg, rgba(20, 6, 6, 0.94), rgba(220, 38, 38, 0.92), rgba(20, 6, 6, 0.94));
+      border-color: #fca5a5;
+    }
+    .goal-broadcast-title {
+      font-size: 18px; font-weight: 900; letter-spacing: 2px; color: #fff;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.85);
+    }
+    .goal-broadcast-sub {
+      font-size: 11px; font-weight: 800; color: #fef08a; margin-top: 2px; letter-spacing: 0.4px;
+    }
+    .stadium-hero-wrap {
+      position: relative; border-radius: 12px; overflow: hidden;
+      border: 1.5px solid rgba(245, 158, 11, 0.5);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+      margin-bottom: 8px;
+    }
+    .stadium-hero-img {
+      width: 100%; height: 156px; object-fit: cover; display: block;
+      filter: contrast(1.06) saturate(1.1);
+    }
+    .stadium-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(4, 16, 10, 0.22) 0%, rgba(4, 16, 10, 0.15) 45%, rgba(3, 12, 8, 0.92) 100%);
+      display: flex; flex-direction: column; justify-content: space-between; padding: 9px 10px;
+    }
+    .stadium-led-bar {
+      align-self: center; background: rgba(2, 12, 7, 0.88);
+      border: 1px solid #f59e0b; border-radius: 99px;
+      padding: 2.5px 12px; font-size: 10px; font-weight: 900;
+      color: #fde68a; letter-spacing: 0.6px;
+      box-shadow: 0 0 14px rgba(245, 158, 11, 0.4);
+    }
     .card-header {
       display: flex; align-items: center; justify-content: space-between;
       margin-bottom: 10px;
@@ -964,6 +1053,15 @@
             <span id="leColorSecondaryText" style="font-size:11px; font-weight:700; color:#fff;">#ffffff</span>
           </div>
         </div>
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <label class="onboard-label" for="leKitPattern">Forma Deseni</label>
+        <select id="leKitPattern" class="onboard-input" style="padding:8px 10px;">
+          <option value="solid">👕 Düz Klasik Forma</option>
+          <option value="stripes">🦓 Çubuklu Forma</option>
+          <option value="halves">🛡️ Parçalı Forma</option>
+        </select>
       </div>
 
       <div id="lePreviewKit" style="padding:10px; border-radius:10px; background:rgba(0,0,0,0.3); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; gap:16px; margin-bottom:14px;">
