@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ezgi-ciftlik-shell-v5';
+const CACHE_NAME = 'ezgi-ciftlik-shell-v6';
 const APP_SHELL = [
   './',
   './index.html',
@@ -12,6 +12,7 @@ const APP_SHELL = [
   './assets/chicken.glb',
   './assets/cow.glb',
   './assets/pig.glb',
+  './assets/pig-atlas.png',
   './assets/sheep.glb'
 ];
 
@@ -45,3 +46,4 @@ self.addEventListener('fetch', event => {
     }
   })());
 });
+
