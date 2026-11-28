@@ -569,6 +569,17 @@
             return glassMaterial;
           }
 
+          if (mName.includes('tyre') || mName.includes('tire') || mName.includes('tread') || mName.includes('sidewall')) {
+            if (material.userData.garageTire) return material;
+            const tireMaterial = material.clone();
+            tireMaterial.color.set('#14171c');
+            tireMaterial.roughness = Math.max(0.78, tireMaterial.roughness || 0.82);
+            tireMaterial.metalness = 0.04;
+            tireMaterial.userData.garageTire = true;
+            tireMaterial.userData.garageOwned = true;
+            return tireMaterial;
+          }
+
           if (material.userData.garageRim || mName === 'rim' || mName === 'alloy' || oName.startsWith('rim_') || (mName.includes('metal') && oName.includes('wheel'))) {
             const rimMaterial = material.isMeshStandardMaterial && material.userData.garageRim
               ? material
