@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ezgi-ciftlik-shell-v16';
+const CACHE_NAME = 'ezgi-ciftlik-shell-v18';
 const APP_SHELL = [
   './',
   './index.html',
@@ -13,7 +13,6 @@ const APP_SHELL = [
   './assets/delivery-truck.glb',
   './assets/delivery-truck.png',
   './assets/tower-windmill.glb',
-  './assets/dairy-house.glb',
   './assets/storage-silo.glb',
   './assets/chicken-coop.glb',
   './assets/cow-barn.glb',
