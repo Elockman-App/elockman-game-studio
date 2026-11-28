@@ -59,12 +59,12 @@
   <main id="main" class="test-page">
     <div class="wrap">
       <section class="test-intro" aria-labelledby="test-title">
-        <span class="eyebrow" data-copy-tr="Google Play · Kapalı Test Merkezi" data-copy-en="Google Play · Closed Testing Hub">Google Play · Kapalı Test Merkezi</span>
+        <span class="eyebrow" id="hubEyebrow" data-copy-tr="Google Play · Kapalı Test Merkezi" data-copy-en="Google Play · Closed Testing Hub">Google Play · Kapalı Test Merkezi</span>
         <h1 id="test-title" data-copy-tr="Oyunlarımızı test et, gelişimine katkı ver." data-copy-en="Test our games and help shape what comes next.">Oyunlarımızı test et, gelişimine katkı ver.</h1>
-        <p data-copy-tr="Önce Google test grubuna katıl. Ardından denemek istediğin oyunun sayfasını açıp aynı Google hesabıyla test kullanıcısı ol." data-copy-en="Join our Google testing group first. Then open any game's opt-in link using the same Google account you use on Google Play.">Önce Google test grubuna katıl. Ardından denemek istediğin oyunun sayfasını açıp aynı Google hesabıyla test kullanıcısı ol.</p>
+        <p id="hubSubtitle" data-copy-tr="Önce Google test grubuna katıl. Ardından denemek istediğin oyunun sayfasını açıp aynı Google hesabıyla test kullanıcısı ol." data-copy-en="Join our Google testing group first. Then open any game's opt-in link using the same Google account you use on Google Play.">Önce Google test grubuna katıl. Ardından denemek istediğin oyunun sayfasını açıp aynı Google hesabıyla test kullanıcısı ol.</p>
         <div class="button-row">
-          <a class="button button--gold" href="https://groups.google.com/g/elockman-testers" target="_blank" rel="noopener noreferrer">
-            <span data-copy-tr="1. Google Test Grubuna Katıl ↗" data-copy-en="1. Join Google Testing Group ↗">1. Google Test Grubuna Katıl ↗</span>
+          <a class="button button--gold" id="hubGroupBtn" href="https://groups.google.com/g/elockman-testers" target="_blank" rel="noopener noreferrer">
+            <span id="hubGroupBtnText" data-copy-tr="1. Google Test Grubuna Katıl ↗" data-copy-en="1. Join Google Testing Group ↗">1. Google Test Grubuna Katıl ↗</span>
           </a>
           <a class="button button--quiet" href="#geri-bildirim" data-copy-tr="Hata / Geri Bildirim Gönder" data-copy-en="Submit Feedback">Hata / Geri Bildirim Gönder</a>
         </div>
@@ -241,5 +241,119 @@
       </nav>
     </div>
   </footer>
+  <script>
+    (function () {
+      var GAME_MAP = {
+        kulup: {
+          cardId: 'kulup-efsanesi',
+          groupUrl: 'https://groups.google.com/g/elockman-kulup-testers',
+          nameTr: 'Kulüp Efsanesi: Futbol Menajer',
+          nameEn: 'Club Legend: Football Manager',
+          fbValue: 'Kulüp Efsanesi'
+        },
+        garaj: {
+          cardId: 'garaj-efsanesi',
+          groupUrl: 'https://groups.google.com/g/elockman-garaj-testers',
+          nameTr: 'Garaj Efsanesi: Sokak Yarışı',
+          nameEn: 'Garage Legend: Street Racing',
+          fbValue: 'Garaj Efsanesi'
+        },
+        ring: {
+          cardId: 'ring-efsanesi',
+          groupUrl: 'https://groups.google.com/g/elockman-ring-testers',
+          nameTr: 'Ring Efsanesi: Boks Menajeri',
+          nameEn: 'Ring Legend: Boxing Tycoon',
+          fbValue: 'Ring Efsanesi'
+        },
+        orbit: {
+          cardId: 'orbit-escape',
+          groupUrl: 'https://groups.google.com/g/elockman-orbit-testers',
+          nameTr: 'Elockman: Orbit Escape',
+          nameEn: 'Elockman: Orbit Escape',
+          fbValue: 'Orbit Escape'
+        },
+        hipodrom: {
+          cardId: 'hipodrom-ahiri',
+          groupUrl: 'https://groups.google.com/g/elockman-testers',
+          nameTr: 'Hipodrom Ahırı',
+          nameEn: 'Hippodrome Stable',
+          fbValue: 'Hipodrom Ahırı'
+        }
+      };
+
+      var params = new URLSearchParams(window.location.search);
+      var slug = (params.get('game') || '').trim().toLowerCase();
+      var cfg = GAME_MAP[slug];
+      if (!cfg) return;
+
+      var lang = 'tr';
+      try {
+        var saved = localStorage.getItem('elockman_site_lang');
+        if (saved === 'en' || saved === 'tr') lang = saved;
+      } catch (e) {}
+
+      var titleEl = document.getElementById('test-title');
+      var subEl = document.getElementById('hubSubtitle');
+      var groupBtn = document.getElementById('hubGroupBtn');
+      var groupBtnText = document.getElementById('hubGroupBtnText');
+      var availTitle = document.getElementById('available-games');
+
+      if (titleEl) {
+        titleEl.setAttribute('data-copy-tr', cfg.nameTr + ' — Kapalı Test');
+        titleEl.setAttribute('data-copy-en', cfg.nameEn + ' — Closed Test');
+        titleEl.textContent = lang === 'en' ? (cfg.nameEn + ' — Closed Test') : (cfg.nameTr + ' — Kapalı Test');
+      }
+      if (subEl) {
+        subEl.setAttribute('data-copy-tr', '1. Adım: Aşağıdaki butondan ' + cfg.nameTr + ' Google Grubuna katıl. 2. Adım: Web Opt-In ve Google Play indirme adımlarını tamamla.');
+        subEl.setAttribute('data-copy-en', 'Step 1: Join the dedicated ' + cfg.nameEn + ' Google Group below. Step 2: Complete Web Opt-In and install from Google Play.');
+        subEl.textContent = lang === 'en' ? subEl.getAttribute('data-copy-en') : subEl.getAttribute('data-copy-tr');
+      }
+      if (groupBtn) groupBtn.href = cfg.groupUrl;
+      if (groupBtnText) {
+        groupBtnText.setAttribute('data-copy-tr', '1. ' + cfg.nameTr + ' Grubuna Katıl ↗');
+        groupBtnText.setAttribute('data-copy-en', '1. Join ' + cfg.nameEn + ' Group ↗');
+        groupBtnText.textContent = lang === 'en' ? groupBtnText.getAttribute('data-copy-en') : groupBtnText.getAttribute('data-copy-tr');
+      }
+      if (availTitle) {
+        availTitle.setAttribute('data-copy-tr', cfg.nameTr);
+        availTitle.setAttribute('data-copy-en', cfg.nameEn);
+        availTitle.textContent = lang === 'en' ? cfg.nameEn : cfg.nameTr;
+      }
+
+      var grid = document.querySelector('.test-grid');
+      var cards = Array.prototype.slice.call(document.querySelectorAll('.test-grid .test-card'));
+      cards.forEach(function (card) {
+        if (card.id !== cfg.cardId) {
+          card.style.display = 'none';
+          card.setAttribute('data-hidden-by-focus', '1');
+        }
+      });
+      if (grid) {
+        grid.style.gridTemplateColumns = 'minmax(280px, 640px)';
+        grid.style.justifyContent = 'center';
+
+        var toggleWrap = document.createElement('div');
+        toggleWrap.style.textAlign = 'center';
+        toggleWrap.style.marginTop = '18px';
+        var toggleBtn = document.createElement('button');
+        toggleBtn.type = 'button';
+        toggleBtn.className = 'button button--quiet button--small';
+        toggleBtn.setAttribute('data-copy-tr', 'Diğer stüdyo oyunlarını da göster');
+        toggleBtn.setAttribute('data-copy-en', 'Show all studio games');
+        toggleBtn.textContent = lang === 'en' ? 'Show all studio games' : 'Diğer stüdyo oyunlarını da göster';
+        toggleBtn.addEventListener('click', function () {
+          cards.forEach(function (c) { c.style.display = ''; });
+          grid.style.gridTemplateColumns = '';
+          grid.style.justifyContent = '';
+          toggleWrap.remove();
+        });
+        toggleWrap.appendChild(toggleBtn);
+        grid.parentNode.appendChild(toggleWrap);
+      }
+
+      var fbGame = document.getElementById('fbGame');
+      if (fbGame) fbGame.value = cfg.fbValue;
+    })();
+  </script>
 </body>
 </html>
